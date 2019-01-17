@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+  <script src ="{% static "tables/jquery.min.js" %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="#">
+     <i class="material-icons">accessible</i>
+      <p>Agenda</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                 <div class="card-header card-header-primary"data-background-color="purple">
+                   <h4 class="card-title ">Dados Cadastrais</h4>
+              </div>
+                <div class="card-content">
+                  <form>
+                    <div class="row">
+                      <div class="col-md-7">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Nome</label>
+                          <input type="text" value="{{paciente.nome}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Email</label>
+                          <input type="email" value="{{paciente.email}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>* Data de Nascimento</label>
+                          <input value="{{paciente.data_nascimento|date:"d/m/Y"}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Sexo</label>
+                          <input type="text" value="{{paciente.get_sexo_display}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                       <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* CPF</label>
+                          <input type="text" value="{{paciente.cpf}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* RG</label>
+                          <input type="text" value="{{paciente.rg}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Estado Civil</label>
+                          <input type="text" value="{{paciente.get_estado_civil_display}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                       <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Profissão</label>
+                          <input type="text"  value="{{paciente.profissao}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-10">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Endereço</label>
+                          <input type="text"  value="{{paciente.endereco}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                       <div class="col-md-2">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Cep</label>
+                          <input type="text"  value="{{paciente.cep}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Cidade</label>
+                          <input type="text" value="{{paciente.cidade}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Estado</label>
+                          <input type="text" value="{{paciente.uf}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Celular</label>
+                          <input type="text" value="{{paciente.telefone}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Convênio</label>
+                          {% if  paciente.convenio == None %}
+                            <input type="text"value="Convenio não Existe Mais" class="form-control" disabled>
+                          {% else %}
+                            <input type="text"value="{{paciente.convenio}}" class="form-control" disabled>
+                          {% endif %}
+                        </div>
+                      </div>
+                     <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Nº do Convênio</label>
+                          <input type="text" value="{{paciente.num_convenio}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Outras informações</label>
+                          <div class="form-group">
+                            <label class="bmd-label-floating"> Outras informações importantes sobre o paciente!</label>
+                            <textarea class="form-control" value="{{paciente.observacao}}"rows="5" disabled></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="{% url 'lista_pacientes' %}" class="btn btn-primary btn-group">Voltar</a>
+                    <div class="clearfix"></div>
+                  </form>
+                  </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+{% endblock container %}

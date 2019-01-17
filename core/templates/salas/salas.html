@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+  <script src ="{% static "tables/jquery.min.js" %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="#">
+     <i class="material-icons">meeting_room</i>
+        <p>Salas</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block button_bar %}
+  <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'add_sala' %}">
+    <i class="material-icons">add_circle</i>
+  <div class="ripple-container"></div></a>
+{% endblock button_bar %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                 <div class="card-header card-header-primary"data-background-color="purple">
+                   <h4 class="card-title ">Lista de Salas</h4>
+              </div>
+                <div class="card-content">
+                  <table class="table" id="Table">
+                      <thead class=" text-primary">
+                        <th>Nº</th>
+                        <th>Nome</th>
+                        <th>Atualizado em</th>
+                        <th>Ação</th>
+                      </thead>
+                      <tbody>
+                        {% for s in salas %}
+                        <tr>
+                          <td>{{s.id}}</td>
+                          <td>{{s.nome}}</td>
+                          <td>{{s.atualizado_em}}</td>
+                          <td  width="10%">
+                            <a href="{% url 'update_sala' s.id %}" title="Editar"><i class="material-icons">sync</i></a>
+                             <a href="{% url 'deletar_sala' s.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                       </tbody>
+                    </table>
+                 </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+{% endblock container %}

@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+	<li class="nav-item active  ">
+    <a class="nav-link" href="#">
+     <i class="material-icons">calendar_today</i>
+      <p>Agenda Sobre</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block container %}
+ <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                 <div class="card-header card-header-primary"data-background-color="purple">
+                   <h4 class="card-title ">Agenda de Atendimentos</h4>
+              </div>
+	              <div class="card-content">
+	                 <div class="col-md-12">
+				          <form>
+						    <div class="row">
+								<div class="col-md-3">
+									<div class="form-group">	
+									  <label>* Data</label></br>
+									  <input value="{{agenda.data|date:"d/m/Y"}}"class="form-control"disabled>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Inicio</label></br>
+										<input type="time" value="{{agenda.hora_inicio}}"class="form-control" disabled>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Fim</label></br>
+										<input type="time" value="{{agenda.hora_fim}}"class="form-control" disabled>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Sala</label></br>
+										{% if agenda.sala == None %}
+		                                  <input value="Foi Desocupada"class="form-control" disabled>
+		                                {% else %}
+		                                 <input value="{{agenda.sala}}"class="form-control" disabled>
+		                                {% endif %}
+									</div>
+								</div>
+							</div>
+				            <div class="row">
+				              <div class="col-md-8">
+								<div class="form-group">
+									<label class="bmd-label-floating">Paciente</label>
+									<select  class="form-control" disabled>
+										<option value="{{agenda.paciente}}">{{agenda.paciente}}</option>
+									</select>
+								</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="bmd-label-floating">Convenio</label>
+										<select  class="form-control" disabled>
+											<option value="{{agenda.convenio}}">{{agenda.convenio}}</option>
+										</select>
+									</div>
+								</div>
+				            </div>
+				            <div class="row">						
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="bmd-label-floating">Profissional</label>
+										<select  class="form-control" disabled>
+											<option value="{{agenda.profissional}}">{{agenda.profissional}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label class="bmd-label-floating">Status</label>
+										<select  class="form-control" disabled>
+											<option value="{agenda.get_status_display}}">{{agenda.get_status_display}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="bmd-label-floating">Telefone</label>
+										<input type="text" value="{{agenda.telefone}}"class="form-control" disabled>
+				                	</div>
+								</div>
+				            </div>
+				            <div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Observações:</label>
+										<div class="form-group">
+											<label class="bmd-label-floating"></label>
+											<textarea class="form-control" value="{{agenda.observacao}}" rows="3" disabled></textarea>
+										</div>
+									</div>
+								</div>
+				            </div>
+							<a href="{% url 'agendamentos' %}" class="btn btn-danger btn-group pull-right" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+				            <div class="clearfix"></div>
+				          </form>
+				        </div>
+ 					</div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+{% endblock  %}

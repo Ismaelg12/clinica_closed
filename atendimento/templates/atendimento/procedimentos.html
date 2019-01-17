@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for pc in procedimentos %}
+<option value="{{ pc.pk }}">{{ pc.codigo }} - {{ pc.nome }}</option>
+{% endfor %}

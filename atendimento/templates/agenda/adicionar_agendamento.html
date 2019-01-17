@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load static %}
+{% block add_modal %}
+  <script src="{% static "js/core/jquery.min.js" %}"></script>
+  <script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
+<!--boostrap datepicker-->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<link rel="stylesheet"type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  {% endblock add_modal %}
+</head>
+{% block menu_li %}
+	<li class="nav-item active ">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+   <li class="nav-item active">
+    <a class="nav-link" href="{% url 'agendamentos' %}">
+      <i class="material-icons">event</i>
+      <p>Agenda</p>
+    </a>
+  </li>
+  </li>
+{% endblock menu_li %}
+{% block navbar %}
+     <a class="navbar-brand" href="#">Novo Agendamemento</a>
+{% endblock navbar %}
+{% block container %}
+       <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                 <div class="card-header card-header-primary"data-background-color="purple">
+                   <h4 class="card-title ">Agenda de Atendimento</h4>
+              </div>
+	              <div class="card-content">
+				      <form method="post" >
+				      	{% csrf_token %}
+						    <div class="row">
+								<div class="col-md-3">
+									<div class="form-group">	
+									  <label>*Data</label></br>
+									 {{form.data}}
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Inicio</label></br>
+										{{form.hora_inicio}}
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Fim</label></br>
+										{{form.hora_fim}}
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">	
+									<label>* Sala</label></br>							
+										{{form.sala}}
+									</div>
+								</div>
+							</div>
+				            <div class="row">
+				              	<div class="col-md-3">
+									<div class="form-group">
+										<label>* Profissional</label></br>	
+										{{form.profissional}}
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Convenio</label></br>	
+										{{form.convenio}}
+									</div>
+								</div>
+				           						
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Paciente</label></br>	
+										{{form.paciente}}
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Contato</label></br>	
+										{{form.telefone}}
+				                	</div>
+								</div>
+				            </div>
+				            <div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Observações:</label>
+										<div class="form-group">
+											<label class="bmd-label-floating"></label>
+											{{form.observacao}}
+										</div>
+									</div>
+								</div>
+				            </div>
+							<button type="submit" class="btn btn-primary pull-right">Salvar</button>
+							<a href="{% url 'agendamentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+				            <div class="clearfix"></div>
+				          </form>
+				   </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+      <script>
+	$.noConflict();
+	jQuery( document ).ready(function( $ ) {
+	$('#id_hora_inicio').daterangepicker({
+		singleDatePicker: true,
+		timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 30,
+        timePickerSeconds: false,
+        locale: {
+            format: 'HH:mm'
+        }
+    }).on('show.daterangepicker', function (ev, picker) {
+        picker.container.find(".calendar-table").hide();
+    });
+    $('#id_hora_fim').daterangepicker({
+		singleDatePicker: true,
+		timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 30,
+        timePickerSeconds: false,
+        locale: {
+            format: 'HH:mm'
+        }
+    }).on('show.daterangepicker', function (ev, picker) {
+        picker.container.find(".calendar-table").hide();
+    });
+	 $('#id_data').daterangepicker({
+	   singleDatePicker: true,
+	    showDropdowns: true,
+	    "locale": {
+	    "format": "DD/MM/YYYY",
+	    "separator": " - ",
+	    "applyLabel": "Aplicar",
+	    "cancelLabel": "Cancelar",
+	    "fromLabel": "De",
+	    "toLabel": "Até",
+	    "customRangeLabel": "Custom",
+	    "daysOfWeek": [
+	        "Dom",
+	        "Seg",
+	        "Ter",
+	        "Qua",
+	        "Qui",
+	        "Sex",
+	        "Sáb"
+	    ],
+	    "monthNames": [
+	        "Janeiro",
+	        "Fevereiro",
+	        "Março",
+	        "Abril",
+	        "Maio",
+	        "Junho",
+	        "Julho",
+	        "Agosto",
+	        "Setembro",
+	        "Outubro",
+	        "Novembro",
+	        "Dezembro"
+	    ],
+	    "firstDay": 0
+	}})});
+   jQuery(function($){
+    $('#id_telefone').mask('(00) 00000-0000');
+  });
+   
+</script>
+{% endblock container %}

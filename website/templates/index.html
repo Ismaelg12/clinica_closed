@@ -1,0 +1,497 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FisioLife - Fisioterapia & Saúde</title>
+  <meta name="description" content="FisioLife - Fisioterapia & Saúde">
+  <meta name="keywords" content="fisioterapia,parnaiba,clinicas,psicologia,phb,saúde">
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <!--  Social tags      -->
+  <meta name="keywords" content="fisiolife,FISIOTERAPIA,clinica,FONOAUDIOLOGIA,NUTRIÇÃO"
+  <meta name="description" content="Fisiolife,Somos um serviço multidisciplinar integrado e Humanizado de saúde, que trabalha com abordagem multidirecional com o objetivo de máximo alcance de controle, progresso e cura das mais diversas co-morbidades.">
+  <!--==================================================================================================-->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
+  <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+  <link rel="stylesheet" href="{% static "css/style.css" %}">
+  <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}" />
+  <link rel="stylesheet" href="{% static "css/carousel.min.css" %}">
+  <link rel="stylesheet" href="{% static "css/theme.min.css" %}">
+  <!--==================================================================================================-->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    window.alert = function(){};
+    var defaultCSS = document.getElementById('bootstrap-css');
+    function changeCSS(css){
+        if(css) $('head > link').filter(':first').replaceWith('<link rel="stylesheet" href="'+ css +'" type="text/css" />'); 
+        else $('head > link').filter(':first').replaceWith(defaultCSS); 
+    }
+    $( document ).ready(function() {
+      var iframe_height = parseInt($('html').height()); 
+      window.parent.postMessage( iframe_height, 'https://bootsnipp.com');
+    });
+  </script>
+  <style type="text/css">
+      body{background-color:#f1f1f2 !important;}
+      h3.h3{text-align:center;padding:1.5em 0em;text-transform:capitalize;font-size:1.5em;}
+      /******************  News Slider Demo-14 *******************/
+      .post-slide14{
+          border-width: 1px 1px 5px;
+          border-style: solid;
+          border-color: #e67e22 #f0f0f0 #f0f0f0;
+          border-radius: 5px;
+          margin: 0 10px;
+      }
+      .post-slide14 .post-category{
+          border-bottom:1px solid whitesmoke;
+          margin:0;
+          text-align:center;
+          padding:10px;
+          font-size:15px;
+          letter-spacing:2px;
+          text-transform:capitalize;
+      }
+      .post-slide14 .post-category > a{
+          text-transform: uppercase;
+          color:#e67e22;
+          transition: all 0.2s ease 0s;
+      }
+      .post-slide14 .post-category > a:hover{
+          color: #373a3f;
+      }
+      .post-slide14 .post-review{
+          overflow: hidden;
+          padding:10px;
+      }
+      .post-slide14 .post-bar{
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          background: #e67e22;
+          float: left;
+          line-height: 34px;
+          text-align: center;
+          margin-right: 10px;
+      }
+      .post-slide14 .post-bar > .month{
+          display: block;
+          color:#fff;
+          font-size:10px;
+          text-transform: capitalize;
+      }
+      .post-slide14 .post-bar > .date{
+          color: #fff;
+          display: block;
+          font-size: 28px;
+          font-weight: bold;
+          line-height: 12px;
+      }
+      .post-slide14 .post-title{
+          line-height: 20px;
+          margin: 10px 0 0 0;
+      }
+      .post-slide14 .post-title > a{
+          font-size:17px;
+          text-transform:uppercase;
+          font-weight:bold;
+          line-height:10px;
+          color:#333;
+          transition: all 0.2s ease 0s;
+      }
+      .post-slide14 .post-title > a:hover{
+          color:#e67e22;
+      }
+      .post-slide14 .post-img{
+          filter: grayscale(0);
+          transition:all 0.3s ease 0s;
+      }
+      .post-slide14 .post-img > img{
+          width: 100%;
+          height: auto;
+      }
+      .post-slide14:hover .post-img{
+          filter: grayscale(1);
+      }
+      .post-slide14 .post-description{
+          color: #555;
+          font-size: 14px;
+          line-height: 22px;
+          padding: 20px 35px;
+      }
+    </style>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v3.2&appId=888936077919926&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+</head>
+  <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+    <!--banner-->
+    <section id="banner" class="banner">
+      <div class="bg-color">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="col-md-12">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img src="{% static "img/logo.png" %}" class="img-responsive" style="width: 140px; margin-top: -10px;"></a>
+              </div>
+              <div class="collapse navbar-collapse navbar-right" id="myNavbar">
+                <ul class="nav navbar-nav">
+                  <li class="active"><a href="#banner">Home</a></li>
+                  <li class=""><a href="#service">Serviços</a></li>
+                  <li class=""><a href="#about">Quem Somos</a></li>
+                  <li class=""><a href="#testimonial">Colaboradores</a></li>
+                  <li class=""><a href="#contact">Contatos</a></li>
+                  <li class=""><a href="{% url 'login' %}">Administrador</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+          <div class="container">
+            <div class="row">
+              <div class="banner-info">
+                <div class="banner-logo text-center">
+                  <img src="{% static "img/logo.png" %}"  width="250px" class="img-responsive">
+                </div>
+                <div class="banner-text text-center">
+                  <h1 class="white">Clínica FisioLife Fisioterapia e saúde!!</h1>
+                </div>
+                <div class="overlay-detail text-center">
+                  <a href="#service"><i class="fa fa-angle-down"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </section>
+    <!--/ banner-->
+    <!--service-->
+    <section id="service" class="section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-4">
+            <h2 class="ser-title">Serviços</h2>
+            <hr class="botm-line">
+          </div>
+        </div>
+      </div>            
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-4">
+              <div class="service-info">
+                  <div class="icon">
+                      <i class="fa fa-wheelchair-alt" aria-hidden="true"></i>
+                  </div>
+                  <div class="icon-info">
+                    <h4>FISIOTERAPIA</h4>
+                    <p align="justify">Quiropraxia, RPG, Pilates, Osteopatia, Porva de Função Pulmonar- Espirometria.</p>
+                    <p>&ensp;</p><p>&ensp;</p>
+                  </div>
+                </div>
+                <div class="service-info">
+                  <div class="icon">
+                      <i class="fa fa-cutlery" aria-hidden="true"></i>
+                  </div>
+                  <div class="icon-info">
+                    <h4>NUTRIÇÃO</h4>
+                    <p align="justify">Promoção, recuperação e manutenção da saúde por meio da alimentação.
+                </div>
+                </div>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <div class="service-info">
+              <div class="icon">
+                  <i class="fa fa-crosshairs" aria-hidden="true"></i>
+              </div>
+              <div class="icon-info">
+                <h4>TERAPIA OCUPACIONAL</h4>
+                <p align="justify">Prevenção, tratamento e reabilitação de indivíduos portadores de alterações cognitivas, afetivas, perceptivas e psico-motoras, decorrentes ou não de distúrbios genéticos, traumáticos ou de doenças adquiridas.</p>
+              </div>
+            </div>
+            <div class="service-info">
+              <div class="icon">
+                  <i class="fa fa-comments-o" aria-hidden="true"></i>
+              </div>
+              <div class="icon-info">
+                <h4>FONOAUDIOLOGIA</h4>
+                <p align="justify">Trabalha os diferentes aspectos da comunicação humana (linguagem oral e escrita, fala, voz, audição) e com as funções responsáveis pela deglutição, respiração e mastigação.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <div class="service-info">
+              <div class="icon">
+                <i class="fa fa-medkit"></i>
+              </div>
+              <div class="icon-info">
+                <h4>PSICOLOGIA </h4>
+                <p align="justify">Transtornos mentais e dos aspectos psíquicos de doenças não mentais. Etiologia, classificação, diagnóstico, epidemiologia, intervenção (prevenção, aconselhamento, psicoterapia, reabilitação, acesso à saúde, avaliação.</p>
+              </div>
+            </div>
+           
+           <div class="service-info">
+              <div class="icon">
+                <i class="fa fa-user-md"></i>
+              </div>
+              <div class="icon-info">
+                <h4>CLINICA MÉDICA E OUTROS</h4>
+                <p align="justify">Etiologia, classificação, diagnóstico, epidemiologia, intervenção (prevenção, aconselhamento, psicoterapia, reabilitação, acesso à saúde, avaliação.</p>
+                <p align="justify">* Aluguel de Cilindros CO2</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--/ service-->
+    <!--cta-->
+    <section id="cta-1" class="section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="schedule-tab">
+            <div class="col-md-6 col-sm-6 bor-left">
+              <div class="mt-boxy-color"></div>
+              <div class="medi-info">
+                <h3>Convênios</h3>
+                <p align="justify">UNIMED, HUMANA, GEAP, FUSMA, INTERMED, SAÚDE CAIXA.</p><p align="justify">Temos pacotes particulares econômicos com o melhor custo benefício da cidade! </p>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-6 mt-boxy-3">
+              <div class="mt-boxy-color"></div>
+              <div class="time-info">
+                <h3>Horário de Funcionamento</h3>
+                <table style="margin: 8px 0px 0px;">
+                  <tbody>
+                    <tr>
+                      <td>Segunda a Sexta</td>
+                      <td align="center">8:00 - 12:00</td>
+                      <td align="center">14:00 - 20:00</td>
+                    </tr>
+                    <tr>
+                      <td>Sabado</td>
+                      <td align="center">8:00 - 12:00</td>
+                      <td align="center">Fechado</td>
+                    </tr>
+                    <tr>
+                      <td>Domingo</td>
+                      <td align="center">Fechado</td>
+                      <td align="center">Fechado</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--cta-->
+    <!--about-->
+    <section id="about" class="section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="section-title">
+              <h2 class="head-title lg-line">Conheça<br>a FisioLife</h2>
+              <hr class="botm-line">
+              <p align="justify">&emsp;&emsp;Somos um serviço multidisciplinar integrado e Humanizado de saúde, que trabalha com abordagem multidirecional com o objetivo de máximo alcance de controle, progresso e cura das mais diversas co-morbidades.</p><p align="justify">&emsp;&emsp; Nossa maior missão é apresentar aos nossos pacientes, clientes e amigos, uma forma diferente no cuidar, proporcionando um ambiente leve e agradável, para que nossos usuários, assim como cada um de nossos colaboradores, se sintam os mais acolhidos e confortáveis possível.,</p><p class="text-right text-primary"><i>— FisioLife</i></p>
+            </div>
+          </div>
+          <div class="col-md-8 col-sm-8 col-xs-12">
+            <div style="visibility: visible;" class="col-sm-12 more-features-box">
+                <div class="fb-video" data-href="https://www.facebook.com/fisiolifefisioterapiaesaude/videos/1513208492310985/" data-width="800" data-show-text="false"><blockquote cite="https://www.facebook.com/fisiolifefisioterapiaesaude/videos/1513208492310985/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/fisiolifefisioterapiaesaude/videos/1513208492310985/"></a><p></p>Publicado por <a href="https://www.facebook.com/fisiolifefisioterapiaesaude/">FisioLife Parnaíba</a> em Domingo, 25 de fevereiro de 2018</blockquote></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--/ about-->
+      <!--doctor team-->
+    <section id="testimonial" class="section-padding">
+      <div class="container">
+        <div class="col-md-12">
+          <h2 class="ser-title">Nossos Profissionais</h2>
+          <hr class="botm-line">
+        </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div id="news-slider14" class="owl-carousel">
+                <div class="post-slide14">
+                  <div class="post-img">
+                    <img src="{% static "img/doctor2.jpg" %}" alt="">
+                  </div>
+                  <p>&ensp;</p>
+                  <ul class="list-inline">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                  </ul>
+                </div>         
+                <div class="post-slide14">
+                  <div class="post-img">
+                    <img src="{% static "img/doctor3.jpg" %}" alt="">
+                  </div>
+                    <p>&ensp;</p>
+                      <ul class="list-inline">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                      </ul>
+                </div>         
+                <div class="post-slide14">
+                  <div class="post-img">
+                    <img src="{% static "img/doctor4.jpg" %}" alt="">
+                  </div>
+                  <p>&ensp;</p>
+                    <ul class="list-inline">
+                      <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                      <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                      <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    </ul>
+                </div>                        
+                <div class="post-slide14">
+                  <div class="post-img">
+                    <img src="{% static "img/doctor5.jpg" %}" alt="">
+                  </div>
+                  <p>&ensp;</p>
+                  <ul class="list-inline">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                  </ul>
+                </div>                        
+                <div class="post-slide14">
+                  <div class="post-img">
+                    <img src="{% static "img/doctor6.jpg" %}" alt="">
+                  </div>
+                  <p>&ensp;</p>
+                    <ul class="list-inline">
+                      <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                      <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                      <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+        <hr>
+    </section>
+      <!--/ doctor team-->
+    <!--contact-->
+    <section id="contact" class="section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 marb20">
+            <div class="contact-info">
+              <h3 class="cnt-ttl">Deixe-nos uma Mensagem.</h3>
+              <div class="space"></div>
+              <div id="sendmessage">Sua mensagem foi enviada. Obrigado!</div>
+              <div id="errormessage"></div>
+              <form method="post" role="form" class="contactForm">
+                 {% csrf_token %}
+                <div class="form-group">
+                  <input type="text" name="contact_name" class="form-control br-radius-zero" id="contact_name" placeholder="Nome" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control br-radius-zero" name="contact_email" id="email" placeholder="Email" data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control br-radius-zero" name="contact_phone" id="subject" placeholder="Telefone" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control br-radius-zero" name="contact_message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Mensagem"></textarea>
+                  <div class="validation"></div>
+                </div>
+
+                <div class="form-action">
+                  <button type="submit" class="btn btn-form">Enviar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--/ contact-->
+    <!--footer-->
+    <footer id="footer">
+      <div class="top-footer">
+        <div class="container">
+          <div class="row">
+            <div align="center" class="col-md-4 col-sm-4 marb20">
+              <img src="{% static "img/dentist-icon09-free-img.png" %}" alt="" class="img-responsive"></br>
+              <h4 class="white no-padding">Nosso Endereço</h4>
+              <p>Rua Riachuelo 668,</br>
+              Centro, Parnaíba</p>
+            </div>
+            <div align="center" class="col-md-4 col-sm-4 marb20">
+              <img src="{% static "img/dentist-icon10-free-img.png" %}" alt="" class="img-responsive"></br>
+              <h4 class="white no-padding">Contato</h4>
+              <p>(86) 3321-1462 / (86) 988449400</br>
+              fisiolifephb@outlook.com </p>
+            </div>
+            <div align="center" class="col-md-4 col-sm-4 marb20">
+              <img src="{% static "img/dentist-icon11-free-img.png" %}" alt="" class="img-responsive"></br>
+              <h4 class="white no-padding">Horário de Atendimento</h4>
+              <p>Manha e Tarde</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-line">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <footer class="footer">
+                <div class="container-fluid">
+                  <div class="copyright float-right">
+                    &copy;
+                    <script>
+                      document.write(new Date().getFullYear())
+                    </script> - <a href="#" target="_blank">FisioLife </a> - Todos os Direitos reservados.
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!--/ footer-->
+
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script> 
+    <script src="{% static "js/jquery.easing.min.js" %}"></script>
+    <script src="{% static "js/custom.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/carousel.min.js" %}"></script>
+    <script type="text/javascript">	
+    $(document).ready(function() {
+        $("#news-slider14").owlCarousel({
+            items : 4,
+            itemsDesktop:[1199,3],
+            itemsDesktopSmall:[980,2],
+            itemsMobile : [550,1],
+            pagination:false,
+            autoPlay:true
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load vagas %}
+{% load static %}
+
+{% block datepicker %}
+  <script src ="{% static "tables/jquery.min.js" %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="#">
+     <i class="material-icons">meeting_room</i>
+        <p>Vagas</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block button_bar %}
+  <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'add_sala' %}">
+    <i class="material-icons">add_circle</i>
+  <div class="ripple-container"></div></a>
+{% endblock button_bar %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                 <div class="card-header card-header-primary"data-background-color="purple">
+                   <h4 class="card-title ">Lista de Vagas para o dia</h4>
+              </div>
+                <div class="card-content">
+                  <table class="table" id="Table">
+                      <thead class=" text-primary">
+                        <th>Nº</th>
+                        <th>Nome</th>
+                        <th>Quantidade Diaria</th>
+                        <th>Vagas Preenchidas</th>
+                        <th>Vagas Disponiveis Hoje</th>
+                      </thead>
+                      <tbody>                 		
+					             {% for s in vagas %}
+                        <tr>
+                          <td>{{forloop.counter}}</td>
+                          <td>{{s.nome}}</td>
+                          <td>{{s.quantidade_atend}}</td>
+                          <td>{{s.number_agenda}}</td>
+                          <th>{{s.quantidade_atend|subtract:s.number_agenda}}</th>
+                        </tr>
+                        {% endfor %}
+                       </tbody>
+                    </table>
+                 </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+{% endblock container %}

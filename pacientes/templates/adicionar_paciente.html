@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+  <script src ="{% static "tables/jquery.min.js" %}"></script>
+  <script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="{% url 'lista_pacientes' %}">
+     <i class="material-icons">accessible</i>
+      <p>Pacientes</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary"data-background-color="purple">
+                   <h4 class="card-title ">Dados Cadastrais</h4>
+              </div>
+                <div class="card-content">
+                 <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-7">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">* Nome</label>
+                      {{form.nome}}
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Email</label>
+                      {{form.email}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label  class="bmd-label-floating">* Data de Nascimento</label>
+                      {{form.data_nascimento}}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label  class="bmd-label-floating">*Sexo</label>
+                      {{form.sexo}}
+                    </div>
+                  </div>
+                 <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">* CPF</label>
+                      {{form.cpf}}
+                    </div>
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">* RG</label>
+                     {{form.rg}}
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                       <label  class="bmd-label-floating">*Estado Civil</label>
+                      {{form.estado_civil}}
+                    </div>
+                  </div>
+                   <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Profissão</label>
+                      {{form.profissao}}
+                    </div>
+                  </div>
+                   <div class="col-md-1">
+                    <div class="form-group">
+                       <label  class="bmd-label-floating">*Raça</label>
+                      {{form.raca}}
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                       <label  class="bmd-label-floating">*UF</label>
+                      {{form.uf}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">* Endereço(Rua)</label>
+                      {{form.rua}}
+                    </div>
+                  </div>
+                   <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">* Bairro</label>
+                      {{form.bairro}}
+                    </div>
+                  </div>
+                   <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Cep</label>
+                      {{form.cep}}
+                    </div>
+                  </div>
+                   <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Complemento</label>
+                      {{form.complemento}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">* Cidade</label>
+                       {{form.cidade}}
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">* Celular</label>
+                      {{form.telefone}}
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">* Convênio</label>
+                     {{form.convenio}}
+                    </div>
+                  </div>
+                 <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Nº do Convênio</label>
+                     {{form.num_convenio}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label class="bmd-label-floating"> Outras informações importantes sobre o paciente!</label>
+                        <textarea class="form-control" rows="5"name='observacao'></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                 <a href="{% url 'lista_pacientes' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+                <div class="clearfix"></div>
+              </form>
+                  </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+<script>
+   jQuery(function($){
+    $('#id_rg').mask('0.000.000');
+    $('#id_cep').mask('00000-000');
+    $('#id_telefone').mask('(00) 00000-0000');
+    $('#id_cpf').mask('000.000.000-00', {reverse: true});
+  });
+  $('#id_data_nascimento').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    "locale": {
+    "format": "DD/MM/YYYY",
+    "separator": " - ",
+    "applyLabel": "Aplicar",
+    "cancelLabel": "Cancelar",
+    "fromLabel": "De",
+    "toLabel": "Até",
+    "customRangeLabel": "Custom",
+    "daysOfWeek": [
+        "Dom",
+        "Seg",
+        "Ter",
+        "Qua",
+        "Qui",
+        "Sex",
+        "Sáb"
+    ],
+    "monthNames": [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+    ],
+    "firstDay": 0
+}});
+</script>
+{% endblock container %}

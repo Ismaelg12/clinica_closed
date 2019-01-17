@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+<!--datatables-->
+  <script src ="{% static "tables/jquery.min.js" %}"></script>
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="{% url 'profissionais' %}">
+      <i class="material-icons">person</i>
+      <p>Profissionais</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block button_bar %}
+  <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'cadastrar_profissional' %}">
+    <i class="material-icons">person_add</i>
+  <div class="ripple-container"></div></a>
+{% endblock button_bar %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                 <div class="card-header card-header-primary"data-background-color="purple">
+                   <h4 class="card-title ">Quadro de Profissionais</h4>
+              </div>
+                <div class="card-content">
+                  <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                     <thead class=" text-primary">
+                        <th>Nª</th>
+                        <th>Nome</th>
+                        <th>Função</th>
+                        <th>Telefone</th>
+                        <th>CPF</th>
+                        <th>Ação</th>
+                      </thead>
+                      <tbody>
+                        {% for prof in lista_profissionais %}
+                          <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td><b>{{prof.nome}} {{prof.sobrenome}}</b></td>
+                            <td><b>{{prof.user.profissional.get_tipo_display}}</b></td>
+                            <td>{{prof.user.profissional.telefone}}</td>
+                            <td>{{prof.user.profissional.cpf}}</td>
+                            <td>
+                                <a href="{% url 'profissional_detalhe' prof.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
+                                <a href="{% url 'atualizar_profissional' prof.id %}" title="Editar"><i class="material-icons">sync</i>
+                                </a>
+                                 <a href="{% url 'deletar_profissional' prof.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                 </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datatables').DataTable({
+      "pagingType": "full_numbers",
+      "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+      responsive: true,
+      searching: true, 
+      "language": {
+          "sProcessing":   "Processando...",
+          "sLengthMenu":   " _MENU_ ",
+          "sZeroRecords":  "<b><center>Não foram encontrados resultados</center><b>",
+          "info": "Pág _PAGE_ de _PAGES_",
+          "sInfoEmpty":    "",
+          "sInfoFiltered": "",
+          "sInfoPostFix":  "",
+          "sSearch":       "Busca",
+          "sUrl":          "",
+          "oPaginate": {
+              "sFirst":    "Primeiro",
+              "sPrevious": "",
+              "sNext":     "",
+              "sLast":     "Último"
+          }
+      }
+    });
+
+
+    var table = $('#datatables').DataTable();
+
+    // Edit record
+    table.on( 'click', '.edit', function () {
+      $tr = $(this).closest('tr');
+
+      var data = table.row($tr).data();
+      alert( 'You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.' );
+    } );
+
+    // Delete a record
+    table.on( 'click', '.remove', function (e) {
+      $tr = $(this).closest('tr');
+      table.row($tr).remove().draw();
+      e.preventDefault();
+    } );
+
+    //Like record
+    table.on( 'click', '.like', function () {
+      alert('You clicked on Like button');
+    });
+
+    $('.card .material-datatables label').addClass('form-group');
+  });
+
+</script>
+{% endblock container %}

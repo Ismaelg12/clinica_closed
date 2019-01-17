@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="{% url 'profissionais' %}">
+      <i class="material-icons">person</i>
+      <p>Profissionais</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary"data-background-color="purple">
+                  <h4 class="card-title">Dados do Profissional</h4>
+              </div>
+                <div class="card-content">
+                   <div class="row">
+                      <div class="col-md-7">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Nome de Usuario</label>
+                          <input type="text" value="{{prof.user.username}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Email</label>
+                          <input type="email" value="{{prof.email}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Telefone</label>
+                          <input type="email" value="{{prof.telefone}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                       <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Cpf</label>
+                          <input type="text" value="{{prof.cpf}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">*data_nascimento</label>
+                          <input type="text" value="{{prof.data_nascimento|date:"d/m/Y"}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Registro</label>
+                          <input type="text" value="{{prof.registro}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Função</label>
+                          <input type="text" value="{{prof.tipo}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">*Área de Atuação</label>
+                          <input type="text" value="{{prof.area_atuacao}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                   <a href="{% url 'profissionais' %}" class="btn btn-danger btn-group pull-right" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <h3 class="text-center"><i class="material-icons">people</i>  Atendimentos Feito Por {{prof.nome}}</h3>
+                    <div class="tab-pane active show" id="profile">
+                      <table class="table" id="Table" style="width:100%">
+                      <thead class=" text-primary">
+                        <th>Evolução/Avaliação</th>
+                        <th>Data</th>
+                        <th>Paciente</th>
+                        <th>Horario</th>
+                        <th>Ação</th>
+                      </thead>
+                      <tbody>
+                        {% for atendimento in prof.atendimento_set.all %}
+                         <tr>
+                          {% if atendimento.tipo == 'AV' %}
+                            <td width="18%">
+                              <div style="background-color:#1874CD;text-align:center;color:white;border-radius: 5px 5px;"><font size="2">{{atendimento.get_tipo_display}}</font>
+                              </div>
+                            </td>
+                          {% else %}
+                            <td width="18%">
+                              <div style="background-color:green;text-align:center;color:white;border-radius: 5px 5px;"><font size="2">{{atendimento.get_tipo_display}}</font>
+                              </div>
+                            </td>
+                          {% endif %}
+                          <td>
+                            {{atendimento.data|date:"d/m/Y"}}
+                          </td>
+                          <td>
+                            {{atendimento.paciente}}
+                          </td>
+                          <td>
+                            {{atendimento.hora_inicio}}h -- {{atendimento.hora_fim}}h
+                          </td>
+                          <td>
+                            <a href="{% url 'detalhe_atendimento' atendimento.id %}" title="Ver Atendimento"><i class="material-icons">visibility</i></a>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                       </tbody>
+                    </table>
+                    </div>
+                </div>
+                 </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+{% endblock container %}

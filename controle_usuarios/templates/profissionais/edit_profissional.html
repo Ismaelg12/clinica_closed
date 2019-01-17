@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+<!--modal add-->
+{% block add_modal %}
+    <script src="{% static "js/core/jquery.min.js" %}"></script>
+    <script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
+{% endblock add_modal %}
+<!--datepicker-->
+{% block datepicker %}
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="{% url 'profissionais' %}">
+      <i class="material-icons">person</i>
+      <p>Profissionais</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary"data-background-color="purple">
+                  <h4 class="card-title">Dados do Profissional</h4>
+                  <p class="card-category">* Campos obrigatórios</p>
+              </div>
+                <div class="card-content">
+                   <form method="POST">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-12">
+                      {{profissional_form.as_p}}
+                    </div>
+                  </div>
+                  <button type="submit"class="btn btn-primary pull-right">Salvar</button>
+                   <a href="{% url 'profissionais' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+                  <div class="clearfix"></div>
+                </form>
+                 </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+<script>
+ jQuery(function($){
+  $('#id_telefone').mask('(00) 00000-0000');
+  $('#id_cpf').mask('000.000.000-00', {reverse: true});
+});
+  $('#id_data_nascimento').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    "locale": {
+    "format": "DD/MM/YYYY",
+    "separator": " - ",
+    "applyLabel": "Aplicar",
+    "cancelLabel": "Cancelar",
+    "fromLabel": "De",
+    "toLabel": "Até",
+    "customRangeLabel": "Custom",
+    "daysOfWeek": [
+        "Dom",
+        "Seg",
+        "Ter",
+        "Qua",
+        "Qui",
+        "Sex",
+        "Sáb"
+    ],
+    "monthNames": [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+    ],
+    "firstDay": 0
+}});
+</script>
+{% endblock container %}
