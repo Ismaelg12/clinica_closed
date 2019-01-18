@@ -21,7 +21,7 @@ class Profissional(models.Model):
 	data_nascimento = models.DateField(null=True, blank=True)
 	tipo            = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=True)
 	area_atuacao    = models.CharField(max_length=2,blank=True,null=True,choices=AREA)
-	quantidade_atend= models.IntegerField(blank=True,choices=list(zip(range(1, 11), range(1, 11))))
+	quantidade_atend= models.IntegerField(blank=True,choices=list(zip(range(1, 11), range(1, 11))),null=True)
 	data_cadastro   = models.DateField(auto_now_add = True)
 	ativo           = models.BooleanField(default=True)
 	class Meta:
