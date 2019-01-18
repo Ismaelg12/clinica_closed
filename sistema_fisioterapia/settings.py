@@ -141,6 +141,7 @@ LOGIN_REDIRECT_URL  = 'login_success'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL           = 'login'
 
+
 #emails
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 #configurado para o hotmail
