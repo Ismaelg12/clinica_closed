@@ -136,7 +136,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL          = '/static/'
-STATIC_ROOT         = 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 LOGIN_REDIRECT_URL  = 'login_success'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL           = 'login'
