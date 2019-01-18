@@ -141,6 +141,14 @@ LOGIN_REDIRECT_URL  = 'login_success'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL           = 'login'
 
+STATICFILES_DIRS = [
+    "/home/fisiolif/sistema/fisiolife/staticfiles/",
+]
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
 
 #emails
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
