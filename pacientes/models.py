@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from core.utils import SEXO,RACA,ESTADO_CIVIL,UF
 from core.models import Convenio
