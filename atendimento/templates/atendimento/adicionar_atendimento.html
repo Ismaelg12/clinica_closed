@@ -110,7 +110,7 @@
 							                      </div>
 						                    </div>
 											 <div class="row">
-						                      <div class="col-md-12">
+						                      <div class="col-md-12"id="hidden_evolucao">
 						                        <div class="form-group">
 													<div id="cp_7">	
 														<label>Evolução do Paciente</label>
@@ -121,8 +121,9 @@
 												  </div>
 						                        </div>
 						                      </div>
+						                  </div>
 						                      <div id="hidden_div" style="display:none;">
-						                      	<div class="row">
+						                     <div class="row">
 					                      <div class="col-md-6">
 					                        <div class="form-group">
 											<div id="cp_8">	
@@ -290,7 +291,7 @@
 						                    </div>
 											<div id="cp_23">
 							                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-												<a href="list_atendimento.html" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+												<a href="{% url 'atendimentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
 						                    </div>
 						                  </form>
 						                </div>
@@ -305,15 +306,18 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
-	   if($("#id_tipo option:selected" ).val()=='AV'){
+	   if($("#id_tipo option:selected" ).val() =='AV'){
 	   	$("#hidden_div").show();
+	   	$("#hidden_evolucao").hide();
 	}
 	});
 	function showDiv(select){
 	   if(select.value == 'AV'){
 	    document.getElementById('hidden_div').style.display = "block";
+	    document.getElementById('hidden_evolucao').style.display = "none";
 	   } else{
 	    document.getElementById('hidden_div').style.display = "none";
+	    document.getElementById('hidden_evolucao').style.display = "block";
 	   }
 	} 
 	$('#id_data').daterangepicker({

@@ -3,6 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from controle_usuarios.models import Profissional
 
+TRUE_FALSE_CHOICES = (
+    (True, 'Sim'),
+    (False, 'Não')
+)
+
 class UserCreationForm(UserCreationForm):
     class Meta:
         model = User
@@ -28,8 +33,14 @@ class ProfissinalForm(forms.ModelForm):
             'telefone'        : forms.TextInput(attrs={'class': 'form-control'}),
             'registro'        : forms.TextInput(attrs={'class': 'form-control'}),
             'cpf'             : forms.TextInput(attrs={'class': 'form-control',}),
-            'area_atuacao'    : forms.Select(attrs={'class': 'form-control',}),
+            'area_atuacao'    : forms.Select(attrs={'class':'selectpicker',
+                'data-style':'select-with-transition','data-size':7}),
             'data_nascimento' : forms.DateInput(attrs={'class': 'form-control',}),
-            'quantidade_atend': forms.Select(attrs={'class': 'form-control',}),
-            'tipo'            : forms.Select(attrs={'class': 'form-control','disabled':'disabled'}),
+            'quantidade_atend': forms.Select(attrs={'class': 'selectpicker',
+                'data-style':'select-with-transition','data-size':7}),
+            'tipo'            : forms.Select(attrs={'class': 'selectpicker',
+                'disabled':'disabled','data-style':'select-with-transition','data-size':7}),
+            'ativo'           : forms.Select(choices=TRUE_FALSE_CHOICES,attrs={
+                'class': 'selectpicker','required': 'true',
+                'data-style':'select-with-transition','data-size':7}),
 		}

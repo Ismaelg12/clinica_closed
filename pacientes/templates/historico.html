@@ -33,12 +33,12 @@
                   <ul class="nav nav-tabs" data-tabs="tabs"data-background-color="green">
                     <li class="active">
                         <a href="#timeline" role="tab"data-toggle="tab"aria-expanded="false">
-                            <i class="material-icons">show_chart</i> Linha do Tempo
+                            <i class="material-icons">person_pin</i>Avaliações/Evoluções 
                         </a>
                     </li>
                     <li class="">
                         <a href="#evolucoes" role="tab" data-toggle="tab" aria-expanded="false">
-                             <i class="material-icons">person_pin</i> Evoluções
+                          <i class="material-icons">show_chart</i>Linha do Tempo
                         </a>
                     </li>
                     <li class="">
@@ -93,14 +93,24 @@
               <div class="col-md-12 ">
                 <h4 class="text-center"><b>Linha do Tempo de Evoluções</b></h4>
                 <ul class="timelinep">
-                  {% for ev in evolucao %} 
+                  {% for ev in evolucao_avaliacao %} 
                   <li>
-                    <a href="#"class="pull-left text-info">Evolução dia {{ev.data|date:'d/m/Y'}}</a> 
+                    <a href="#"class="pull-left text-info">
+                     {% if ev.tipo == "AV" %}
+                        Avaliação dia {{ev.data|date:'d/m/Y'}}
+                      {% else %}
+                        Evolução dia {{ev.data|date:'d/m/Y'}}
+                     {% endif %}
+                    </a> 
                     <a href="#"class="float-right text-info">{{ev.hora_inicio}}:00 até {{ev.hora_fim}}:00</a><br>
                     <b class="pull-left">Fisioterapeuta:</b> <b class="pull-right">{{ev.profissional}}</b><br>
-                    <b class="pull-left">Convênio:</b> <b class="pull-right">{{ev.convenio}}</b> <br>
-                    <b class="pull-left">Evolução:</b> <b class="pull-right">{{ev.evolucao}}</b><br>
-                    <b class="pull-left">Procedimentos:</b> <b class="pull-right">{{ev.procedimento}}</b> <br>
+                    <b class="pull-left">Convênio:</b> <b class="pull-right">{{ev.convenio}}</b>
+                    {% if ev.evolucao %}
+                    <br>
+                      <b class="pull-left">Evolução:</b> <b class="pull-right">{{ev.evolucao}}
+                    {% endif %}
+                   </b><br>
+                    <b class="pull-left">Procedimentos:</b> <b class="pull-right text-danger">{{ev.procedimento}}</b> <br>
                   </li>
                   {% endfor %}
                 </ul>
@@ -137,8 +147,8 @@
                             <td>{{atend.profissional}}</td>
                             <td class="text-right">{{atend.hora_inicio}}h - {{atend.hora_fim}}h</td>
                             <td>
-                                <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="">
-                                <i class="material-icons">info</i>
+                              <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'detalhe_atendimento' atend.id %}">
+                              <i class="material-icons">info</i>
                             </td>
                           </tr>
                         {% endfor %}

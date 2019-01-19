@@ -39,7 +39,7 @@
                       <thead class=" text-primary">
                         <th>Nº</th>
                         <th>Nome</th>
-                        <th>Atualizado em</th>
+                        <th>Cadastrado em</th>
                         <th>Ação</th>
                       </thead>
                       <tbody>
@@ -53,6 +53,10 @@
                              <a href="{% url 'deletar_sala' s.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
                           </td>
                         </tr>
+                        {% empty %}
+                          <tr>
+                            <td class="text-info"><h4>Sem Cadastros</h4></td>
+                          </tr>
                         {% endfor %}
                        </tbody>
                     </table>

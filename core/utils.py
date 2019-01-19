@@ -75,4 +75,5 @@ AREA =(
     ('MT','Musicoterapeuta'),
     ('EN','Enfermeiro(a)'),
     ('PP','Psicopedagogo(a)'),
+    ('AT','Atendente'),
 )

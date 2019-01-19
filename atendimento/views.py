@@ -93,7 +93,9 @@ def add_agendamento(request):
             hora_inicio = request.POST['hora_inicio']+hour
             hora_fim = request.POST['hora_fim']+hour
 
-            if((int(i.sala.id) == int(request.POST['sala'])) and (str(i.data) == str(data_now))
+            if((int(i.sala.id) == int(request.POST['sala'])) and (str(i.data) == str(data_now)) 
+                and (int(i.profissional.id) == int(request.POST['profissional']))  
+                and (int(i.paciente.id) == int(request.POST['paciente'])) 
                 and (str(hora_inicio) >= (str(i.hora_inicio)) and str(hora_inicio) < str(i.hora_fim))): 
                 messages.success(request,'Esse Agendamento não pode ser salvo pq ja existe um igual no banco:( ')
                 condicao = False
@@ -163,8 +165,8 @@ def atendimentos(request):
     at = Profissional.objects.filter(user=request.user,tipo=1)
     if request.method == "POST":
         date_range        = request.POST.get('date_ranger')
-        start_date_string = datetime.datetime.strptime(date_range.split(' / ')[0],'%d/%m/%Y').strftime('%Y-%m-%d')
-        end_date_string   = datetime.datetime.strptime(date_range.split(' / ')[1],'%d/%m/%Y').strftime('%Y-%m-%d')
+        start_date_string = datetime.strptime(date_range.split(' / ')[0],'%d/%m/%Y').strftime('%Y-%m-%d')
+        end_date_string   = datetime.strptime(date_range.split(' / ')[1],'%d/%m/%Y').strftime('%Y-%m-%d')
         
         profissional      = request.POST.get('profissional')
         tipo_atendimento  = request.POST.get('tipo')

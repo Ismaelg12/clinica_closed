@@ -39,7 +39,7 @@
                       <thead class=" text-primary">
                         <th>Nº</th>
                         <th>Nome</th>
-                        <th>Atualizado em</th>
+                        <th>Cadastrado em</th>
                         <th>ativo</th>
                         <th>Ação</th>
                       </thead>
@@ -47,7 +47,7 @@
                         {% for c in convenios %}
                         <tr>
                           <td>{{c.id}}</td>
-                          <td>{{c.nome}}</td>
+                          <td><b>{{c.nome}}</b></td>
                           <td>{{c.atualizado_em}}</td>
                           <td>                          
                           {% if c.ativo == True %}
@@ -60,6 +60,10 @@
                             <a href="{% url 'update_convenio' c.id %}" title="Editar"><i class="material-icons">sync</i></a>
                            <a href="{% url 'deletar_convenio' c.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
                           </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td class="text-info"><h4>Sem Cadastros</h4></td>
                         </tr>
                         {% endfor %}
                      </tbody>

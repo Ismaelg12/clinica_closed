@@ -22,11 +22,6 @@
     </a>
   </li>
 {% endblock menu_li %}
-{% block button_bar %}
-  <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'add_sala' %}">
-    <i class="material-icons">add_circle</i>
-  <div class="ripple-container"></div></a>
-{% endblock button_bar %}
 {% block container %}
   <div class="content">
     <div class="container-fluid">
@@ -34,14 +29,43 @@
             <div class="col-md-12">
               <div class="card">
                  <div class="card-header card-header-primary"data-background-color="purple">
-                   <h4 class="card-title ">Lista de Vagas para o dia</h4>
+                  <h4 class="card-title">
+                  Lista de Vagas para o Dia 
+                  {% if date_now %}
+                    {{date_now}}
+                  {% else %} 
+                    {% now "d/m/Y" %}
+                  {% endif %}
+                </h4>
               </div>
                 <div class="card-content">
+                  <div class="col-md-12">
+                  <form method="GET"name="search">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                          <div class="form-group">
+                            <input name="date_now"class="form-control"id="date_now"required>
+                          </div>
+                        </div>
+                      <div class="col-md-3 col-sm-3">
+                         <select class="selectpicker" name="profissional"data-style="select-with-transition" title="Profissional" data-size="7">
+                          <option value="">Selecione o Profissional</option>
+                          {% for p in lista_pf %}
+                            <option value="{{p.nome}}">{{p.nome}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="col-md-3 col-sm-3">
+                         <button type="submit" class="btn btn-primary pull-right btn-round"><i class="material-icons">search</i></button>
+                      </div>
+                    </div>
+                   </form>
+                </div>
                   <table class="table" id="Table">
                       <thead class=" text-primary">
                         <th>Nº</th>
                         <th>Nome</th>
-                        <th>Quantidade Diaria</th>
+                        <th>Quantidade Diária</th>
                         <th>Vagas Preenchidas</th>
                         <th>Vagas Disponiveis Hoje</th>
                       </thead>
@@ -49,10 +73,10 @@
 					             {% for s in vagas %}
                         <tr>
                           <td>{{forloop.counter}}</td>
-                          <td>{{s.nome}}</td>
-                          <td>{{s.quantidade_atend}}</td>
-                          <td>{{s.number_agenda}}</td>
-                          <th>{{s.quantidade_atend|subtract:s.number_agenda}}</th>
+                          <td><b>{{s.nome|upper}}</b></td>
+                          <td><b>{{s.quantidade_atend}}</b></td>
+                          <td class="text-warning"><b>{{s.number_agenda}}</b></td>
+                          <th class="text-info">{{s.quantidade_atend|subtract:s.number_agenda}}</th>
                         </tr>
                         {% endfor %}
                        </tbody>
@@ -63,4 +87,45 @@
         </div> <!-- end row -->
   </div>
 </div>
+<script>
+
+  $.noConflict();
+  jQuery( document ).ready(function( $ ) {
+   $('#date_now').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+      "locale": {
+      "format": "DD/MM/YYYY",
+      "separator": " - ",
+      "applyLabel": "Aplicar",
+      "cancelLabel": "Cancelar",
+      "fromLabel": "De",
+      "toLabel": "Até",
+      "customRangeLabel": "Custom",
+      "daysOfWeek": [
+          "Dom",
+          "Seg",
+          "Ter",
+          "Qua",
+          "Qui",
+          "Sex",
+          "Sáb"
+      ],
+      "monthNames": [
+          "Janeiro",
+          "Fevereiro",
+          "Março",
+          "Abril",
+          "Maio",
+          "Junho",
+          "Julho",
+          "Agosto",
+          "Setembro",
+          "Outubro",
+          "Novembro",
+          "Dezembro"
+      ],
+      "firstDay": 0
+  }})});
+   </script>
 {% endblock container %}

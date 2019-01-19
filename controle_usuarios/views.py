@@ -46,7 +46,7 @@ def login_success(request):
 '''
 @login_required
 def profissionais(request):
-    prof = Profissional.objects.all()
+    prof = Profissional.objects.all().exclude(user__username='admin')
     context = {
         'lista_profissionais':prof,
     }
@@ -63,7 +63,7 @@ def add_profissional(request):
         profissional_form = ProfissinalForm(request.POST, instance=user.profissional)  # Reload the profile form with the profile instance
         profissional_form.full_clean()  # Manually clean the form this time. It is implicitly called by "is_valid()" method
         profissional_form.save()  # Gracefully save the form
-        messages.success(request,'Cadastrado com Sucesso! ')
+        messages.success(request,'Profissional Cadastrado com Sucesso! ')
         return redirect('home')
     return render(request, 'profissionais/add_profissional.html', {
         'user_form': user_form,

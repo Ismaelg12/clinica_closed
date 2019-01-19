@@ -92,9 +92,9 @@
                     <td>
                        {{atendimento.profissional}}
                     </td>
-                    <td>
-                      <a href="{% url 'detalhe_atendimento' atendimento.id %}" title="Ver Atendimento"><i class="material-icons">visibility</i></a>
+                    <td>                     
                       {% if not at %}
+                        <a href="{% url 'detalhe_atendimento' atendimento.id %}" title="Ver Atendimento"><i class="material-icons">visibility</i></a>
                         <a href="{% url 'update_atendimento' atendimento.id %}" title="Editar"><i class="material-icons">sync</i></a>
                         <a href="{% url 'excluir_atendimento' atendimento.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
                       {% endif %}

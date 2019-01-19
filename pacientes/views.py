@@ -78,11 +78,11 @@ def paciente_historico(request,pk):
     paciente = get_object_or_404(Paciente,pk=pk)
     agendamentos_count = Agendamento.objects.filter(paciente=paciente)
     atendimentos = Atendimento.objects.filter(paciente=paciente)
-    atendimento_evolucao = Atendimento.objects.filter(paciente=paciente,tipo='EV')
+    atendimento_evolucao = Atendimento.objects.filter(paciente=paciente,)
     atendimento_avaliacao = Atendimento.objects.filter(paciente=paciente,tipo='AV').count()
     context = {
         'atendimentos':atendimentos,
-        'evolucao':atendimento_evolucao,
+        'evolucao_avaliacao':atendimento_evolucao,
         'avaliacao':atendimento_avaliacao,
         'paciente':paciente,
         'agendamentos':agendamentos_count,

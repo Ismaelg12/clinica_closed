@@ -39,11 +39,25 @@ class DashboardView(TemplateView,DashboardMixin):
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 '''
 def vagas(request):
-    today = datetime.datetime.now()
-    profissional = Profissional.objects.annotate(
-    number_agenda=Count('agendamento', filter=Q(agendamento__data=today))).filter(tipo=2)
+    lista_pf = Profissional.objects.filter(tipo=2)
+    start_date = None
+    date_now   = None
+    if request.GET.get('date_now'):
+        date_now   = request.GET.get('date_now')
+        start_date = datetime.datetime.strptime(date_now,'%d/%m/%Y').strftime('%Y-%m-%d')
+        prof       = request.GET.get('profissional')
+        #atendimento = Atendimento.objects.filter(data=(start_date_string),profissional__nome__icontains=profissional,tipo=tipo_atendimento)
+        print(date_now)
+        profissional_vaga = Profissional.objects.annotate(
+        number_agenda=Count('agendamento', filter=Q(agendamento__data=start_date))).filter(tipo=2,nome__icontains=prof)
+    else:
+        today = datetime.datetime.now()
+        profissional_vaga = Profissional.objects.annotate(
+        number_agenda=Count('agendamento', filter=Q(agendamento__data=today))).filter(tipo=2)
     context = {
-        'vagas':profissional,
+        'vagas':profissional_vaga,
+        'lista_pf':lista_pf,
+        'date_now':date_now
     }
     return render(request,'vagas.html',context)
 '''

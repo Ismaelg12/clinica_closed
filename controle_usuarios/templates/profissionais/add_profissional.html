@@ -60,15 +60,14 @@
                       <input type="text"name="password2"class="form-control">
                     </div>
                   </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                       <label class="bmd-label-floating">Atuação</label>
-                      <select name="tipo"  class="form-control input-rounded">
-                        <option value="0">*Função</option>
+                 <div class="col-md-3 ">
+                  <b style="color:red;">{{user_form.tipo.errors}}</b>
+                   <label class="bmd-label-floating">Atuação</label>
+                      <select requerid class="selectpicker" name="tipo"data-style="select-with-transition" data-size="7">
+                        <option value="">Escolha a Função</option>
                         <option value="1">Atendente</option>
                         <option value="2">Profissional</option>
-                      </select>
-                    </div>
+                    </select>
                   </div>
                 </div>
                 <div class="row">
@@ -102,14 +101,14 @@
                   </div>
                 </div>
                  <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label class="bmd-label-floating">*CPF</label>
                      <b style="color:red;">{{profissional_form.cpf.errors}}</b>
                         {{profissional_form.cpf}}
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label class="bmd-label-floating">Data de Nascimento</label>
                        <b style="color:red;">{{profissional_form.data_nascimento.errors}}</b>
@@ -117,18 +116,19 @@
                     </div>
                   </div>
                    <div class="col-md-3">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">*Área do profissional</label>
+                    <label class="bmd-label-floating">*Área do profissional</label>
                        <b style="color:red;">{{profissional_form.area_atuacao.errors}}</b>
                       {{profissional_form.area_atuacao}}
-                    </div>
                   </div>
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">*Atendimentos por Dia</label>
-                       <b style="color:red;">{{profissional_form.quantidade_atend.errors}}</b>
+                    <label class="bmd-label-floating">*Atendimentos por Dia</label>
+                      <b style="color:red;">{{profissional_form.quantidade_atend.errors}}</b>
                       {{profissional_form.quantidade_atend}}
-                    </div>
+                  </div>
+                   <div class="col-md-2">                   
+                      <label class="bmd-label-floating">*Ativo</label>
+                       <b style="color:red;">{{profissional_form.ativo.errors}}</b>
+                      {{profissional_form.ativo}}
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>

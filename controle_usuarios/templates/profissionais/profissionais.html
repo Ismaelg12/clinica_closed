@@ -40,6 +40,7 @@
                         <th>Função</th>
                         <th>Telefone</th>
                         <th>CPF</th>
+                        <th>Atuação</th>
                         <th>Ação</th>
                       </thead>
                       <tbody>
@@ -50,11 +51,12 @@
                             <td><b>{{prof.user.profissional.get_tipo_display}}</b></td>
                             <td>{{prof.user.profissional.telefone}}</td>
                             <td>{{prof.user.profissional.cpf}}</td>
+                            <td>{{prof.user.profissional.get_area_atuacao_display}}</td>
                             <td>
                                 <a href="{% url 'profissional_detalhe' prof.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
                                 <a href="{% url 'atualizar_profissional' prof.id %}" title="Editar"><i class="material-icons">sync</i>
                                 </a>
-                                 <a href="{% url 'deletar_profissional' prof.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                                <a href="{% url 'deletar_profissional' prof.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
                             </td>
                           </tr>
                         {% endfor %}
