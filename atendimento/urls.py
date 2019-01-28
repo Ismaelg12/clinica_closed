@@ -6,7 +6,9 @@ urlpatterns = [
 	path('adicionar/agendamento/',views.add_agendamento,name='add_agendamento'),
 	path('atualizar/agendamento/<int:pk>/',views.update_agendamento,name='update_agendamento'),
 	path('agendamento/detalhe/<int:pk>/',views.agendamento_detalhe,name='agendamento_detalhe'),
-	path('excluir/agendamento/<int:pk>/',views.cancel_agendamento,name='cancel_agendamento'),
+	path('cancelar/agendamento/<int:pk>/',views.cancel_agendamento,name='cancel_agendamento'),
+	path('desmarcar/agendamento/<int:pk>/',views.desmarcar_agendamento,name='desmarcar_agendamento'),
+	path('liberar/agendamento/<int:pk>/',views.liberar_agendamento,name='liberar_agendamento'),
 	#############Atendimento#############
 	path('atendimentos/',views.atendimentos,name='atendimentos'),
 	path('adicionar/atendimento/<int:pk>/',views.atendimento_add,name='add_atendimento'),

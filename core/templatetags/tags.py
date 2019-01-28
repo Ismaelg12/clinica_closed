@@ -1,4 +1,5 @@
 from django import template
+from atendimento.models import Agendamento
 register = template.Library()
 
 @register.filter

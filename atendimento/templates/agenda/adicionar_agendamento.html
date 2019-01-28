@@ -42,12 +42,6 @@
 				      	{% csrf_token %}
 						    <div class="row">
 								<div class="col-md-3">
-									<div class="form-group">	
-									  <label>*Data</label></br>
-									 {{form.data}}
-									</div>
-								</div>
-								<div class="col-md-3">
 									<div class="form-group">
 										<label>* Inicio</label></br>
 										{{form.hora_inicio}}
@@ -65,14 +59,14 @@
 										{{form.sala}}
 									</div>
 								</div>
-							</div>
-				            <div class="row">
-				              	<div class="col-md-3">
+								<div class="col-md-3">
 									<div class="form-group">
 										<label>* Profissional</label></br>	
 										{{form.profissional}}
 									</div>
 								</div>
+							</div>
+				            <div class="row">
 								<div class="col-md-3">
 									<div class="form-group">
 										<label>* Convenio</label></br>	
@@ -92,6 +86,12 @@
 										{{form.telefone}}
 				                	</div>
 								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* data</label></br>	
+										{{form.data}}
+				                	</div>
+								</div>
 				            </div>
 				            <div class="row">
 								<div class="col-md-12">
@@ -104,8 +104,18 @@
 									</div>
 								</div>
 				            </div>
-							<button type="submit" class="btn btn-primary pull-right">Salvar</button>
-							<a href="{% url 'agendamentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+							<!--
+				            <h6 class="text-center text-danger">Clique para Adicionar a data do Agendamento !! <div class="ripple-container"></div></a>
+							<input type="button" value="+" class=" btn btn-success btn-round btn-fab btn-fab-mini add" id="add" /></h6>
+				            <div class="row">
+								<div id="buildyourform">
+									
+								</div>
+				            </div>
+				        	-->
+				        	<button type="submit" class="btn btn-info btn-sm pull-right" name="SaveAddOther">Salvar e Adicionar Outro</button>
+							<button type="submit" class="btn btn-primary btn-sm pull-right"name="Save">Salvar</button>
+							<a href="{% url 'agendamentos' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
 				            <div class="clearfix"></div>
 				          </form>
 				   </div><!-- end content-->
@@ -115,6 +125,26 @@
   </div>
 </div>
 <script>
+	/*
+	$(document).ready(function() {
+	    $("#add").click(function() {
+	    	var lastField = $("#buildyourform div:last");
+	        var intId = (lastField && lastField.length && lastField.data("idx") + 1) || 1;
+	        var fieldWrapper = $("<div class=\"col-md-3\" id=\"field" + intId + "\"/>");
+	        fieldWrapper.data("idx", intId);
+	        var fName = $("<input type=\"date\" class=\"form-control\"id=\"data\" name=\"data\"/>");
+	        
+	        var removeButton = $("<input type=\"button\" class=\"btn btn-primary btn-xs remove\" value=\"-\" />");
+	        removeButton.click(function() {
+	            $(this).parent().remove();
+	        });
+	        fieldWrapper.append(fName);
+	        fieldWrapper.append(removeButton);
+	        $("#buildyourform").append(fieldWrapper);
+	    });
+	   
+	});
+	*/
 	$.noConflict();
 	jQuery( document ).ready(function( $ ) {
 	$('#id_hora_inicio').daterangepicker({

@@ -61,6 +61,7 @@ STATUS =(
     ('AG','Agendado'),
     ('AT','Atendido'),
     ('CC','Cancelado'),
+    ('DM','Desmarcado'),
 )
 
 AREA =(

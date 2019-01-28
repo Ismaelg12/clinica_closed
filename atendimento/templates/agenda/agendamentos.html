@@ -36,23 +36,25 @@
               </div>
               <div class="card-content">
                  <div class="col-md-12">
-                  <form method="POST"name="search">
-                  {% csrf_token %}
+                  <form method="GET"name="search">
                     <div class="row">
                         <div class="col-md-3 col-sm-3">
                           <div class="form-group">
                             <input name="date_ranger"class="form-control"required>
                           </div>
                         </div>
-                      <div class="col-md-3 col-sm-3">
-                         <select class="selectpicker" name="profissional"data-style="select-with-transition" title="Profissional" data-size="7">
-                          <option value="">Selecione o Profissional</option>
-                          {% for p in pf %}
-                            <option value="{{p.nome}}">{{p.nome}}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                     <div class="col-md-3">
+                        {% if not profissional %}
+                        <!--se quem estiver logado não for profissional ele mostra o select -->
+                        <div class="col-md-3 col-sm-3">
+                          <select class="selectpicker" name="profissional"data-style="select-with-transition" title="Profissional" data-size="7">
+                            <option value="">Selecione o Profissional</option>
+                            {% for p in pf %}
+                              <option value="{{p.nome}}">{{p.nome}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      {% endif %}
+                     <div class="col-md-2">
                       <select class="selectpicker" name="status"data-style="select-with-transition" title="status" data-size="7">
                           <option value=""disabled selected>Todos</option>
                           <option value="AG">Agendado</option>
@@ -60,7 +62,10 @@
                           <option value="CC">Cancelados</option>
                       </select>
                     </div>
-                      <div class="col-md-3 col-sm-3">
+                    <div class="col-md-3">
+                     <input type="text"class="form-control" name="paciente" placeholder="Nome do Paciente">
+                    </div>
+                      <div class="col-md-1 col-sm-1">
                          <button type="submit" class="btn btn-primary pull-right btn-round"><i class="material-icons">search</i></button>
                       </div>
                     </div>
@@ -75,19 +80,23 @@
                         <th>Sala</th>
                         <th>Profissional</th>
                         <th>Horário</th>
-                        <th>Atender</th>
-                        <th>Ação</th>
+                        <th>Liberado</th>
+                        <th>Ações</th>
                         </thead>
+                        {% if not profissional %}
+                        <!--se quem estiver logado não for profissional ele exibe uma tabela diferente  -->
                         <tbody>
                             {% for agenda  in agendamentos %}
                               <tr>
                                <td>
                                   {% if agenda.status == 'AG' %}
-                                   <b class="text-info" title="Agendadado"><i class="material-icons">check_circle</i></b>
+                                    <b class="text-info" title="Agendadado"><i class="material-icons">check_circle</i></b>
                                   {% elif agenda.status == 'AT'%}
-                                      <b class="text-success"title="Atendido"><i class="material-icons">check_circle</i></b>
+                                    <b class="text-success"title="Atendido"><i class="material-icons">check_circle</i></b>
+                                  {% elif agenda.status == 'DM'%}
+                                    <b class="text-warning"title="Desmarcado"><i class="material-icons">blur_off</i></b>
                                   {% else %}
-                                     <b class="text-danger" title="Cancelado"><i class="material-icons">backspace</i></b>
+                                    <b class="text-danger" title="Cancelado"><i class="material-icons">backspace</i></b>
                                   {% endif %}
                                </td>
                                <td><b>{{agenda.paciente|title}}</b></td>
@@ -99,28 +108,97 @@
                                   {{agenda.sala}}
                                 {% endif %}
                               </td>
-                               <td>{{agenda.profissional|title}}</td>
-                               <td>{{agenda.hora_inicio}}H -- {{agenda.hora_fim}}H</td>
-                                 <td> 
-                                  {% if not at %}
+                              <td>{{agenda.profissional|title}}</td>
+                              <td>{{agenda.hora_inicio}}H -- {{agenda.hora_fim}}H</td>
+                              <td width="8%">
+                                {% if agenda.liberado == True %}
+                                  <i class="text-success">Sim</i>
+                                {% else %}
+                                  <i class="text-info">Não</i>
+                                {% endif %}
+                              </td>
+                              <td width="15%"> 
+                                  {% if profissional %}
+                                  <!--so mostrar se quem estiver logado pro profissional-->
                                     {% if agenda.status == 'AG' %}
-                                    <a href="{% url 'add_atendimento' agenda.id %}">
-                                      <div style="background-color:green;text-align:center;color:white;border-radius: 5px 5px;"><font size="2">Atenter</font>
-                                    </div>
+                                    <a href="{% url 'add_atendimento' agenda.id %}"title="Atender">
+                                     <i class="material-icons text-success">how_to_reg</i>
                                     </a>
                                     {% endif %}
                                   {% endif %}
-                                </td>
-                                <td  width="10%">
                                   <a href="{% url 'agendamento_detalhe' agenda.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
                                   {% if agenda.status == 'AG' %}
-                                    <a href="{% url 'update_agendamento' agenda.id %}" title="Editar"><i class="material-icons">sync</i></a>
-                                    <a href="{% url 'cancel_agendamento' agenda.id %}" title="cancelar atendimento" onclick="return confirm('Deseja realmente cancelar?');"><i class="material-icons  text-warning">cancel</i></a>
+                                    {% if not profissional %}
+                                     <a href="{% url 'liberar_agendamento' agenda.id %}"title="Liberar Agendamento">
+                                      <i class="material-icons text-success">how_to_reg</i>
+                                     </a>
+                                      <a href="{% url 'update_agendamento' agenda.id %}" title="Editar"><i class="material-icons text-info">sync</i></a>
+                                      <a href="{% url 'desmarcar_agendamento' agenda.id %}"title="Desmarcar atendimento" onclick="return confirm('Deseja realmente desmarcar?');"><i class="material-icons text-warning">label_off</i></a>
+                                      <a href="{% url 'cancel_agendamento' agenda.id %}" title="cancelar atendimento" onclick="return confirm('Deseja realmente cancelar?');"><i class="material-icons  text-danger">cancel</i></a>
+                                    {% endif %}
                                   {% endif %}
                                 </td>
                               </tr>
                               {% endfor %}
                              </tbody>
+                             {% else %}
+                              <tbody>
+                            {% for agenda  in af %}
+                              <tr>
+                               <td>
+                                  {% if agenda.status == 'AG' %}
+                                    <b class="text-info" title="Agendadado"><i class="material-icons">check_circle</i></b>
+                                  {% elif agenda.status == 'AT'%}
+                                    <b class="text-success"title="Atendido"><i class="material-icons">check_circle</i></b>
+                                  {% elif agenda.status == 'DM'%}
+                                    <b class="text-warning"title="Desmarcado"><i class="material-icons">blur_off</i></b>
+                                  {% else %}
+                                    <b class="text-danger" title="Cancelado"><i class="material-icons">backspace</i></b>
+                                  {% endif %}
+                               </td>
+                               <td><b>{{agenda.paciente|title}}</b></td>
+                               <td>{{agenda.data|date:"d/m/Y"}}</td>
+                               <td>
+                                {% if  agenda.sala == None %}
+                                  <b>------</b>
+                                {% else %}
+                                  {{agenda.sala}}
+                                {% endif %}
+                              </td>
+                              <td>{{agenda.profissional|title}}</td>
+                              <td>{{agenda.hora_inicio}}H -- {{agenda.hora_fim}}H</td>
+                              <td width="8%">
+                                {% if agenda.liberado == True %}
+                                  <i class="text-success">Sim</i>
+                                {% else %}
+                                  <i class="text-info">Não</i>
+                                {% endif %}
+                              </td>
+                              <td width="15%"> 
+                                  {% if profissional %}
+                                  <!--so mostrar se quem estiver logado pro profissional-->
+                                    {% if agenda.status == 'AG' %}
+                                    <a href="{% url 'add_atendimento' agenda.id %}"title="Atender">
+                                     <i class="material-icons text-success">how_to_reg</i>
+                                    </a>
+                                    {% endif %}
+                                  {% endif %}
+                                  <a href="{% url 'agendamento_detalhe' agenda.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
+                                  {% if agenda.status == 'AG' %}
+                                    {% if not profissional %}
+                                     <a href="{% url 'liberar_agendamento' agenda.id %}"title="Liberar Agendamento">
+                                      <i class="material-icons text-success">how_to_reg</i>
+                                     </a>
+                                      <a href="{% url 'update_agendamento' agenda.id %}" title="Editar"><i class="material-icons text-info">sync</i></a>
+                                      <a href="{% url 'desmarcar_agendamento' agenda.id %}"title="Desmarcar atendimento" onclick="return confirm('Deseja realmente desmarcar?');"><i class="material-icons text-warning">label_off</i></a>
+                                      <a href="{% url 'cancel_agendamento' agenda.id %}" title="cancelar atendimento" onclick="return confirm('Deseja realmente cancelar?');"><i class="material-icons  text-danger">cancel</i></a>
+                                    {% endif %}
+                                  {% endif %}
+                                </td>
+                              </tr>
+                              {% endfor %}
+                             </tbody>
+                            {% endif %}
                             </table>
                         </div>
                     </div><!-- end content-->

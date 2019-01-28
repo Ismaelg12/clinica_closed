@@ -8,8 +8,8 @@ class Paciente(models.Model):
 	nome            = models.CharField(max_length=40)
 	data_nascimento = models.DateField()
 	sexo            = models.CharField('Sexo', max_length=1, choices=SEXO, blank=True)
-	cpf             = models.CharField(max_length=14,unique=True)
-	rg              = models.CharField(max_length=9)
+	cpf             = models.CharField(max_length=14,unique=True,blank=True)
+	rg              = models.CharField(max_length=14,blank=True)
 	uf              = models.CharField(max_length=2,choices=UF,default='PI')
 	#endereco
 	cidade          = models.CharField('Cidade', max_length=40)
@@ -26,6 +26,7 @@ class Paciente(models.Model):
 	profissao       = models.CharField(max_length=50,blank=True)
 	convenio        = models.ForeignKey(Convenio,on_delete=models.SET_NULL,null=True,blank=True)
 	num_convenio    = models.CharField(max_length=17,blank=True)
+	responsavel     = models.CharField(max_length=50,blank=True)
 	observacao      = models.TextField(max_length=60,blank=True)
 
 	def __str__(self):

@@ -24,7 +24,9 @@ class Profissional(models.Model):
 	area_atuacao    = models.CharField(max_length=2,blank=True,null=True,choices=AREA)
 	quantidade_atend= models.IntegerField(blank=True,choices=list(zip(range(1, 11), range(1, 11))),null=True)
 	data_cadastro   = models.DateField(auto_now_add = True)
+	horario_trabalho= models.TextField(blank=True)
 	ativo           = models.BooleanField(default=True)
+
 	class Meta:
 		verbose_name = 'Profissional'
 		verbose_name_plural = 'Profissionais'

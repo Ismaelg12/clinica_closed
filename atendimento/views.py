@@ -22,34 +22,58 @@ from django.contrib import messages
 def agendamento(request):
     #atendente e profissional
     #pf é querysets para exibir profissionais no template para o filtro
-    pf = Profissional.objects.filter(tipo=2)
+    pf                  = Profissional.objects.filter(tipo=2)
     #at querysets para fazer condição no template e determinar o que deve ser exibido
-    at = Profissional.objects.filter(user=request.user,tipo=1)
-    profissional = Profissional.objects.filter(user=request.user,tipo=2)
-    if request.method == "POST":
-        date_range        = request.POST.get('date_ranger')
-        start_date_string = datetime.strptime(date_range.split(' / ')[0],'%d/%m/%Y').strftime('%Y-%m-%d')
-        end_date_string   = datetime.strptime(date_range.split(' / ')[1],'%d/%m/%Y').strftime('%Y-%m-%d')
-        
-        profissional      = request.POST.get('profissional')
-        status            = request.POST.get('status')
-        if status != None:
-            agendamentos = Agendamento.objects.filter(data__range=(start_date_string,end_date_string),
-            profissional__nome__icontains=profissional,status=status)
+    at                  = Profissional.objects.filter(user=request.user,tipo=1)
+    profissional        = Profissional.objects.filter(user=request.user,tipo=2)
+    date_range          = None
+    start_date_string   = None
+    end_date_string     = None
+    agendamentos        = None
+    agenda_profissional = None
+    #verifica quem esta logado, se for profissional retorn True e mostra apenas os agendamentos dele liberados
+    if profissional.exists():
+        if request.GET.get('date_ranger'):
+            date_range        = request.GET.get('date_ranger')
+            start_date_string = datetime.strptime(date_range.split(' / ')[0],'%d/%m/%Y').strftime('%Y-%m-%d')
+            end_date_string   = datetime.strptime(date_range.split(' / ')[1],'%d/%m/%Y').strftime('%Y-%m-%d')
+            status            = request.GET.get('status')
+            paciente          = request.GET.get('paciente')
+            if status != None:
+                agenda_profissional = Agendamento.objects.filter(data__range=(start_date_string,end_date_string),
+                status=status,paciente__nome__icontains=paciente,profissional__user=request.user,liberado=True)
+            else:
+                agenda_profissional = Agendamento.objects.filter(data__range=(start_date_string,end_date_string),
+                paciente__nome__icontains=paciente,profissional__user=request.user,liberado=True)
         else:
-            agendamentos = Agendamento.objects.filter(data__range=(start_date_string,end_date_string),
-            profissional__nome__icontains=profissional)
-
+            today = timezone.now()
+            agenda_profissional = Agendamento.objects.filter(profissional__user=request.user,liberado=True,
+                    data__day=today.day,data__month=today.month)
     else:
-        today = timezone.now()
-        agendamentos = Agendamento.objects.filter(data__day=today.day,
-            data__month=today.month)
-    
+        #se for False retorna todos os agendamentos independente de admin ou atendente
+        if request.GET.get('date_ranger'):
+            date_range          = request.GET.get('date_ranger')
+            start_date_string   = datetime.strptime(date_range.split(' / ')[0],'%d/%m/%Y').strftime('%Y-%m-%d')
+            end_date_string     = datetime.strptime(date_range.split(' / ')[1],'%d/%m/%Y').strftime('%Y-%m-%d')
+            profissional_search = request.GET.get('profissional')
+            status              = request.GET.get('status')
+            paciente            = request.GET.get('paciente')
+            if status != None:
+                agendamentos = Agendamento.objects.filter(data__range=(start_date_string,end_date_string),
+                profissional__nome__icontains=profissional_search,status=status,paciente__nome__icontains=paciente)
+            else:
+                agendamentos = Agendamento.objects.filter(data__range=(start_date_string,end_date_string),
+                profissional__nome__icontains=profissional_search,paciente__nome__icontains=paciente)
+        else:
+            today = timezone.now()
+            agendamentos = Agendamento.objects.filter(data__day=today.day,
+                data__month=today.month)
     context = {
         'pf':pf,
         'at':at,
         'profissional':profissional,
         'agendamentos':agendamentos,
+        'af':agenda_profissional,
 
     }
     return render(request,'agenda/agendamentos.html',context)
@@ -84,7 +108,7 @@ def add_agendamento(request):
     if form.is_valid():
         date_form  = request.POST.get('data')
         data_now  = datetime.strptime(date_form,'%d/%m/%Y').strftime('%Y-%m-%d')
-        agendamento = Agendamento.objects.filter(data=data_now,status='AG').order_by(
+        agendamento = Agendamento.objects.filter(data=data_now,status__in=['AG', 'DM']).order_by(
             'hora_inicio','hora_fim'
         )
         condicao = True
@@ -93,9 +117,17 @@ def add_agendamento(request):
             hora_inicio = request.POST['hora_inicio']+hour
             hora_fim = request.POST['hora_fim']+hour
 
-            if((int(i.sala.id) == int(request.POST['sala'])) and (str(i.data) == str(data_now)) 
-                and (int(i.profissional.id) == int(request.POST['profissional']))  
-                and (int(i.paciente.id) == int(request.POST['paciente'])) 
+            if((int(i.sala.id) == int(request.POST['sala'])) and (str(i.data) == str(data_now))  
+                and (str(hora_inicio) >= (str(i.hora_inicio)) and str(hora_inicio) < str(i.hora_fim))): 
+                messages.success(request,'Esse Agendamento não pode ser salvo pq ja existe um igual no banco:( ')
+                condicao = False
+                break
+            elif((int(i.paciente.id) == int(request.POST['paciente'])) and (str(i.data) == str(data_now))  
+                and (str(hora_inicio) >= (str(i.hora_inicio)) and str(hora_inicio) < str(i.hora_fim))): 
+                messages.success(request,'Esse Agendamento não pode ser salvo pq ja existe um igual no banco:( ')
+                condicao = False
+                break
+            elif((int(i.profissional.id) == int(request.POST['profissional'])) and (str(i.data) == str(data_now))  
                 and (str(hora_inicio) >= (str(i.hora_inicio)) and str(hora_inicio) < str(i.hora_fim))): 
                 messages.success(request,'Esse Agendamento não pode ser salvo pq ja existe um igual no banco:( ')
                 condicao = False
@@ -105,8 +137,28 @@ def add_agendamento(request):
                 continue
         if condicao == True:
             form.save()
-            messages.success(request,'Agendamento Cadastrado com Sucesso! ')
-            return redirect('agendamentos')
+            if 'SaveAddOther' in request.POST:
+                hora_inicio = form.cleaned_data.get('hora_inicio')
+                hora_fim = form.cleaned_data.get('hora_fim')
+                sala = form.cleaned_data.get('sala')
+                paciente = form.cleaned_data.get('paciente')
+                convenio = form.cleaned_data.get('convenio')
+                profissional = form.cleaned_data.get('profissional')
+                telefone = form.cleaned_data.get('telefone')
+
+                form = AgendaForm(initial={
+                    'hora_inicio': hora_inicio,
+                    'hora_fim': hora_fim,
+                    'sala': sala,
+                    'paciente': paciente,
+                    'convenio': convenio,
+                    'profissional': profissional,
+                    'telefone': telefone,
+                })
+                messages.success(request,'Agendamento Cadastrado com Sucesso! ')
+            elif 'Save' in request.POST:
+                messages.success(request,'Agendamento Cadastrado com Sucesso! ')
+                return redirect('agendamentos')
     return render(request,'agenda/adicionar_agendamento.html',{'form':form})
 
 @login_required
@@ -154,6 +206,21 @@ def cancel_agendamento(request,pk):
     messages.success(request,'Agendamento Cancelado! ')
     return redirect('agendamentos')
 
+@login_required
+def liberar_agendamento(request,pk):
+    agenda = get_object_or_404(Agendamento,pk=pk)
+    agenda.liberado = True
+    agenda.save()
+    messages.success(request,'Agendamento Liberado para Atendimento pelo Profissional! ')
+    return redirect('agendamentos')
+
+@login_required
+def desmarcar_agendamento(request,pk):
+    agenda = get_object_or_404(Agendamento,pk=pk)
+    agenda.status = 'DM'
+    agenda.save()
+    messages.success(request,'Agendamento Desmarcado! ')
+    return redirect('agendamentos')
 '''
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                           Crud de Atendimentos

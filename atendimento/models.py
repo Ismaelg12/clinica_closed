@@ -24,6 +24,8 @@ class Agendamento(models.Model):
     telefone     = models.CharField(max_length=15,blank=True)
     status       = models.CharField(max_length=2,choices=STATUS,default='AG',blank=True)
     observacao   = models.TextField(blank=True)
+    cancelado    = models.TextField(blank=True,max_length=50)
+    liberado     = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Agendamento'
@@ -31,33 +33,7 @@ class Agendamento(models.Model):
 
     def __str__(self):
         return self.paciente.nome + ' '+ str(self.data)
-    """
-    class MyModel(models.Model):
-    f1 = models.CharField(max_length=1)
-    
-    def save(self, *args, **kw):
-        if self.pk is not None:
-            orig = MyModel.objects.get(pk=self.pk)
-            if orig.f1 != self.f1:
-                print 'f1 changed'
-        super(MyModel, self).save(*args, **kw)
-    """
-    """
-    # override do metodo save para saber se existe um agendamento igual antes de salvar
-    def save(self, *args, **kwargs):
-       # start_date = datetime.datetime.strptime('09-01-2019','%d-%m-%Y')
-        #print('datetime',datetime.date.today())
-        #print("self",self.data)
-        agendamento = Agendamento.objects.filter(data=self.data,status='AG')
-        #print("agendamnetos de hoje!!",agendamento)
-        for i in agendamento:
-            print(i.data,i.paciente,i.sala,i.profissional)
-            if((i.data == self.data ) and (i.hora_inicio == self.hora_inicio) and (
-                i.hora_fim == self.hora_fim) and(i.sala == self.sala)):
-                print("Esse Agendamento não pode ser salvo pq ja existe um igual no banco:(")
-                break
-            super(Agendamento, self).save(*args, **kwargs)
-    """
+        
 '''
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                           Models de Atendimento

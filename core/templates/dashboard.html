@@ -25,7 +25,6 @@
         <p>Atendimento</p>
       </a>
     </li>
-    {% if request.user.is_superuser %}
     <li>
         <a data-toggle="collapse" href="#formsExamples">
             <i class="material-icons">library_add</i>
@@ -35,6 +34,7 @@
         </a>
         <div class="collapse" id="formsExamples">
             <ul class="nav">
+              {% if request.user.is_superuser %}
                 <li>
                     <a href="{% url 'profissionais' %}">
                       <i class="material-icons">person</i>
@@ -59,6 +59,7 @@
                         <span class="sidebar-normal"> Procedimentos</span>
                     </a>
                 </li>
+              {% endif %}
                 <li>
                     <a href="{% url 'lista_espera' %}">
                       <i class="material-icons">person</i>
@@ -68,13 +69,14 @@
             </ul>
         </div>
     </li>
-   <li class="nav-item ">
-    <a class="nav-link" href="#">
-      <i class="material-icons">monetization_on</i>
-      <p>Financeiro</p>
-    </a>
-  </li>
-{% endif %}
+    {% if request.user.is_superuser %}
+     <li class="nav-item ">
+      <a class="nav-link" href="#">
+        <i class="material-icons">monetization_on</i>
+        <p>Financeiro</p>
+      </a>
+    </li>
+    {% endif %}
 {% endblock %}
 {% block navbar %}
   <a class="navbar-brand" href="#pablo">Dashboard</a>
