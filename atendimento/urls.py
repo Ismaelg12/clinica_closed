@@ -15,5 +15,6 @@ urlpatterns = [
 	path('atualizar/atendimento/<int:pk>/',views.atendimento_update,name='update_atendimento'),
 	path('atendimento/detalhe/<int:pk>/',views.atendimento_detalhe,name='detalhe_atendimento'),
 	path('excluir/atendimento/<int:pk>/',views.excluir_atendimento,name='excluir_atendimento'),
-	path('ajax/procedimentos/', views.load_procedimentos, name='ajax_load_proced'),
+	path('ajax/procedimentos/', views.load_procedimentos_guias, name='ajax_load_proced'),
+	#path('ajax/guias/', views.load_guias, name='ajax_load_guia'),
 ]

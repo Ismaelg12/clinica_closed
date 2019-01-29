@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for g in guias %}
+<option value="{{ g.pk }}">{{ g.numero }} - {{ pc.quantidade }}</option>
+{% endfor %}

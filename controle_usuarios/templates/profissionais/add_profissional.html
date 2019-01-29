@@ -49,7 +49,6 @@
                    <div class="col-md-3">
                     <div class="form-group">
                       <label class="bmd-label-floating">*Senha</label>
-                       
                         <input type="text"name="password1"class="form-control">
                     </div>
                   </div>
@@ -63,8 +62,8 @@
                  <div class="col-md-3 ">
                   <b style="color:red;">{{user_form.tipo.errors}}</b>
                    <label class="bmd-label-floating">Atuação</label>
-                      <select requerid class="selectpicker" name="tipo"data-style="select-with-transition" data-size="7">
-                        <option value="">Escolha a Função</option>
+                      <select requerid class="selectpicker"name="tipo"data-style="select-with-transition" data-size="7"id="permissao">
+                        <option value="">Escolha a Função no Sistema</option>
                         <option value="1">Atendente</option>
                         <option value="2">Profissional</option>
                     </select>
@@ -120,7 +119,7 @@
                        <b style="color:red;">{{profissional_form.area_atuacao.errors}}</b>
                       {{profissional_form.area_atuacao}}
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-3"id="numero_atendimentos">
                     <label class="bmd-label-floating">*Atendimentos por Dia</label>
                       <b style="color:red;">{{profissional_form.quantidade_atend.errors}}</b>
                       {{profissional_form.quantidade_atend}}
@@ -142,6 +141,16 @@
   </div>
 </div>
 <script>
+$(function() {
+    $('#numero_atendimentos').hide(); 
+    $('#permissao').change(function(){
+        if($('#permissao').val() == 2) {
+            $('#numero_atendimentos').show(); 
+        } else {
+            $('#numero_atendimentos').hide(); 
+        } 
+    });
+});
  jQuery(function($){
   $('#id_telefone').mask('(00) 00000-0000');
   $('#id_cpf').mask('000.000.000-00', {reverse: true});

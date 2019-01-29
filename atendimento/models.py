@@ -49,6 +49,7 @@ class Atendimento(models.Model):
     convenio     = models.ForeignKey(Convenio,on_delete=models.PROTECT)
     procedimento = models.ForeignKey(Procedimento,on_delete=models.PROTECT)
     profissional = models.ForeignKey(Profissional,on_delete=models.PROTECT)
+    guia         = models.ForeignKey('Guia',on_delete=models.PROTECT)
     ##############avaliação######################
     qp                 = models.TextField(blank=True)
     diagnostico        = models.TextField(blank=True)
@@ -74,5 +75,27 @@ class Atendimento(models.Model):
 
     def __str__(self):
         return self.tipo
-    
+    def save(self):
+        if not self.pk :
+           ### we have a newly created object, as the db id is not set
+           self.guia.quantidade -=2
+        super(Atendimento , self).save()
 
+class Guia(models.Model):
+    numero        = models.IntegerField()
+    convenio      = models.ForeignKey(Convenio,on_delete=models.SET_NULL,null=True,blank=True)
+    paciente      = models.ForeignKey(Paciente,on_delete=models.PROTECT)
+    profissional  = models.ForeignKey(Profissional,on_delete=models.PROTECT)
+    descricao     = models.TextField(blank=True)
+    quantidade    = models.IntegerField()
+    data_cadastro = models.DateField(auto_now_add = True)
+    validade      = models.DateField()
+    atualizado_em = models.DateTimeField('Atualizado em', auto_now_add=True)
+    ativo         = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Guia'
+        verbose_name_plural = 'Guias'
+
+    def __str__(self):
+        return str(self.numero) + ': ' +str(self.quantidade)

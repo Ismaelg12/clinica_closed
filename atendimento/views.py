@@ -6,7 +6,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from atendimento.forms import AgendaForm,AtendimentoForm
-from atendimento.models import Agendamento,Atendimento
+from atendimento.models import Agendamento,Atendimento,Guia
 from core.models import Sala,Convenio,Procedimento
 from pacientes.models import Paciente
 from controle_usuarios.models import Profissional
@@ -264,6 +264,8 @@ def atendimento_add(request,pk):
     })
     if form.is_valid():
         at = form.save(commit=False)
+        at.guia.quantidade -=1
+        at.guia.save()
         agendamento.status = "AT"
         agendamento.save()
         at.save()
@@ -294,7 +296,19 @@ def atendimento_detalhe(request,pk):
     return render(request,'atendimento/atendimento_detalhe.html',{'atendimento':atendimento})
 
 @login_required
-def load_procedimentos(request):
-    convenio_id = request.GET.get('convenio')
+def load_procedimentos_guias(request):
+    convenio_id   = request.GET.get('convenio')
+    paciente_id   = request.GET.get('paciente')
+    guias         = Guia.objects.filter(paciente=paciente_id)
     procedimentos = Procedimento.objects.filter(convenio=convenio_id).order_by('nome')
-    return render(request, 'atendimento/procedimentos.html', {'procedimentos': procedimentos})
+    context = {
+        'procedimentos': procedimentos,
+        'guias': guias
+    }
+    return render(request, 'atendimento/procedimentos.html',context)
+"""
+def load_guias(request):
+    country_id = request.GET.get('paciente')
+    cities = Guia.objects.filter(paciente=country_id)
+    return render(request, 'atendimento/guias.html', {})
+"""

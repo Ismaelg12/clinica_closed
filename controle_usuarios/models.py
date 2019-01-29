@@ -20,7 +20,7 @@ class Profissional(models.Model):
 	registro        = models.CharField(max_length=12, blank=True)
 	cpf             = models.CharField(max_length=14,unique=True,null=True)
 	data_nascimento = models.DateField(null=True, blank=True)
-	tipo            = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=False)
+	tipo            = models.PositiveSmallIntegerField(choices=ROLE_CHOICES,null=True,blank=False,verbose_name='Tipo (Permissão)')
 	area_atuacao    = models.CharField(max_length=2,blank=True,null=True,choices=AREA)
 	quantidade_atend= models.IntegerField(blank=True,choices=list(zip(range(1, 11), range(1, 11))),null=True)
 	data_cadastro   = models.DateField(auto_now_add = True)

@@ -41,7 +41,7 @@
 	                        <div class="tab-pane active" id="Evolução">
 	                            <div class="col-lg-12">
 	                               <div class="card-body">
-						                <form method="POST"id="atendForm" data-cities-url="{% url 'ajax_load_proced' %}" novalidate>
+						                <form method="POST"id="atendForm" data-select-url="{% url 'ajax_load_proced' %}" novalidate>
 						                  	{% csrf_token %}
 										    <div class="row">
 												<div class="col-md-4">
@@ -84,7 +84,7 @@
 							                        </div>
 													</div>
 							                      </div>
-							                      <div class="col-md-4">
+							                      <div class="col-md-2">
 							                        <div class="form-group">
 													<div id="cp_5">	
 							                          <label class="bmd-label-floating">* Convenio</label>
@@ -97,6 +97,14 @@
 													<div id="cp_6">	
 							                          <label>Procedimento</label>
 							                          {{form.procedimento}}
+							                        </div>
+													</div>
+							                      </div>
+							                      <div class="col-md-2">
+							                        <div class="form-group">
+													<div id="cp_5">	
+							                          <label class="bmd-label-floating">* Guia</label>
+							                         {{form.guia}}
 							                        </div>
 													</div>
 							                      </div>
@@ -357,7 +365,7 @@
 	    "firstDay": 0
 	}});
 	$("#id_convenio").change(function () {
-      var url = $("#atendForm").attr("data-cities-url");  // get the url of the `load_cities` view
+      var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view
       var convenioId = $(this).val();  // get the selected convenio ID from the HTML input
 
      $.ajax({                       // initialize an AJAX request
@@ -367,6 +375,20 @@
         },
         success: function (data) {   // `data` is the return of the `load_convenios` view function
           $("#id_procedimento").html(data);  // replace the contents of the id_procedimento input with the data that came from the server
+        }
+    });
+   });
+	$("#id_paciente").change(function () {
+      var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view
+      var pacienteId = $(this).val();  // get the selected convenio ID from the HTML input
+
+     $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'paciente': pacienteId       // add the convenio id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_convenios` view function
+          $("#id_guia").html(data);  // replace the contents of the id_procedimento input with the data that came from the server
         }
     });
    });

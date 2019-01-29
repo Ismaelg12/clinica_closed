@@ -81,13 +81,15 @@ def profissional_detalhe(request,pk):
 @login_required   
 def update_profissional(request,pk):
     profissional = Profissional.objects.get(pk=pk)
+    at                  = Profissional.objects.filter(user=request.user,tipo=1)
+    profissionals        = Profissional.objects.filter(user=request.user,tipo=2)
     profissional_form = ProfissinalForm(request.POST or None, instance=profissional)
     if profissional_form.is_valid():
         profissional_form.save()
         messages.success(request, ('Dados atualizados com Sucesso!'))
         return redirect('home')
     return render(request, 'profissionais/edit_profissional.html', {
-        'profissional_form': profissional_form
+        'profissional_form': profissional_form,'atend':at,'prof':profissionals
     })
 
 
