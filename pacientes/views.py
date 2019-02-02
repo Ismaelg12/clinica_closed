@@ -3,7 +3,9 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView,DetailView
 from django.urls import reverse_lazy
 from pacientes.models import Paciente
-from atendimento.models import Atendimento,Agendamento
+from controle_usuarios.models import Profissional
+from atendimento.models import Atendimento,Agendamento,Guia
+from financeiro.models import ContaReceber
 from django.contrib import messages
 from pacientes.forms import PacienteForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -32,32 +34,6 @@ class PacienteUpdateView(LoginRequiredMixin,UpdateView):
     form_class    = PacienteForm
     success_url   = reverse_lazy('lista_pacientes')
 
-"""
-class PacienteDeleteView(LoginRequiredMixin,DeleteView):
-    model         = Paciente
-    success_url   = reverse_lazy('lista_pacientes')
-    error_url = reverse_lazy('atendimentos')
-    def get(self, *args, **kwargs):
-        return self.post(*args, **kwargs)
-    
-    def get_error_url(self):
-        if self.error_url:
-            return self.error_url.format(**self.object.__dict__)
-        else:
-            raise ImproperlyConfigured(
-               "No error URL to redirect to. Provide a error_url.")
-
-    def delete(self, request, *args, **kwargs):
-       self.object = self.get_object()
-       success_url = self.get_success_url()
-       error_url = self.get_error_url()
-       try:
-            self.object.delete()
-            return HttpResponseRedirect(success_url)
-       except models.ProtectedError:
-            return HttpResponseRedirect(error_url)    
-"""
-
 @login_required 
 def PacienteDeleteView(request,pk):
     try :
@@ -75,16 +51,27 @@ class PacienteDetailView(LoginRequiredMixin,DetailView):
 
 @login_required 
 def paciente_historico(request,pk):
-    paciente = get_object_or_404(Paciente,pk=pk)
-    agendamentos_count = Agendamento.objects.filter(paciente=paciente)
-    atendimentos = Atendimento.objects.filter(paciente=paciente)
-    atendimento_evolucao = Atendimento.objects.filter(paciente=paciente,)
+    #quesyset apenas para condição no template
+    profissional          = Profissional.objects.filter(user=request.user,tipo=2)
+    paciente              = get_object_or_404(Paciente,pk=pk)
+    agendamentos_count    = Agendamento.objects.filter(paciente=paciente).count()
+    agendamentos_DM_count = Agendamento.objects.filter(paciente=paciente,status='DM').count()
+    agendamentos_CC_count = Agendamento.objects.filter(paciente=paciente,status='CC').count()
+    atendimentos          = Atendimento.objects.filter(paciente=paciente)
+    atendimento_evolucao  = Atendimento.objects.filter(paciente=paciente,tipo='EV').count()
     atendimento_avaliacao = Atendimento.objects.filter(paciente=paciente,tipo='AV').count()
+    guias = Guia.objects.filter(paciente=paciente).order_by('-validade')
+    contas= ContaReceber.objects.filter(paciente=paciente).order_by('-data')
     context = {
+        'profissional':profissional,
         'atendimentos':atendimentos,
-        'evolucao_avaliacao':atendimento_evolucao,
+        'evolucao':atendimento_evolucao,
         'avaliacao':atendimento_avaliacao,
         'paciente':paciente,
         'agendamentos':agendamentos_count,
+        'agendamentos_DM_count':agendamentos_DM_count,
+        'agendamentos_CC_count':agendamentos_CC_count,
+        'guias':guias,
+        'contas':contas,
     }
     return render(request,'historico.html',context)

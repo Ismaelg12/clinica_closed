@@ -50,25 +50,7 @@
 													{{form.tipo}}
 													</div>
 						                      	</div>
-						                      <div class="col-md-4">
-						                        <div class="form-group">
-												<div id="cp_1">	
-						                          <label class="bmd-label-floating">* Paciente</label>
-						                          {{form.paciente}}
-						                        </div>
-												</div>
-						                      </div>
-						                      <div class="col-md-4">
-						                        <div class="form-group">
-												<div id="cp_2">	
-						                          <label>* Data</label>
-						                          {{form.data}}
-						                        </div>
-												</div>
-						                      </div>
-						                    </div>
-						                    <div class="row">
-												<div class="col-md-2">
+						                     <div class="col-md-2">
 							                        <div class="form-group">
 													<div id="cp_3">	
 							                          <label>* Inicio Atendimento</label>
@@ -84,6 +66,24 @@
 							                        </div>
 													</div>
 							                      </div>
+						                      <div class="col-md-4">
+						                        <div class="form-group">
+												<div id="cp_2">	
+						                          <label>* Data</label>
+						                          {{form.data}}
+						                        </div>
+												</div>
+						                      </div>
+						                    </div>
+						                    <div class="row">
+						                    	<div class="col-md-4">
+							                        <div class="form-group">
+													<div id="cp_1">	
+							                          <label class="bmd-label-floating">* Paciente</label>
+							                          {{form.paciente}}
+							                        </div>
+													</div>
+						                      	</div>
 							                      <div class="col-md-2">
 							                        <div class="form-group">
 													<div id="cp_5">	
@@ -103,7 +103,7 @@
 							                      <div class="col-md-2">
 							                        <div class="form-group">
 													<div id="cp_5">	
-							                          <label class="bmd-label-floating">* Guia</label>
+							                          <label class="bmd-label-floating">* Guia - Seções</label>
 							                         {{form.guia}}
 							                        </div>
 													</div>
@@ -299,7 +299,7 @@
 						                    </div>
 											<div id="cp_23">
 							                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-												<a href="{% url 'atendimentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+												<a href="{% url 'agendamentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
 						                    </div>
 						                  </form>
 						                </div>

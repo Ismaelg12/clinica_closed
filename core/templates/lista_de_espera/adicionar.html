@@ -31,7 +31,7 @@
                    <h4 class="card-title ">Adicionar</h4>
               </div>
                 <div class="card-content">
-                 <form method="POST">
+                  <form method="POST"id="EsperaForm" data-select-url="{% url 'ajax_load_profissionais' %}" novalidate>
                     {% csrf_token %}
                     <div class="row">
                       <div class="col-md-12"><br>
@@ -49,6 +49,19 @@
   </div>
 </div>
 <script>
+  $("#id_especialidade").change(function () {
+      var url = $("#EsperaForm").attr("data-select-url"); 
+      var especialidade = $(this).val();  
+     $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request 
+        data: {
+          'profissional': especialidade       // add the convenio id to the GET parameters
+        },
+        success: function (data) {  
+          $("#id_profissional").html(data); 
+        }
+    });
+   });
    jQuery(function($){
     $('#id_telefone').mask('(00) 00000-0000');
   });

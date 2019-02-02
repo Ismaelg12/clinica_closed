@@ -99,13 +99,24 @@
                                 </div>
                                 <hr>
                                 {% endif %}
-                                {% if atendimento.data %} 
+                                {% if atendimento.procedimento %} 
                                  <div class="row">
                                     <div class="col-sm-3 col-md-2 col-5">
                                         <label style="font-weight:bold;">Procedimento</label>
                                     </div>
                                     <div class="col-md-8 col-6">
                                        {{ atendimento.procedimento }}
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endif %}
+                            {% if atendimento.guia %} 
+                                 <div class="row">
+                                    <div class="col-sm-3 col-md-2 col-5">
+                                        <label style="font-weight:bold;">Guia</label>
+                                    </div>
+                                    <div class="col-md-8 col-6">
+                                       {{ atendimento.guia }}
                                     </div>
                                 </div>
                                 <hr>

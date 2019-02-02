@@ -1,7 +1,9 @@
 from django import forms
 from atendimento.models import Agendamento,Atendimento,Guia
 from core.models import Procedimento
+from pacientes.models import Paciente
 from controle_usuarios.models import Profissional
+
 class AgendaForm(forms.ModelForm):
     #filtra apenas os profissionais que trabalham como fisioterapeutas
     def __init__(self, *args, **kwargs):
@@ -74,3 +76,21 @@ class AtendimentoForm(forms.ModelForm):
         elif self.instance.pk:
             self.fields['procedimento'].queryset = self.instance.convenio.procedimento_set.order_by('nome')
             self.fields['guia'].queryset = self.instance.paciente.guia_set
+
+class GuiaForm(forms.ModelForm):
+    class Meta:
+        model = Guia
+        fields = '__all__'
+        widgets = {
+            'numero'      : forms.TextInput(attrs={'class': 'form-control'}),
+            'convenio'    : forms.Select(attrs={'class':'selectpicker',
+            'data-style':'select-with-transition','data-size':7}),
+            'paciente'    : forms.Select(attrs={'class':'selectpicker',
+            'data-style':'select-with-transition','data-size':7}),
+            'profissional': forms.Select(attrs={'class':'selectpicker',
+            'data-style':'select-with-transition','data-size':7}),
+            'quantidade'  : forms.NumberInput(attrs={'class': 'form-control'}),
+            'validade'    : forms.DateInput(attrs={'class': 'form-control'}),
+            'descricao'   : forms.Textarea(attrs={'class': 'form-control','cols' : "5", 'rows': "1",}),  
+        }
+        

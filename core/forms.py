@@ -1,6 +1,6 @@
 from django import forms
 from core.models import Convenio,Sala,Procedimento,ListaEspera
-
+from controle_usuarios.models import Profissional
 TRUE_FALSE_CHOICES = (
     (True, 'Sim'),
     (False, 'Não')
@@ -38,6 +38,20 @@ class ProcedimentoForm(forms.ModelForm):
             'descricao' : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "3",}), 
         }
 class ListaEsperaForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['profissional'].queryset = Profissional.objects.none()
+        """
+        if 'especialidade' in self.data:
+            try:
+                especialidade = int(self.data.get('especialidade'))
+                print(especialidade)
+                self.fields['profissional'].queryset = Procedimento.objects.filter(area_atuacao=especialidade).order_by('nome')
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['profissional'].queryset = self.instance.especialidade.profissional_set.order_by('nome')
+        """
     class Meta:
         model =  ListaEspera
         fields = '__all__'
@@ -45,6 +59,8 @@ class ListaEsperaForm(forms.ModelForm):
             'nome'           : forms.TextInput(attrs={'class': 'form-control','required': 'true' }),
             'telefone'       : forms.TextInput(attrs={'class': 'form-control','required': 'true' }),
             'sexo'           : forms.Select(attrs={'class': 'form-control','required': 'true' }),
+            'especialidade'  : forms.Select(attrs={'class': 'form-control','required': 'true' }),
+            'profissional'   : forms.Select(attrs={'class': 'form-control','required': 'true' }),
             'data_nascimento': forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
             'observacao'     : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "3",}), 
         }

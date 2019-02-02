@@ -1,5 +1,16 @@
 # -*- coding: utf-8 -*-
-
+FORMA_PAGAMENTO = (
+    ('CV','Convênio'),
+    ('DI','Dinheiro'),
+    ('CC','Cartão de crédito'),
+    ('BB','Boleto bancário'),
+    ('TB','Transferência bancária'),
+    ('DC','Débito em Conta'),
+)
+STATUS_CONTA = (
+    ('PG','Pago'),
+    ('PD','Pendente'),
+)
 ATENDIMENTO = (
     ('EV','Evolução'),
     ('AV','Avaliação'),

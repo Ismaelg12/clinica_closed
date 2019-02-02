@@ -16,5 +16,9 @@ urlpatterns = [
 	path('atendimento/detalhe/<int:pk>/',views.atendimento_detalhe,name='detalhe_atendimento'),
 	path('excluir/atendimento/<int:pk>/',views.excluir_atendimento,name='excluir_atendimento'),
 	path('ajax/procedimentos/', views.load_procedimentos_guias, name='ajax_load_proced'),
-	#path('ajax/guias/', views.load_guias, name='ajax_load_guia'),
+	#############Guias#############
+	path('guias',views.guias,name='guias'),
+	path('adicionar/guia',views.adicionar_guia,name='add_guia'),
+	path('atualizar/guia/<int:pk>/',views.update_guia,name='update_guia'),
+	
 ]

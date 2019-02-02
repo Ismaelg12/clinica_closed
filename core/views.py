@@ -21,18 +21,20 @@ from django.contrib.auth.decorators import login_required
 '''
 class DashboardView(TemplateView,DashboardMixin):
     template_name = 'dashboard.html'
-    """
+    
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardView, self).get_context_data(*args, **kwargs)
         #contexto enviado para permmissoes de atendentee profissional
         context['atendente'] = Profissional.objects.filter(
             user=self.request.user,tipo=1
         )
+        """
         context['profissional'] = Profissional.objects.filter(
             user=self.request.user,tipo=2
         )
+        """
         return context
-    """
+    
 '''
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                          view de lista de vagas
@@ -168,9 +170,18 @@ class EsperaCreateView(LoginRequiredMixin,CreateView):
     success_url   = reverse_lazy('lista_espera')
 
 class EsperaListView(LoginRequiredMixin,ListView):
-    model = ListaEspera
-    context_object_name = 'lista'
+    model         = ListaEspera
     template_name = 'lista_de_espera/lista.html'
+    
+    def get_context_data(self, **kwargs):
+        #pf é querysets para exibir profissionais no template para o filtro
+        pf            = Profissional.objects.filter(tipo=2,user=self.request.user,)
+        context = super(EsperaListView, self).get_context_data(**kwargs)
+        if pf.exists():
+            context['lista'] = ListaEspera.objects.filter(profissional__user=self.request.user)
+        else:
+            context['lista'] = ListaEspera.objects.all()
+        return context
 
 class EsperaUpdateView(LoginRequiredMixin,UpdateView):
     model         = ListaEspera
@@ -183,6 +194,16 @@ class EsperaDeleteView(LoginRequiredMixin,DeleteView):
     success_url   = reverse_lazy('lista_espera')
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
+
+@login_required
+def load_profissional(request):
+    especialidade = request.GET.get('profissional')
+    pf            = Profissional.objects.filter(area_atuacao=especialidade,)
+    context = {
+        'profissionais': pf
+    }
+    return render(request, 'lista_de_espera/profissionais.html',context)
+    
 '''
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                           Aniversariantes

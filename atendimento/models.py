@@ -75,11 +75,6 @@ class Atendimento(models.Model):
 
     def __str__(self):
         return self.tipo
-    def save(self):
-        if not self.pk :
-           ### we have a newly created object, as the db id is not set
-           self.guia.quantidade -=2
-        super(Atendimento , self).save()
 
 class Guia(models.Model):
     numero        = models.IntegerField()
@@ -88,8 +83,8 @@ class Guia(models.Model):
     profissional  = models.ForeignKey(Profissional,on_delete=models.PROTECT)
     descricao     = models.TextField(blank=True)
     quantidade    = models.IntegerField()
-    data_cadastro = models.DateField(auto_now_add = True)
     validade      = models.DateField()
+    data_cadastro = models.DateField(auto_now_add = True)
     atualizado_em = models.DateTimeField('Atualizado em', auto_now_add=True)
     ativo         = models.BooleanField(default=True)
 
@@ -98,4 +93,4 @@ class Guia(models.Model):
         verbose_name_plural = 'Guias'
 
     def __str__(self):
-        return str(self.numero) + ': ' +str(self.quantidade)
+        return str(self.numero) + ' : ' +str(self.quantidade)

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'pacientes.apps.PacientesConfig',
     'controle_usuarios.apps.ControleUsuariosConfig',
     'atendimento.apps.AtendimentoConfig',
+    'financeiro.apps.FinanceiroConfig',
     'website.apps.WebsiteConfig',
 ]
 

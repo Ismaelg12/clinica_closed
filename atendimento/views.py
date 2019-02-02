@@ -5,7 +5,7 @@ from datetime import timedelta, datetime
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-from atendimento.forms import AgendaForm,AtendimentoForm
+from atendimento.forms import AgendaForm,AtendimentoForm,GuiaForm
 from atendimento.models import Agendamento,Atendimento,Guia
 from core.models import Sala,Convenio,Procedimento
 from pacientes.models import Paciente
@@ -166,9 +166,59 @@ def update_agendamento(request,pk):
     agenda = Agendamento.objects.get(pk=pk)
     form = AgendaForm(request.POST or None,instance = agenda)
     if form.is_valid():
-        form.save()
-        messages.success(request,'Agendamento Atualizado com Sucesso! ')
-        return redirect('agendamentos')
+        date_form  = request.POST.get('data')
+        data_now  = datetime.strptime(date_form,'%d/%m/%Y').strftime('%Y-%m-%d')
+        agendamento = Agendamento.objects.filter(data=data_now,status__in=['AG', 'DM']).order_by(
+            'hora_inicio','hora_fim'
+        )
+        condicao = True
+        for i in agendamento:
+            hour = ":00"
+            hora_inicio = request.POST['hora_inicio']+hour
+            hora_fim = request.POST['hora_fim']+hour
+
+            if((int(i.sala.id) == int(request.POST['sala'])) and (str(i.data) == str(data_now))  
+                and (str(hora_inicio) >= (str(i.hora_inicio)) and str(hora_inicio) < str(i.hora_fim))): 
+                messages.success(request,'Esse Agendamento não pode ser salvo pq ja existe um igual no banco:( ')
+                condicao = False
+                break
+            elif((int(i.paciente.id) == int(request.POST['paciente'])) and (str(i.data) == str(data_now))  
+                and (str(hora_inicio) >= (str(i.hora_inicio)) and str(hora_inicio) < str(i.hora_fim))): 
+                messages.success(request,'Esse Agendamento não pode ser salvo pq ja existe um igual no banco:( ')
+                condicao = False
+                break
+            elif((int(i.profissional.id) == int(request.POST['profissional'])) and (str(i.data) == str(data_now))  
+                and (str(hora_inicio) >= (str(i.hora_inicio)) and str(hora_inicio) < str(i.hora_fim))): 
+                messages.success(request,'Esse Agendamento não pode ser salvo pq ja existe um igual no banco:( ')
+                condicao = False
+                break
+            else:
+                condicao = True
+                continue
+        if condicao == True:
+            form.save()
+            if 'SaveAddOther' in request.POST:
+                hora_inicio = form.cleaned_data.get('hora_inicio')
+                hora_fim = form.cleaned_data.get('hora_fim')
+                sala = form.cleaned_data.get('sala')
+                paciente = form.cleaned_data.get('paciente')
+                convenio = form.cleaned_data.get('convenio')
+                profissional = form.cleaned_data.get('profissional')
+                telefone = form.cleaned_data.get('telefone')
+
+                form = AgendaForm(initial={
+                    'hora_inicio': hora_inicio,
+                    'hora_fim': hora_fim,
+                    'sala': sala,
+                    'paciente': paciente,
+                    'convenio': convenio,
+                    'profissional': profissional,
+                    'telefone': telefone,
+                })
+                messages.success(request,'Agendamento Atualizado com Sucesso! ')
+            elif 'Save' in request.POST:
+                messages.success(request,'Agendamento Atualizado com Sucesso! ')
+                return redirect('agendamentos')
     return render(request,'agenda/adicionar_agendamento.html',{'form':form})
 """
 @login_required
@@ -258,10 +308,13 @@ def atendimento_add(request,pk):
     pf = Profissional.objects.get(user=request.user)
     agendamento = get_object_or_404(Agendamento,pk=pk)
     form = AtendimentoForm(request.POST or None,initial={
-        'paciente':agendamento.paciente,
-        #'convenio':agendamento.convenio,
+        #'paciente':agendamento.paciente,
         'profissional':pf.id,
+        'hora_inicio':agendamento.hora_inicio,
+        'hora_fim':agendamento.hora_fim,
     })
+    form.fields['profissional'].queryset = Profissional.objects.filter(id=pf.id)
+    form.fields['paciente'].queryset = Paciente.objects.filter(id=agendamento.paciente.id)
     if form.is_valid():
         at = form.save(commit=False)
         at.guia.quantidade -=1
@@ -297,18 +350,42 @@ def atendimento_detalhe(request,pk):
 
 @login_required
 def load_procedimentos_guias(request):
+    today = timezone.now()
     convenio_id   = request.GET.get('convenio')
     paciente_id   = request.GET.get('paciente')
-    guias         = Guia.objects.filter(paciente=paciente_id)
+    guias         = Guia.objects.filter(paciente=paciente_id,validade__gte=today,quantidade__gte=1)
     procedimentos = Procedimento.objects.filter(convenio=convenio_id).order_by('nome')
     context = {
         'procedimentos': procedimentos,
         'guias': guias
     }
     return render(request, 'atendimento/procedimentos.html',context)
-"""
-def load_guias(request):
-    country_id = request.GET.get('paciente')
-    cities = Guia.objects.filter(paciente=country_id)
-    return render(request, 'atendimento/guias.html', {})
-"""
+
+'''
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                           CRUD Guias
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'''
+@login_required
+def guias(request):
+    guia = Guia.objects.all()
+    return render(request,'guias/guias.html',{'guias':guia})
+
+@login_required
+def adicionar_guia(request):
+    form = GuiaForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        messages.success(request,'Guia Adicionada com Sucesso! ')
+        return redirect('guias')
+    return render(request,'guias/adicionar_guia.html',{'form':form})
+
+@login_required
+def update_guia(request,pk):
+    guia = Guia.objects.get(pk=pk)
+    form = GuiaForm(request.POST or None, instance=guia)
+    if form.is_valid():
+        form.save()
+        messages.success(request,'Guia Atualizado com Sucesso! ')
+        return redirect('guias')
+    return render(request,'guias/adicionar_guia.html',{'form':form})

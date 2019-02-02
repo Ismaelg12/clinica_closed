@@ -1,0 +1,4 @@
+<option value="">Escolha o Profissional</option>
+{% for pf in profissionais %}
+	<option value="{{ pf.pk }}">{{ pf.nome }} -- {{ pf.get_area_atuacao_display }}</option>
+{% endfor %}

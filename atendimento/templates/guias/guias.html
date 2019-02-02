@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% block datepicker %}
+<!--datatables-->
   <script src ="{% static "tables/jquery.min.js" %}"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 {% endblock datepicker %}
 {% block menu_li %}
   <li class="nav-item">
@@ -14,15 +12,15 @@
       </a>
     </li>
   <li class="nav-item active  ">
-    <a class="nav-link" href="{% url 'lista_pacientes' %}">
-    <i class="material-icons">accessible</i>
-      <p>Pacientes</p>
+    <a class="nav-link" href="#">
+     <i class="material-icons">sync</i>
+        <p>Guias</p>
     </a>
   </li>
 {% endblock menu_li %}
 {% block button_bar %}
-  <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'add_paciente' %}">
-    <i class="material-icons">person_add</i>
+  <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'add_guia' %}">
+    <i class="material-icons">add_circle</i>
   <div class="ripple-container"></div></a>
 {% endblock button_bar %}
 {% block container %}
@@ -32,42 +30,39 @@
             <div class="col-md-12">
               <div class="card">
                  <div class="card-header card-header-primary"data-background-color="purple">
-                   <h4 class="card-title">Lista de Pacientes</h4>
+                   <h4 class="card-title ">Lista de Guias</h4>
               </div>
-              <div class="card-content">
-              <div class="material-datatables">
-                <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-                    <thead class=" text-primary">
+                <div class="card-content">
+                  <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                      <thead class=" text-primary">
                         <th>Nº</th>
-                        <th>Nome</th>
-                        <th>Sexo</th>
-                        <th>Telefone</th>
-                        <th>Histórico</th>
+                        <th>Numero</th>
+                        <th>Convenio</th>
+                        <th>Paciente</th>
+                        <th>Profissional</th>
+                        <th>Validade</th>
+                        <th>Quant.</th>
                         <th>Ação</th>
                       </thead>
                       <tbody>
-                        {% for p in pacientes  %}
-                          <tr>
-                          <td>{{forloop.counter}}</td>                         
-                          <td width="20%"><b>{{p.nome}}</b></td>
-                            <td>{{p.get_sexo_display}}</td>
-                            <td>{{p.telefone}}</td>
-                            <td width="18%">
-                              <a href="{% url 'historico' p.id %}"><div style="background-color:green;text-align:center;color:white;border-radius: 5px 5px;"><font size="2">Ver Histórico</font>
-                              </div></a>
-                            </td>
-                            <td>
-                               <a href="{% url 'paciente_detalhe' p.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
-                                <a href="{% url 'update_paciente' p.id %}" title="Editar"><i class="material-icons">sync</i></a>
-                               <a href="{% url 'delete_paciente' p.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i>
-                               </a>
-                            </td>
-                          </tr>
+                        {% for guia in guias %}
+                        <tr>
+                          <td>{{forloop.counter}}</td>
+                          <td>{{guia.numero}}</td>
+                          <td>{{guia.convenio}}</td>
+                          <td>{{guia.paciente}}</td>
+                          <td>{{guia.profissional}}</td>
+                          <td>{{guia.validade|date:'d/m/Y'}}</td>
+                          <td>{{guia.quantidade}}</td>
+                          <td  width="10%">
+                            <a href="{% url 'update_guia' guia.id %}" title="Editar"><i class="material-icons">sync</i></a>
+                             <a href="" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                          </td>
+                        </tr>
                         {% endfor %}
                        </tbody>
-                            </table>
-                        </div>
-                    </div><!-- end content-->
+                    </table>
+                 </div><!-- end content-->
                 </div><!--  end card  -->
             </div> <!-- end col-md-12 -->
         </div> <!-- end row -->

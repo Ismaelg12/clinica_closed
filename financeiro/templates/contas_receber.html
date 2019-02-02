@@ -15,51 +15,50 @@
     </li>
   <li class="nav-item active  ">
     <a class="nav-link" href="#">
-     <i class="material-icons">people</i>
-        <p>Lista de Espera..</p>
+     <i class="material-icons">money</i>
+        <p>Contas a receber</p>
     </a>
   </li>
 {% endblock menu_li %}
-{% block button_bar %}
-  <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'add_lista' %}">
-    <i class="material-icons">add_circle</i>
-  <div class="ripple-container"></div></a>
-{% endblock button_bar %}
 {% block container %}
   <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
               <div class="card">
-                 <div class="card-header card-header-primary"data-background-color="purple">
-                   <h4 class="card-title ">Lista de Espera</h4>
+                 <div class="card-header card-header-primary"data-background-color="red">
+                   <h4 class="card-title ">Contas a receber</h4>
               </div>
                 <div class="card-content">
                   <table class="table" id="Table">
                       <thead class=" text-primary">
                         <th>Nº</th>
-                        <th>Nome</th>
-                        <th>Nascimento</th>
-                        <th>Sexo</th>
-                        <th>Telefone</th>
-                        <th>Especialidade</th>
-                        <th>Profissional</th>
-                        <th>Obs.</th>
+                        <th>Data</th>
+                        <th>Paciente</th>
+                        <th>Convenio</th>
+                        <th>procediemento</th>
+                        <th>Valor</th>
+                        <th>Status</th>
                         <th>Excluir</th>
                       </thead>
                       <tbody>
-                        {% for l in lista %}
+                        {% for c in contas %}
                         <tr>
                           <td>{{forloop.counter}}</td>
-                          <td>{{l.nome}}</td>
-                          <td>{{l.data_nascimento|date:'d/m/Y'}}</td>
-                          <td>{{l.sexo}}</td>
-                          <td>{{l.telefone}}</td>
-                          <td>{{l.get_especialidade_display}}</td>
-                          <td>{{l.profissional}}</td>
-                          <td>{{l.observacao}}</td>
+                          <td>{{c.data|date:'d/m/Y'}}</td>
+                          <td>{{c.paciente}}</td>
+                          <td>{{c.convenio}}</td>
+                          <td>{{c.procedimento.nome}}</td>
+                          <td><b class="text-success">{{c.valor}}</b></td>
+                          <td>
+                          	{% if c.status == 'PD' %}
+                          		<b class="text-danger">{{c.get_status_display}}</b>
+                          	{% elif c.status == 'PG' %}
+                          		<b class="text-info">{{c.get_status_display}}</b>
+                          	{% endif %}
+                          </td>
                           <td  width="10%">
-                            <a href="{% url 'deletar_lista_espera' l.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                            <a href="" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
                           </td>
                         </tr>
                         {% endfor %}
