@@ -1,6 +1,7 @@
 from django import forms
 from core.models import Convenio,Sala,Procedimento,ListaEspera
 from controle_usuarios.models import Profissional
+
 TRUE_FALSE_CHOICES = (
     (True, 'Sim'),
     (False, 'Não')
@@ -11,7 +12,8 @@ class ConvenioForm(forms.ModelForm):
         model =  Convenio
         fields = '__all__'
         widgets = {
-            'nome'       : forms.TextInput(attrs={'class': 'form-control','required': 'true' }),
+            'nome'       : forms.Select(attrs={'class':'selectpicker',
+            'data-style':'select-with-transition','data-size':7}),
             'ativo'      : forms.Select(choices=TRUE_FALSE_CHOICES,attrs={'class': 'form-control','required': 'true' }),
         }
 

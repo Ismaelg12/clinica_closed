@@ -129,9 +129,13 @@
                                   <a href="{% url 'agendamento_detalhe' agenda.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
                                   {% if agenda.status == 'AG' %}
                                     {% if not profissional %}
-                                     <a href="{% url 'liberar_agendamento' agenda.id %}"title="Liberar Agendamento">
-                                      <i class="material-icons text-success">how_to_reg</i>
-                                     </a>
+                                      {% if agenda.liberado == False %}
+                                        <a href="{% url 'liberar_agendamento' agenda.id %}"title="Liberar Agendamento">
+                                        <i class="material-icons text-primary">how_to_reg</i></a>
+                                      {% else %}
+                                      <a href="{% url 'liberar_agendamento' agenda.id %}"title="Liberar Agendamento">
+                                        <i class="material-icons text-success">how_to_reg</i></a>
+                                      {% endif %}
                                       <a href="{% url 'update_agendamento' agenda.id %}" title="Editar"><i class="material-icons text-info">sync</i></a>
                                       <a href="{% url 'desmarcar_agendamento' agenda.id %}"title="Desmarcar atendimento" onclick="return confirm('Deseja realmente desmarcar?');"><i class="material-icons text-warning">label_off</i></a>
                                       <a href="{% url 'cancel_agendamento' agenda.id %}" title="cancelar atendimento" onclick="return confirm('Deseja realmente cancelar?');"><i class="material-icons  text-danger">cancel</i></a>

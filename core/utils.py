@@ -1,4 +1,16 @@
 # -*- coding: utf-8 -*-
+
+CONVENIOS = (
+    ('particular','Particular'),
+    ('unimed','Unimed'),
+    ('humanasaude','Humana Saúde'),
+    ('saudecaixa','Saúde Caixa'),
+    ('intermed','Intermed'),
+    ('geapsaude','Geap Saúde'),
+    ('fumsa','Fusma'),
+    ('cassi','Cassi'),
+)
+
 FORMA_PAGAMENTO = (
     ('CV','Convênio'),
     ('DI','Dinheiro'),

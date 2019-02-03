@@ -27,7 +27,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary"data-background-color="purple">
-                    <h4 class="card-title">Cadastrar Guia</h4>
+                    <h4 class="card-title">Atualizar Guia</h4>
               </div>
                 <div class="card-content">
                   <form method="POST">
@@ -68,7 +68,7 @@
                       <div class="col-md-3">
                         <div class="form-group">
                           <label class="bmd-label-floating">* quantidade</label>
-                         {{form.quantidade}}
+                         <input type="text" name="quantidade"value="{{guia_quant}}"class="form-control"readonly>
                         </div>
                       </div>
                       <div class="col-md-6">

@@ -259,9 +259,14 @@ def cancel_agendamento(request,pk):
 @login_required
 def liberar_agendamento(request,pk):
     agenda = get_object_or_404(Agendamento,pk=pk)
-    agenda.liberado = True
-    agenda.save()
-    messages.success(request,'Agendamento Liberado para Atendimento pelo Profissional! ')
+    if agenda.liberado == False:
+        agenda.liberado = True
+        agenda.save()
+        messages.success(request,'Agendamento Liberado para Atendimento pelo Profissional! ')
+    else:
+        agenda.liberado = False
+        agenda.save()
+        messages.success(request,'Atenção!!!! Agendamento Não liberado. ')
     return redirect('agendamentos')
 
 @login_required
@@ -388,4 +393,5 @@ def update_guia(request,pk):
         form.save()
         messages.success(request,'Guia Atualizado com Sucesso! ')
         return redirect('guias')
-    return render(request,'guias/adicionar_guia.html',{'form':form})
+    context = {'form':form,'guia_quant':guia.quantidade}
+    return render(request,'guias/update_guia.html',context)

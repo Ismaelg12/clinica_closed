@@ -78,6 +78,11 @@ class AtendimentoForm(forms.ModelForm):
             self.fields['guia'].queryset = self.instance.paciente.guia_set
 
 class GuiaForm(forms.ModelForm):
+    #filtra apenas os profissionais que trabalham como fisioterapeutas
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['profissional'].queryset = Profissional.objects.filter(tipo=2)
+
     class Meta:
         model = Guia
         fields = '__all__'

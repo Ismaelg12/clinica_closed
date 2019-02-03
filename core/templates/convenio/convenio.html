@@ -47,7 +47,7 @@
                         {% for c in convenios %}
                         <tr>
                           <td>{{c.id}}</td>
-                          <td><b>{{c.nome}}</b></td>
+                          <td><b>{{c.get_nome_display}}</b></td>
                           <td>{{c.atualizado_em}}</td>
                           <td>                          
                           {% if c.ativo == True %}

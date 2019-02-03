@@ -1,9 +1,9 @@
 from django.db import models
-from core.utils import SEXO,AREA
+from core.utils import SEXO,AREA,CONVENIOS
 from controle_usuarios.models import Profissional
 
 class Convenio(models.Model):
-	nome          = models.CharField(max_length=40)
+	nome          = models.CharField(max_length=40,choices=CONVENIOS)
 	atualizado_em = models.DateTimeField('Atualizado em', auto_now_add=True)
 	ativo         = models.BooleanField(default=True)
 	class Meta:
