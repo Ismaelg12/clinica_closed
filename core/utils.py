@@ -15,6 +15,7 @@ FORMA_PAGAMENTO = (
     ('CV','Convênio'),
     ('DI','Dinheiro'),
     ('CC','Cartão de crédito'),
+    ('DC','Dinheiro e Cartão de crédito'),
     ('BB','Boleto bancário'),
     ('TB','Transferência bancária'),
     ('DC','Débito em Conta'),

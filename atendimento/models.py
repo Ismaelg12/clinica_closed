@@ -74,7 +74,7 @@ class Atendimento(models.Model):
         verbose_name_plural = 'Atendimentos'
 
     def __str__(self):
-        return self.tipo
+        return self.tipo + ' ' +str(self.data) 
 
 class Guia(models.Model):
     numero        = models.IntegerField()

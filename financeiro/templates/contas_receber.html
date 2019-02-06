@@ -36,7 +36,7 @@
                         <th>Data</th>
                         <th>Paciente</th>
                         <th>Convenio</th>
-                        <th>procediemento</th>
+                        <th>procedimento</th>
                         <th>Valor</th>
                         <th>Status</th>
                         <th>Excluir</th>
@@ -47,9 +47,9 @@
                           <td>{{forloop.counter}}</td>
                           <td>{{c.data|date:'d/m/Y'}}</td>
                           <td>{{c.paciente}}</td>
-                          <td>{{c.convenio}}</td>
+                          <td>{{c.convenio|upper}}</td>
                           <td>{{c.procedimento.nome}}</td>
-                          <td><b class="text-success">{{c.valor}}</b></td>
+                          <td><b class="text-success">{{c.valor_total}}</b></td>
                           <td>
                           	{% if c.status == 'PD' %}
                           		<b class="text-danger">{{c.get_status_display}}</b>
