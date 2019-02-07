@@ -1,4 +1,8 @@
 from django.contrib import admin
-from financeiro.models import ContaReceber
+from financeiro.models import ContaReceber,ContaPagar,Categoria
 
-admin.site.register(ContaReceber)
+class ContaAdmin(admin.ModelAdmin):
+	list_display = ('data','atendimento','paciente','valor_total')
+admin.site.register(ContaReceber,ContaAdmin)
+admin.site.register(ContaPagar)
+admin.site.register(Categoria)

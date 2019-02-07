@@ -253,7 +253,7 @@
                       </div>
                        <div class="box box-primary">
                         <div class="box-header with-border">
-                          <h3 class="box-title">Dados do Financeiro(Contas a pagar)</h3>
+                          <h3 class="box-title"><i class="material-icons">poll</i> Dados do Financeiro(Contas a pagar)</h3>
                         </div>
                         <div class="box-body">
                           <div class="box-body box-profile">
@@ -262,19 +262,27 @@
                                 <th>Nº</th>
                                 <th>Data</th>
                                 <th>Convenio</th>
-                                <th>procedimento</th>
+                                <th>Procedimento</th>
                                 <th>Valor</th>
+                                <th>Forma_Pagamento</th>
                                 <th>Status</th>
-                                <th>Excluir</th>
+                                <th>Visualizar</th>
                               </thead>
                               <tbody>
                                 {% for c in contas %}
                                 <tr>
                                   <td>{{forloop.counter}}</td>
                                   <td>{{c.data|date:'d/m/Y'}}</td>
-                                  <td>{{c.convenio}}</td>
+                                  <td>{{c.convenio|upper}}</td>
                                   <td>{{c.procedimento.nome}}</td>
                                   <td><b class="text-success">{{c.valor_total}}</b></td>
+                                  <td>
+                                    {% if c.get_forma_pagamento_display == '' %}
+                                      <b class="text-danger">--------</b>
+                                    {% else %}
+                                      <b class="text-info">{{c.get_forma_pagamento_display}}</b>
+                                    {% endif %}
+                                  </td>
                                   <td>
                                     {% if c.status == 'PD' %}
                                       <b class="text-danger">{{c.get_status_display}}</b>
@@ -283,7 +291,10 @@
                                     {% endif %}
                                   </td>
                                   <td  width="10%">
-                                    <a href="" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                                    <a href="" title="visualizar"><i class="material-icons">visibility</i></a>
+                                    {% if c.status == 'PD' %}
+                                     <a href="" title="Efetuar Pagamento"><i class="material-icons text-danger">monetization_on</i></a>
+                                    {% endif %}
                                   </td>
                                 </tr>
                                 {% endfor %}
