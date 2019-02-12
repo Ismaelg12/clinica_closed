@@ -13,7 +13,7 @@ class ContaReceber(models.Model):
     paciente            = models.ForeignKey(Paciente,on_delete=models.PROTECT)
     profissional        = models.ForeignKey(Profissional,on_delete=models.PROTECT)
     valor_total         = models.DecimalField(max_digits=6, decimal_places=2)
-    valor_pago_dinehiro = models.DecimalField(max_digits=6, decimal_places=2,blank=True,null=True)
+    valor_pago_dinheiro = models.DecimalField(max_digits=6, decimal_places=2,blank=True,null=True)
     valor_pago_cartao   = models.DecimalField(max_digits=6, decimal_places=2,blank=True,null=True)
     convenio            = models.ForeignKey(Convenio,on_delete=models.PROTECT)
     procedimento        = models.ForeignKey(Procedimento,on_delete=models.PROTECT)

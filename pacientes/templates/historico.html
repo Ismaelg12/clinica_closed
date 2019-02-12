@@ -293,7 +293,7 @@
                                   <td  width="10%">
                                     <a href="" title="visualizar"><i class="material-icons">visibility</i></a>
                                     {% if c.status == 'PD' %}
-                                     <a href="" title="Efetuar Pagamento"><i class="material-icons text-danger">monetization_on</i></a>
+                                     <a href="{% url 'fazer_pagamento' c.id %}" title="Efetuar Pagamento"><i class="material-icons text-danger">monetization_on</i></a>
                                     {% endif %}
                                   </td>
                                 </tr>
