@@ -31,7 +31,7 @@ def agendamento(request):
     end_date_string     = None
     agendamentos        = None
     agenda_profissional = None
-    #verifica quem esta logado, se for profissional retorn True e mostra apenas os agendamentos dele liberados
+    #verifica quem esta logado, se for profissional retorna True e mostra apenas os agendamentos dele liberados
     if profissional.exists():
         if request.GET.get('date_ranger'):
             date_range        = request.GET.get('date_ranger')

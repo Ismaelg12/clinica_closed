@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from financeiro.models import ContaReceber,ContaPagar
+from controle_usuarios.models import Profissional
 from financeiro.forms import ContaPagarForm,ContaPagamentoForm
+from django.db.models import Count,Q,Sum
+from datetime import datetime
 '''
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                          Crud de Contas a receber
@@ -8,12 +11,36 @@ from financeiro.forms import ContaPagarForm,ContaPagamentoForm
 '''
 
 def conta_receber(request):
-	conta = ContaReceber.objects.all()
-	return render(request,'contas_receber.html',{'contas':conta})
+	profissional = Profissional.objects.filter(tipo=2)
+	if request.GET.get('date_ranger'):
+		date_range          = request.GET.get('date_ranger')
+		start_date_string   = datetime.strptime(date_range.split(' / ')[0],'%d/%m/%Y').strftime('%Y-%m-%d')
+		end_date_string     = datetime.strptime(date_range.split(' / ')[1],'%d/%m/%Y').strftime('%Y-%m-%d')
+		profissional_search = request.GET.get('profissional')
+		status              = request.GET.get('status')
+		#cobnvenio            = request.GET.get('paciente')
+		if status != None:
+			conta = ContaReceber.objects.filter(data__range=(start_date_string,end_date_string),status=status)
+		else:
+			conta = ContaReceber.objects.filter(data__range=(start_date_string,end_date_string))
+	else:
+		conta = ContaReceber.objects.all().order_by('-data')
+
+	valor_total_especie = conta.aggregate(
+			total=Sum('valor_total'),
+			especie=Sum('valor_pago_dinheiro'),
+			cartao=Sum('valor_pago_cartao'),
+		)
+	context = {
+		'pf':profissional,
+		'contas':conta,
+		'valor':valor_total_especie,
+	}
+	return render(request,'contas_receber.html',context)
 
 def efetuar_pagamento(request,pk):
 	conta = get_object_or_404(ContaReceber,pk=pk)
-	form = ContaPagamentoForm(request.POST or None,instance=conta)
+	form  = ContaPagamentoForm(request.POST or None,instance=conta)
 	if form.is_valid():
 		conta.status = 'PG'
 		conta.save()

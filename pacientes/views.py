@@ -38,7 +38,7 @@ class PacienteUpdateView(LoginRequiredMixin,UpdateView):
 def PacienteDeleteView(request,pk):
     try :
         paciente = get_object_or_404(Paciente, pk=pk).delete()
-        messages.error(request, 'Paciente Deletado Com Sucesso.')
+        messages.error(request,'Paciente Deletado Com Sucesso.')
     except ProtectedError:
         messages.warning(request,
          "você não pode deletar esse paciente porque ele tem atendimentos ou agendamentos feitos")
@@ -60,8 +60,9 @@ def paciente_historico(request,pk):
     atendimentos          = Atendimento.objects.filter(paciente=paciente)
     atendimento_evolucao  = Atendimento.objects.filter(paciente=paciente,tipo='EV').count()
     atendimento_avaliacao = Atendimento.objects.filter(paciente=paciente,tipo='AV').count()
-    guias = Guia.objects.filter(paciente=paciente).order_by('-validade')
-    contas= ContaReceber.objects.filter(paciente=paciente).order_by('-data')
+    guias  = Guia.objects.filter(paciente=paciente).order_by('-validade')
+    contas = ContaReceber.objects.filter(paciente=paciente).order_by('-data')
+    
     context = {
         'profissional':profissional,
         'atendimentos':atendimentos,
@@ -71,6 +72,7 @@ def paciente_historico(request,pk):
         'agendamentos':agendamentos_count,
         'agendamentos_DM_count':agendamentos_DM_count,
         'agendamentos_CC_count':agendamentos_CC_count,
+        'evolucao_avaliacao':atendimentos,
         'guias':guias,
         'contas':contas,
     }

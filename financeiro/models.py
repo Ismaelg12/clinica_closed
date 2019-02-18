@@ -1,5 +1,5 @@
 from django.db import models
-from core.utils import STATUS_CONTA,FORMA_PAGAMENTO,PARCELAS,CATEGORIAS
+from core.utils import STATUS_CONTA,FORMA_PAGAMENTO,PARCELAS,CATEGORIAS,TIPO_CARTAO
 from atendimento.models import Atendimento
 from controle_usuarios.models import Profissional
 from pacientes.models import Paciente
@@ -20,6 +20,7 @@ class ContaReceber(models.Model):
     status              = models.CharField(max_length=2,choices=STATUS_CONTA,default='PG')
     forma_pagamento     = models.CharField(max_length=2,choices=FORMA_PAGAMENTO,
     default             ='CV',blank=True,null=True)
+    cartao_credito      = models.CharField(max_length=2,choices=TIPO_CARTAO,blank=True,null=True)
 
     class Meta:
         verbose_name = 'ContaReceber'

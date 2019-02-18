@@ -1,5 +1,6 @@
 from django.urls import path
 from atendimento import views
+from atendimento.render_pdf import *
 
 urlpatterns = [
 	path('agendamentos/',views.agendamento,name='agendamentos'),
@@ -20,5 +21,8 @@ urlpatterns = [
 	path('guias',views.guias,name='guias'),
 	path('adicionar/guia',views.adicionar_guia,name='add_guia'),
 	path('atualizar/guia/<int:pk>/',views.update_guia,name='update_guia'),
+	####PDF############
+	path('render/pdf/<int:pk>/',Pdf.as_view()),
+	path('historico/pdf/<int:pk>/',Historico_Pdf.as_view(),name='pdf_historico')
 	
 ]

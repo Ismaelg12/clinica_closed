@@ -36,23 +36,23 @@
                             <i class="material-icons">person_pin</i>Avaliações/Evoluções 
                         </a>
                     </li>
-                    {% if request.user.is_superuser or profissional%}
-                      <li class="">
-                          <a href="#evolucoes" role="tab" data-toggle="tab" aria-expanded="false">
-                            <i class="material-icons">show_chart</i>Linha do Tempo
-                          </a>
-                      </li>
-                      <li class="">
-                          <a href="#prontuario" role="tab" data-toggle="tab" aria-expanded="true">
-                            <i class="material-icons">dns</i> Prontuario
-                          </a>
-                      </li>
+                    {% if request.user.is_superuser or profissional %}
+                    <li class="">
+                        <a href="#evolucoes" role="tab" data-toggle="tab" aria-expanded="false">
+                          <i class="material-icons">show_chart</i>Linha do Tempo
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#prontuario" role="tab" data-toggle="tab" aria-expanded="true">
+                          <i class="material-icons">dns</i> Prontuario
+                        </a>
+                    </li>
                     {% endif %}
-                      <li class="">
-                          <a href="#dados" role="tab" data-toggle="tab" aria-expanded="true">
-                            <i class="material-icons">dns</i> Dados Estatisticos e Financeiros
-                          </a>
-                      </li>
+                    <li class="">
+                        <a href="#dados" role="tab" data-toggle="tab" aria-expanded="true">
+                          <i class="material-icons">dns</i> Dados Estatisticos e Financeiros
+                        </a>
+                    </li>
                 </ul>              
               </div>
               <div class="card-content">
@@ -93,7 +93,7 @@
                     }
                   </style>
               <div class="col-md-12 ">
-                <h4 class="text-center"><b>Linha do Tempo de Evoluções</b></h4>
+                <h4 class="text-center"><b>Linha do Tempo de Evoluções/Avaliações</b><a href="{% url 'pdf_historico' paciente.id %}"><i class="material-icons pull-right">print</i></a></h4>
                 <ul class="timelinep">
                   {% for ev in evolucao_avaliacao %} 
                   <li>
@@ -124,7 +124,7 @@
             </div>
                 </div>
                   <div class="tab-pane active" id="timeline">
-                    <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                    <table  class="table table-striped table-no-bordered table-hover datatables" cellspacing="0" width="100%" style="width:100%">
                       <thead class=" text-primary">
                           <th class="text-center">#</th>
                           <th>Tipo</th>
@@ -189,7 +189,7 @@
                           </div>
                           <div class="material-datatables">
                           <h3 class="text-center"><b>Guias<i class="material-icons">assignment_ind</i></b></h3>
-                          <table id="datatable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                          <table class="table table-striped table-bordered table-hover datatables" cellspacing="0" width="100%" style="width:100%">
                               <thead class="text-primary">
                                 <th>Nº</th>
                                 <th>Numero</th>
@@ -215,9 +215,6 @@
                                 </tr>
                                 {% endfor %}
                                </tbody>
-                               <tfoot>
-                                 <th class="text-center"colspan="6">Fisiolifephb</th>
-                               </tfoot>
                             </table>
                           </div>
                       </div>
@@ -257,7 +254,7 @@
                         </div>
                         <div class="box-body">
                           <div class="box-body box-profile">
-                            <table class="table" id="Table">
+                             <table class="table table-striped table-no-bordered table-hover datatables" cellspacing="0" width="100%" style="width:100%">
                               <thead class=" text-primary">
                                 <th>Nº</th>
                                 <th>Data</th>
@@ -265,6 +262,8 @@
                                 <th>Procedimento</th>
                                 <th>Valor</th>
                                 <th>Forma_Pagamento</th>
+                                <th>$ Cartão</th>
+                                <th>$ Especie</th>
                                 <th>Status</th>
                                 <th>Visualizar</th>
                               </thead>
@@ -275,12 +274,28 @@
                                   <td>{{c.data|date:'d/m/Y'}}</td>
                                   <td>{{c.convenio|upper}}</td>
                                   <td>{{c.procedimento.nome}}</td>
-                                  <td><b class="text-success">{{c.valor_total}}</b></td>
+                                  <td>
+                                    <b class="text-success">{{c.valor_total}}</b>
+                                  </td>
                                   <td>
                                     {% if c.get_forma_pagamento_display == '' %}
                                       <b class="text-danger">--------</b>
                                     {% else %}
                                       <b class="text-info">{{c.get_forma_pagamento_display}}</b>
+                                    {% endif %}
+                                  </td>
+                                  <td>
+                                    {% if c.valor_pago_cartao%}
+                                      {{c.valor_pago_cartao}}
+                                    {% else %}
+                                      0,00
+                                    {% endif %}
+                                  </td>
+                                  <td>
+                                    {% if c.valor_pago_dinheiro%}
+                                      {{c.valor_pago_dinheiro}}
+                                    {% else %}
+                                      0,00
                                     {% endif %}
                                   </td>
                                   <td>
@@ -292,8 +307,11 @@
                                   </td>
                                   <td  width="10%">
                                     <a href="" title="visualizar"><i class="material-icons">visibility</i></a>
-                                    {% if c.status == 'PD' %}
-                                     <a href="{% url 'fazer_pagamento' c.id %}" title="Efetuar Pagamento"><i class="material-icons text-danger">monetization_on</i></a>
+                                    {% if not profissional %}
+                                    <!--profissional não pode ver o botão pagar-->
+                                      {% if c.status == 'PD' %}
+                                      <a href="{% url 'fazer_pagamento' c.id %}" title="Efetuar Pagamento"><i class="material-icons text-danger">monetization_on</i></a>
+                                      {% endif %}
                                     {% endif %}
                                   </td>
                                 </tr>
@@ -313,7 +331,7 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#datatable').DataTable({
+    $('.datatables').DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
       responsive: true,
@@ -338,7 +356,7 @@
     });
 
 
-    var table = $('#datatables').DataTable();
+    var table = $('.datatables').DataTable();
 
     // Edit record
     table.on( 'click', '.edit', function () {

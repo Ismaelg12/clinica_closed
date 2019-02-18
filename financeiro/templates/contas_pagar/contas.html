@@ -16,7 +16,7 @@
   <li class="nav-item active  ">
     <a class="nav-link" href="#">
      <i class="material-icons">money</i>
-        <p>Contas a receber</p>
+        <p>Contas a pagar</p>
     </a>
   </li>
 {% endblock menu_li %}
@@ -31,8 +31,8 @@
         <div class="row">
             <div class="col-md-12">
               <div class="card">
-                 <div class="card-header card-header-primary"data-background-color="red">
-                   <h4 class="card-title ">Contas a Pagar</h4>
+                <div class="card-header card-header-primary"data-background-color="red">
+                <h4 class="card-title">Contas a Pagar</h4>
               </div>
                 <div class="card-content">
                   <table class="table" id="Table">
@@ -53,7 +53,7 @@
                           <td>{{c.descricao}}</td>
                           <td>{{c.vencimento|date:'d/m/Y'}}</td>
                           <td>{{c.valor_total}}</td>
-                          <td>{{c.forma_pagamento}}</td>
+                          <td>{{c.get_forma_pagamento_display}}</td>
                           <td>{{c.categoria}}</td>
                           <td>{{c.status_pag}}</td>
                           <td  width="10%">

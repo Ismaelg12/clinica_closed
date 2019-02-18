@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 
+TIPO_CARTAO = (
+    ('VS','Visa'),
+    ('MC','Mastercard'),
+    ('AE','American Express'),
+    ('EO','Elo')
+)
+
 CATEGORIAS = (
     ('AL','Aluguel'),
     ('EE',' Energia Elétrica'),
@@ -38,7 +45,7 @@ FORMA_PAGAMENTO = (
     ('CV','Convênio'),
     ('DI','Dinheiro'),
     ('CC','Cartão de crédito'),
-    ('DC','Dinheiro e Cartão de crédito'),
+    ('EC','Dinheiro e Cartão'),
     ('BB','Boleto bancário'),
     ('TB','Transferência bancária'),
     ('DC','Débito em Conta'),

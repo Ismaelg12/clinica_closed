@@ -4,12 +4,14 @@ from financeiro.models import *
 class ContaPagamentoForm(forms.ModelForm):
     class Meta:
         model = ContaReceber
-        fields = ['forma_pagamento','valor_pago_dinheiro','valor_pago_cartao']
+        fields = ['forma_pagamento','valor_pago_dinheiro','valor_pago_cartao','cartao_credito']
         widgets = {
             'forma_pagamento':forms.Select(attrs={'class':'selectpicker',
             'data-style':'select-with-transition','data-size':7}),
             'valor_pago_dinheiro':forms.NumberInput(attrs={'class': 'form-control','placeholder':'R$ 0,00'}),
             'valor_pago_cartao':forms.NumberInput(attrs={'class': 'form-control','placeholder':'R$ 0,00'}),
+            'cartao_credito':forms.Select(attrs={'class': 'selectpicker',
+            'data-style':'select-with-transition','data-size':7}),
         }
 
 class ContaPagarForm(forms.ModelForm):
