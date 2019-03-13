@@ -8,7 +8,7 @@ class Paciente(models.Model):
 	nome            = models.CharField(max_length=40)
 	data_nascimento = models.DateField()
 	sexo            = models.CharField('Sexo', max_length=1, choices=SEXO, blank=True)
-	cpf             = models.CharField(max_length=14,unique=True,blank=True)
+	cpf             = models.CharField(max_length=14,unique=True,blank=True,null=True)
 	rg              = models.CharField(max_length=14,blank=True)
 	uf              = models.CharField(max_length=2,choices=UF,default='PI')
 	#endereco
