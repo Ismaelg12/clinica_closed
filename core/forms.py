@@ -34,11 +34,13 @@ class ProcedimentoForm(forms.ModelForm):
         widgets = {
             'codigo'    : forms.NumberInput(attrs={'class': 'form-control','required': 'true' }),
             'nome'      : forms.TextInput(attrs={'class': 'form-control','required': 'true' }),
-            'convenio'  : forms.Select(attrs={'class': 'form-control','required': 'true' }),
+            'convenio'  : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
+                'data-size':5,'required': 'true' }),
             'valor'     : forms.NumberInput(attrs={'class': 'form-control','required': 'true','step': "0.01"}),
             'ativo'     : forms.Select(choices=TRUE_FALSE_CHOICES,attrs={'class': 'form-control','required': 'true','step': "0.01"}),
             'descricao' : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "3",}), 
         }
+        
 class ListaEsperaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

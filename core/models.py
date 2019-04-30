@@ -11,7 +11,7 @@ class Convenio(models.Model):
 		verbose_name_plural = 'Convenios'
 
 	def __str__(self):
-		return self.nome
+		return self.nome.upper()
 
 
 class Sala(models.Model):

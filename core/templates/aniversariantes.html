@@ -39,7 +39,7 @@
                       <tbody>
                         {% for p in pacientes  %}
                           <tr>
-                          <td>{{p.id}}</td>
+                          <td>{{forloop.counter}}</td>
                           <td>{{p.nome}}</td>
                             <td>{{p.email}}</td>
                             <td>{{p.telefone}}</td>
