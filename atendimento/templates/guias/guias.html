@@ -3,6 +3,15 @@
 {% block datepicker %}
 <!--datatables-->
   <script src ="{% static "tables/jquery.min.js" %}"></script>
+  <style> 
+  /* coloca um cor no numero de sessões da gua*/    
+  .badge.badge-danger {
+      background-color: #f44336;
+    }
+    .badge.badge-warning {
+      background-color: orange;
+    }
+  </style>
 {% endblock datepicker %}
 {% block menu_li %}
   <li class="nav-item">
@@ -35,28 +44,60 @@
                 <div class="card-content">
                   <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                       <thead class=" text-primary">
-                        <th>Nº</th>
                         <th>Numero</th>
-                        <th>Convenio</th>
+                        <th>Convênio</th>
                         <th>Paciente</th>
-                        <th>Profissional</th>
                         <th>Validade</th>
                         <th>Quant.</th>
-                        <th>Ação</th>
+                        <th>Status</th>
+                        <th>Ativo</th>
+                        <th>Ações</th>
                       </thead>
                       <tbody>
                         {% for guia in guias %}
                         <tr>
-                          <td>{{forloop.counter}}</td>
                           <td>{{guia.numero}}</td>
                           <td>{{guia.convenio}}</td>
                           <td>{{guia.paciente}}</td>
-                          <td>{{guia.profissional}}</td>
-                          <td>{{guia.validade|date:'d/m/Y'}}</td>
-                          <td>{{guia.quantidade}}</td>
+                          {% if guia.verifica_vencimento == 'Vencido' %}
+                            <td><span class="badge badge-danger">{{guia.validade|date:"d/m/Y"}}</span></td>
+                          {% elif guia.verifica_vencimento == 'Alerta' %}
+                            <td><span class="badge badge-warning">{{guia.validade|date:"d/m/Y"}}</span></td>
+                          {% elif guia.verifica_vencimento == 'Valido' %}
+                            <td><b>{{guia.validade|date:"d/m/Y"}}</b></td>
+                          {% endif %}  
+                          <td>
+                            {% if guia.quantidade == 2 %}
+                              <span class="badge badge-pill badge-warning">{{guia.quantidade}}</span>
+                              {% else %}
+                              {{guia.quantidade}}
+                            {% endif %}
+                          </td>
+                          {% if guia.status == "I" %}
+                            <td class="text-danger"><b>{{guia.get_status_display}}</b></td>
+                          {% else %}
+                           <td><b>{{guia.get_status_display}}</b></td>
+                          {% endif %}
+                          <th>{% if guia.ativo == True %}
+                            <b class="text-success"><i class="material-icons">check_circle</i></b>  
+                          {% else %}
+                            <b class="text-danger"><i class="material-icons"title="Guia Finalizada">cancel</i></b>
+                          {% endif %}</th>
                           <td  width="10%">
-                            <a href="{% url 'update_guia' guia.id %}" title="Editar"><i class="material-icons">sync</i></a>
-                             <a href="" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                            <a href="{% if guia.ativo == True %}{% url 'update_guia' guia.id %}{% endif %}" title="Editar"><i class="material-icons">sync</i></a>
+                            {% if guia.status == "I" %}
+                              <a href="#" title="Validar Guia"><i class="material-icons">assignment_turned_in</i></a>
+                            {% else %}
+                              <a href="{% if guia.ativo == True %}{% url 'validar_guia' guia.id %}{% endif %}" title="Revalidar Guia"><i class="
+                                {% if guia.validada == True %}%}
+                                  material-icons text-danger
+                                {% else %}
+                                  material-icons text-success
+                                {% endif %}">assignment_turned_in</i></a>
+                            {% endif %}
+                            <br>                         
+                            <a href="{% if guia.ativo == True %}{% url 'excluir_guia' guia.id %}{% endif %}"title="Remover" onclick="{% if guia.ativo == True %}return confirm('Deseja realmente excluir?');{% endif %}"><i class="material-icons  text-warning">delete</i></a>
+                            <a href="{% if guia.ativo == True %}{% url 'finalizar_guia' guia.id %}{% endif %}" title="Finalizar Guia" onclick="return confirm('Deseja realmente Finalizar essa Guia?');"><i class="material-icons">power</i></a>
                           </td>
                         </tr>
                         {% endfor %}

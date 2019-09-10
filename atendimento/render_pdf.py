@@ -8,17 +8,7 @@ from django.utils import timezone
 from atendimento.models import Atendimento
 from pacientes.models import Paciente
 
-class Pdf(View):
-    def get(self, request,pk):
-        atendimento = get_object_or_404(Atendimento,pk=pk)
-        today = timezone.now()
-        params = {
-            'today': today,
-            'atendimento': atendimento,
-            'request': request
-        }
-        return Render.render('relatorios/atendimento_detalhe_pdf.html', params)
-
+#atendimentos
 class Historico_Pdf(View):
     def get(self, request,pk):
         paciente              = get_object_or_404(Paciente,pk=pk)
@@ -30,6 +20,20 @@ class Historico_Pdf(View):
             'request': request
         }
         return Render.render('relatorios/atendimentos_paciente_pdf.html', params) 
+
+
+#classes para funcionar a função PDF
+class Pdf(View):
+    def get(self, request,pk):
+        atendimento = get_object_or_404(Atendimento,pk=pk)
+        today = timezone.now()
+        params = {
+            'today': today,
+            'atendimento': atendimento,
+            'request': request
+        }
+        return Render.render('relatorios/atendimento_detalhe_pdf.html', params)
+
 
 class Render:
     @staticmethod

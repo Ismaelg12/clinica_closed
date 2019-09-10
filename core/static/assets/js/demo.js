@@ -1101,7 +1101,8 @@ demo = {
 
             // color classes: [ event-blue | event-azure | event-green | event-orange | event-red ]
             events: [
-				{
+				{   
+                    
 					title: 'All Day Event',
 					start: new Date(y, m, 1),
                     className: 'event-default'

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+  <script src ="{% static "tables/jquery.min.js" %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="#">
+     <i class="material-icons">accessible</i>
+      <p>Lista de Espera</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                 <div class="card-header card-header-primary"data-background-color="purple">
+                   <h4 class="card-title ">Dados Cadastrais</h4>
+              </div>
+                <div class="card-content">
+                  <form>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Nome</label>
+                          <input type="text" value="{{espera.nome|title}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>* Data de Nascimento</label>
+                          <input value="{{espera.data_nascimento|date:"d/m/Y"}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Sexo</label>
+                          <input type="text" value="{{espera.get_sexo_display}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating"> Telefone</label>
+                          <input type="text" value="{{espera.telefone}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                       <div class="col-md-3">
+                          <label>Turno</label>
+                          <br><br>
+                          <div>
+                            {% if espera.turno_manha %}
+                              <b>Manhã</b>
+                            {% endif %}
+                            {% if espera.turno_tarde %}
+                              <b>Tarde</b>
+                            {% endif %}
+                            {% if espera.turno_noite %}
+                              <b>Noite</b>
+                            {% endif %}
+                          </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Profissional Desejado</label>
+                          <input type="text" value="{{espera.profissional}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">* Especialidade</label>
+                          <input type="text" value="{{espera.get_especialidade_display}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating"> Observação</label>
+                          <input type="text" value="{{paciente.observacao}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="{% url 'lista_espera' %}" class="btn btn-primary btn-group">Voltar</a>
+                     <a href="{% url 'migrar_paciente' espera.id %}" class="btn btn-success btn-group pull-right">Migrar Para Lista de Paciente</a>
+                    <div class="clearfix"></div>
+                  </form>
+                  </div><!-- end content-->
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+{% endblock container %}

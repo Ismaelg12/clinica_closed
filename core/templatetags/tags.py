@@ -1,10 +1,11 @@
 from django import template
-from atendimento.models import Agendamento
+from agenda.models import Agendamento
 register = template.Library()
 
 @register.filter
 def subtract(value, arg):
-    if arg > value:
+    #realiza subtrações de modelos
+    if float(arg) > value:
         return 0
     else:
         return value - arg

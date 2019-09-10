@@ -1,3 +1,3 @@
-# fisiolife
+# psicocenter
 
-sistema web de fisioterapia para a clinica fisiolife em parnaiba.
+sistema web de fisioterapia para a clinica psicocenter em parnaiba.

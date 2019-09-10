@@ -3,8 +3,9 @@ from django.db.models import Count
 import datetime
 from pacientes.models import Paciente
 from core.models import Convenio
-from atendimento.models import Agendamento
+from agenda.models import Agendamento
 from django.utils import timezone
+
 class DashboardMixin(object):
 	def clientes(self):
 		return Paciente.objects.all().count()

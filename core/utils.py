@@ -14,6 +14,11 @@ CATEGORIAS = (
     ('TE','Telefone')
 )
 
+RECEPTOR_PAGAMENTO = (
+    ('PF','Profissional'),
+    ('RC','Recepção'),
+)
+
 PARCELAS =  (
     (0, 'Escolha uma opção'),
     (1, '1x'),
@@ -30,15 +35,24 @@ PARCELAS =  (
     (12, '12x'),
     
 )
+
 CONVENIOS = (
     ('particular','Particular'),
     ('unimed','Unimed'),
-    ('humanasaude','Humana Saúde'),
-    ('saudecaixa','Saúde Caixa'),
     ('intermed','Intermed'),
+    ('humanasaude','Humana Saúde'),
     ('geapsaude','Geap Saúde'),
     ('fusma','Fusma'),
     ('cassi','Cassi'),
+    ('caixa_economica','Caixa Economica'),
+    ('camed','Camed'),
+    ('medplan','Medplan'),
+    ('petrobras','Petrobrás'),
+    ('capsesp','Capsesp'),
+    ('bradesco','Bradesco'),
+    ('assefaz','Assefaz'),
+    ('correios','Correios'),
+    ('pro_bomo','Pro Bomo'),
 )
 
 FORMA_PAGAMENTO = (
@@ -48,18 +62,22 @@ FORMA_PAGAMENTO = (
     ('EC','Dinheiro e Cartão'),
     ('BB','Boleto bancário'),
     ('TB','Transferência bancária'),
-    ('DC','Débito em Conta'),
 )
+
 STATUS_CONTA = (
     ('PG','Pago'),
     ('PD','Pendente'),
+    ('FT','Faturado'),
+    ('PC','Parcial'),
 )
-ATENDIMENTO = (
+
+TIPO_ATENDIMENTO = (
     ('EV','Evolução'),
     ('AV','Avaliação'),
-    )
+    ('DM','Desmarcado na Hora'),
+)
+
 RACA = (
-    ('','* Raça'),
     ('B','Branca'),
     ('P','Preta'),
     ('D','Parda'),
@@ -68,7 +86,6 @@ RACA = (
 )
 
 UF = (
-    ('', '* Estado'),
     ('AC', 'Acre'),
     ('AL', 'Alagoas'),
     ('AP', 'Amapá'),
@@ -99,36 +116,92 @@ UF = (
 )
 
 SEXO = (
-    ('', '*Sexo'),
     ('F', 'Feminino'),
     ('M', 'Masculino'),
 )
 
 ESTADO_CIVIL =(
-    ('','*Estado Civil'),
+    ('', 'Escolha Um Opçao'),
     ('S','Solteiro'),
     ('C','Casado'),
     ('D','Divorciado'),
+    ('V','Viúvo'),
+    ('U','União Estável')
 )
 
 STATUS =(
-    ('AG','Agendado'),
-    ('AT','Atendido'),
-    ('CC','Cancelado'),
-    ('DM','Desmarcado'),
+    ('AG','Agendado'),#green
+    ('AT','Atendido'),#blue
+    ('FJ','Justificada'),
+    ('FH','Justificada na Hora'),
+    ('FN','Não Justificada'),
+    ('DM','Desmarcado/Profisssional'),
+    ('CC','Cancelado'),#red
+    ('BQ','Bloqueo'),#black
+    ('PT','Particular'),#08d0aa eletricblue
+    ('AD','Atender'),#pink
 )
 
 AREA =(
+    ('AT','Atendente'),
     ('FS','Fisioterapeuta'),
     ('TA','Terapeuta ocupacional'),
     ('FN','Fonoaudiólogo(a)'),
+    ('PI','Psiquiatra'),
     ('NT','Nutricionista'),
-    ('PS','Psicólogo(a'),
+    ('PS','Psicólogo(a)'),
     ('DT','Dentista'),
     ('EF','Educador(a) Físico(a)'),
     ('ET','Esteticista'),
     ('MT','Musicoterapeuta'),
     ('EN','Enfermeiro(a)'),
     ('PP','Psicopedagogo(a)'),
-    ('AT','Atendente'),
+)
+
+TIPO_GUIA =(
+    ('PV','Provisoria'),
+    ('PM','Permanente'),
+)
+
+STATUS_GUIA =(
+    ('I','Intercambio'),
+    ('N','Normal'),
+)
+
+FILHO =(
+    ('', 'Escolha Um Opçao'),
+    ('A','Adotivo'),
+    ('B','Biológico'),
+)
+
+SAUDE_MAE =(
+    ('', 'Escolha Um Opçao'),
+    ('D','Doenças'),
+    ('I','Inquietações'),
+)
+
+TIPO_PARTO =( 
+    ('', 'Escolha Um Opçao'),
+    ('N','Normal'),
+    ('C', 'Cezaria'),
+    ('I','Induzido'),
+)
+
+GESTACAO =( 
+    ('', 'Escolha Um Opçao'),
+    ('CO','Completa'),
+    ('PR', 'Prematura'),
+    ('PO','Pós_matura'),
+)
+
+AMAMENTACAO =( 
+    ('', 'Escolha Um Opçao'),
+    ('NO','Normal'),
+    ('AR', 'Artificial'),
+)
+
+MATRIMONIO =( 
+    ('', 'Escolha Um Opçao'),
+    ('CA','Casados'),
+    ('SE', 'Separados'),
 )

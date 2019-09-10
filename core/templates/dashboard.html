@@ -1,116 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
-{% block menu_li %}
-  <li class="nav-item active">
-    <a class="nav-link" href="{% url 'home' %}">
-      <i class="material-icons">dashboard</i>
-      <p>Dashboard</p>
-    </a>
-    </li>
-    <li class="nav-item ">
-      <a class="nav-link" href="{% url 'agendamentos' %}">
-        <i class="material-icons">calendar_today</i>
-        <p>Agenda</p>
-      </a>
-    </li>
-    <li class="nav-item ">
-      <a class="nav-link" href="{% url 'lista_pacientes' %}">
-        <i class="material-icons">accessible</i>
-        <p>Pacientes</p>
-      </a>
-    </li>
-    <li class="nav-item ">
-      <a class="nav-link" href="{% url 'atendimentos' %}">
-        <i class="material-icons">enhanced_encryption</i>
-        <p>Atendimento</p>
-      </a>
-    </li>
-    <li>
-        <a data-toggle="collapse" href="#formsExamples">
-            <i class="material-icons">library_add</i>
-            <p>  Cadastros
-              <b class="caret"></b>
-            </p>
-        </a>
-        <div class="collapse" id="formsExamples">
-            <ul class="nav">
-              {% if request.user.is_superuser %}
-                <li>
-                    <a href="{% url 'profissionais' %}">
-                      <i class="material-icons">person</i>
-                        <span class="sidebar-normal"> Profissionais</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'convenios' %}">
-                      <i class="material-icons">sync</i>
-                        <span class="sidebar-normal"> Convênio</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'salas' %}">
-                      <i class="material-icons">meeting_room</i>
-                        <span class="sidebar-normal"> Salas</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'procedimentos' %}">
-                      <i class="material-icons">apps</i>
-                        <span class="sidebar-normal"> Procedimentos</span>
-                    </a>
-                </li>
-                <li>
-                  <a href="{% url 'guias' %}">
-                    <i class="material-icons">chrome_reader_mode</i>
-                      <span class="sidebar-normal">Guias</span>
-                  </a>
-                </li>
-              {% elif atendente %}
-               <li>
-                  <a href="{% url 'guias' %}">
-                    <i class="material-icons">chrome_reader_mode</i>
-                      <span class="sidebar-normal">Guias</span>
-                  </a>
-                </li>
-              {% endif %}
-                <li>
-                    <a href="{% url 'lista_espera' %}">
-                      <i class="material-icons">person</i>
-                        <span class="sidebar-normal"> Lista de Espera</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </li>
-    {% if request.user.is_superuser %}
-    <li>
-        <a data-toggle="collapse" href="#contas">
-            <i class="material-icons">monetization_on</i>
-            <p>  Financeiro
-               <b class="caret"></b>
-            </p>
-        </a>
-        <div class="collapse" id="contas">
-            <ul class="nav">
-                <li>
-                    <a href="{% url 'conta_receber' %}">
-                      <i class="material-icons">money</i>
-                        <span class="sidebar-normal"> <b class="text-success">Contas a Receber</b></span>
-                    </a>
-                </li>
-                 <li>
-                    <a href="{% url 'contas_a_pagar' %}">
-                      <i class="material-icons">money</i>
-                        <span class="sidebar-normal"> <b class="text-danger">Contas a Pagar</b></span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </li>
-    {% endif %}
-{% endblock %}
 {% block navbar %}
-  <a class="navbar-brand" href="#pablo">Dashboard</a>
+  <a class="navbar-brand" href="#pablo">PÁGINA INICIAL</a>
 {% endblock navbar %}
 {% block container %}
   <div class="content">
@@ -178,12 +69,17 @@
     </div>
     </div>
     </div>
-  </div>
+    <div class="col-md-12">
+      <h4>CONVÊNIOS</h4>
+      {% for convenio in convenios %}
+        <button class="btn btn-sm">{{convenio.get_nome_display}}</button>
+      {% endfor %}
+    </div>
   <footer class="footer">
   <div class="container-fluid">
       <p class="copyright pull-right">
         &copy; <script>//document.write(new Date().getFullYear())</script>
-        <a href="#" target="_blank">FisioLife </a> - Todos os Direitos reservados.
+        <a href="#" target="_blank">Psicocenter </a> - Todos os Direitos reservados.
       </p>
   </div>
 </footer>

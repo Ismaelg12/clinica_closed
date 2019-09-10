@@ -1,370 +1,208 @@
 {% extends "base.html" %}
 {% load static %}
 {% block add_modal %}
-  <script src="{% static "js/core/jquery.min.js" %}"></script>
+<script src="{% static "js/core/jquery.min.js" %}"></script>
 <!--boostrap datepicker-->
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-	<link rel="stylesheet"type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-  {% endblock add_modal %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet"type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock add_modal %}
 {% block menu_li %}
-  <li class="nav-item">
-      <a class="nav-link" href="{% url 'home' %}">
-        <i class="material-icons">dashboard</i>
-        <p>Dashboard</p>
-      </a>
-    </li>
-   <li class="nav-item active ">
-    <a class="nav-link" href="{% url 'atendimentos' %}">
-     <i class="material-icons">list_alt</i>
-      <p>Atendimentos</p>
-    </a>
-  </li>
+<li class="nav-item">
+	<a class="nav-link" href="{% url 'home' %}">
+		<i class="material-icons">dashboard</i>
+		<p>Dashboard</p>
+	</a>
+</li>
+<li class="nav-item active ">
+	<a class="nav-link" href="{% url 'atendimentos' %}">
+		<i class="material-icons">list_alt</i>
+		<p>Atendimentos</p>
+	</a>
+</li>
 {% endblock menu_li %}
 {% block container %}
- <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary"data-background-color="purple">
-                   <h4 class="card-title">Novo Atendimento </h4>
-                </div>
-                 <div class="col-md-12">
-      				<div class="card wizard-card active">
-                    <div class="wizard-navigation">
-                        <ul class="nav nav-pills nav-pills-info">
-	                      <li style="width: 50%;"><a href="#Evolução" data-toggle="tab" aria-expanded="false">Evolução</a></li>
-	                      <li style="width: 50%;"><a href="#" data-toggle="tab" aria-expanded="false">Avaliação</a></li>
-	                    </ul>
-	                    <div class="tab-content">
-	                        <div class="tab-pane active" id="Evolução">
-	                            <div class="col-lg-12">
-	                               <div class="card-body">
-						                <form method="POST"id="atendForm" data-select-url="{% url 'ajax_load_proced' %}" novalidate>
-						                  	{% csrf_token %}
-										    <div class="row">
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-primary"data-background-color="purple">
+						<h4 class="card-title">{{nome_da_ficha}} </h4>
+					</div>
+					<div class="col-md-12">
+						<div class="tab-content">
+							<div class="tab-pane active" id="Evolução">
+								<div class="col-lg-12">
+									<div class="card-body">
+										<form method="POST"id="atendForm" data-select-url="{% url 'ajax_load_proced' %}" novalidate>
+											{% csrf_token %}
+											<div class="row">
 												<div class="col-md-4">
-							                        <div class="form-group">
-							                        <label class="bmd-label-floating">* Tipo</label>
-													{{form.tipo}}
+													<div class="form-group">
+														<label class="bmd-label-floating">* Paciente</label>
+														{{form.paciente}}
 													</div>
-						                      	</div>
-						                     <div class="col-md-2">
-							                        <div class="form-group">
-													<div id="cp_3">	
-							                          <label>* Inicio Atendimento</label>
-							                          {{form.hora_inicio}}
-							                        </div>
-													</div>
-							                      </div>
-												  <div class="col-md-2">
-							                        <div class="form-group">
-													<div id="cp_4">	
-							                          <label>* Fim Atendimento</label>
-							                           {{form.hora_fim}}
-							                        </div>
-													</div>
-							                      </div>
-						                      <div class="col-md-4">
-						                        <div class="form-group">
-												<div id="cp_2">	
-						                          <label>* Data</label>
-						                          {{form.data}}
-						                        </div>
 												</div>
-						                      </div>
-						                    </div>
-						                    <div class="row">
-						                    	<div class="col-md-4">
-							                        <div class="form-group">
-													<div id="cp_1">	
-							                          <label class="bmd-label-floating">* Paciente</label>
-							                          {{form.paciente}}
-							                        </div>
+												<div class="col-md-3">
+													<div class="form-group">
+														<div id="cp_3">	
+															<label>* Inicio Atendimento</label>
+															{{form.hora_inicio}}
+														</div>
 													</div>
-						                      	</div>
-							                      <div class="col-md-2">
-							                        <div class="form-group">
-													<div id="cp_5">	
-							                          <label class="bmd-label-floating">* Convenio</label>
-							                         {{form.convenio}}
-							                        </div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group">
+														<label>* Fim Atendimento</label>
+														{{form.hora_fim}}
 													</div>
-							                      </div>
-												  <div class="col-md-2">
-							                        <div class="form-group">
-													<div id="cp_6">	
-							                          <label>Procedimento</label>
-							                          {{form.procedimento}}
-							                        </div>
+												</div>
+												<div class="col-md-2">
+													<div class="form-group">
+														<label>* Data</label>
+														{{form.data}}
 													</div>
-							                      </div>
-							                      <div class="col-md-2">
-							                        <div class="form-group">
-													<div id="cp_5">	
-							                          <label class="bmd-label-floating">* Guia - Seções</label>
-							                         {{form.guia}}
-							                        </div>
-													</div>
-							                      </div>
-							                      <div class="col-md-2">
-							                        <div class="form-group">
-													<div id="cp_6.7">	
-							                          <label>Profissional</label>
-							                          {{form.profissional}}
-							                        </div>
-													</div>
-							                      </div>
-						                    </div>
-											 <div class="row">
-						                      <div class="col-md-12"id="hidden_evolucao">
-						                        <div class="form-group">
-													<div id="cp_7">	
-														<label>Evolução do Paciente</label>
-							                          <div class="form-group">
-							                            <label class="bmd-label-floating"></label>
-							                            {{form.evolucao}}
-							                          </div>
-												  </div>
-						                        </div>
-						                      </div>
-						                  </div>
-						                      <div id="hidden_div" style="display:none;">
-						                     <div class="row">
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-											<div id="cp_8">	
-					                          <label>Queixa principal (QP) / Motivo da avaliação:</label>
-					                          <div class="form-group">
-					                           {{form.qp}}
-					                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-											<div id="cp_9">	
-					                          <label><font color="red">DIAGNÓSTICO CLÍNICO</font></label>
-					                          <div class="form-group">
-					                            {{form.diagnostico}}
-					                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                    </div>
-										<div class="row">
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-											<div id="cp_10">	
-					                          <label>HDA:</label>
-					                          <div class="form-group">
-					                            {{form.hda}}
-					                          </div>
-					                        </div>
+												</div>
 											</div>
-					                      </div>
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-											<div id="cp_11">	
-					                          <label>OUTRAS DOENCAS:</label>
-					                          <div class="form-group">
-					                             {{form.outras_doencas}}
-					                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                    </div>
-										<div class="row">
-										<div class="col-md-2">
-					                        <div class="form-group">
-											<div id="cp_12">	
-					                          <label class="bmd-label-floating">PA</label>
-					                           {{form.pa}}
-					                        </div>
+											<div class="row">
+												<div class="col-md-2">
+													
+														<label class="bmd-label-floating">* Convenio
+														</label>
+														{{form.convenio}}
+													
+												</div>
+												<div class="col-md-7">
+													<div class="form-group">			
+														<label class="bmd-label-floating">*Guia  |  Procedimento  |  Seções</label>
+														{{form.guia}}
+													</div>
+												</div>												
+												<div class="col-md-3">
+													<div class="form-group">			
+														<label class="bmd-label-floating">*Profissional</label>
+														{{form.profissional}}
+													</div>
+												</div>
+												<b class="text-danger text-center">{{form.non_field_errors}}</b>
 											</div>
-					                      </div>
-										  <div class="col-md-2">
-					                        <div class="form-group">
-											<div id="cp_13">	
-					                          <label class="bmd-label-floating">mmHG, FC</label>
-					                          {{form.mmHg}}
-					                        </div>
-											 </div>
-					                      </div>
-										  <div class="col-md-2">
-					                        <div class="form-group">
-											<div id="cp_14">	
-					                          <label class="bmd-label-floating">BPM, FR</label>
-					                         {{form.bpm}}
-					                        </div>
-											 </div>
-					                      </div>
-										  <div class="col-md-2">
-					                        <div class="form-group">
-											<div id="cp_15">	
-					                          <label class="bmd-label-floating">RPM TEMP °C</label>
-					                           {{form.rpm}}
-					                        </div>
-											 </div>
-					                      </div>
-										</div>
-										<div class="row">
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-												<div id="cp_16">	
-					                          <label>INSPEÇÃO:</label>
-					                          <div class="form-group">
-					                              {{form.inspecao}}
-					                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-											<div id="cp_17">
-					                          <label>PALPAÇÃO:</label>
-											    <div class="form-group">
-					                             {{form.palpacao}}
-					                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                    </div>
-										<div class="row">
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-											<div id="cp_18">
-												<label>EXAME FÍSICO-1</br>
-													Amplitude de todos os movimentos do (s) membro(s) afetado(s)  (°)</br>
-													Segmento avaliado: 
-												</label>
-					                          <div class="form-group">
-					                            {{form.exame_fisico1}}
-					                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-											<div id="cp_19">
-												<label>EXAME FÍSICO-2</br>
-													Força de todos os movimentos do (s) membro(s) afetado(s)  (%)</br>
-													Segmento avaliado: 
-												</label>
-					                          <div class="form-group">
-					                             {{form.exame_fisico2}}
-					                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                    </div>
-										<div class="row">
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-											<div id="cp_20">
-												<label>EXAMES COMPLEMENTARES</label>
-					                          <div class="form-group">
-					                            {{form.exame_complementar}}
-					                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                      <div class="col-md-6">
-					                        <div class="form-group">
-											<div id="cp_21">
-												<label>TESTES ESPECÍFICOS</label>
-					                          <div class="form-group">
-					                            {{form.teste_especifico}}
-					                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                    </div>
-										<div class="row">
-					                      <div class="col-md-12">
-					                        <div class="form-group">
-											<div id="cp_22">
-												<label><font color="red">TRATAMENTO</font></br>
-												Objetivo
-												</label>
-						                          <div class="form-group">
-						                             {{form.tratamento}}
-						                          </div>
-											  </div>
-					                        </div>
-					                      </div>
-					                    </div>
-						                      </div>
-						                    </div>
-											<div id="cp_23">
-							                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-												<a href="{% url 'agendamentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
-						                    </div>
-						                  </form>
-						                </div>
-	                                </div>
-	                        </div> 
-		            		</div>
-	                    </div>
-                </div><!--  end card  -->
-            </div> <!-- end col-md-12 -->
-        </div> <!-- end row -->
-  </div>
-</div>
+											<h4 class="text-center"><b>ATENDIMENTO</b></h4>
+											<hr>
+											<!--Formulario de Evolução-->
+											{% if form_fichas.evolucao %}
+												<div class="row">
+													<div class="col-md-12">
+														<div class="form-group">
+															<label class="bmd-label-floating">* Evolução
+															</label>
+															{{form_fichas.evolucao}}
+														</div>
+													</div>
+												</div>
+											{% endif %}
+											
+											<!--Formulario de Avaliação Terapia Ocupacional-->
+											{% if form_fichas.peso %}
+												{% include 'atendimento/fichas/terapiaOcupacional.html' %}
+											{% endif %}
+											<!--Formulario de Avaliação Psiquiatria-->
+											{% if form_fichas.eixo1 %}
+												{% include 'atendimento/fichas/psiquiatriaGeral1.html' %}
+											{% endif %}
+											<!--Formulario de Avaliação Fisioterapia-->
+											{% if form_fichas.cardiaca %}
+												{% include 'atendimento/fichas/fisio_convencional.html' %}
+											{% endif %}
+											<!--Formulario de Anaminese Adulto-->
+											{% if form_fichas.fato_marcante %}
+												{% include 'atendimento/fichas/anaminese_ad.html' %}
+								            {% endif %}
+								            <!--Formulario de Anaminese Criança-->
+											{% if form_fichas.n_irmaos %}
+												{% include 'atendimento/fichas/anaminese_cr.html' %}
+								            {% endif %}
+								            <!--Formulario de Uroginecologia-->
+											{% if form_fichas.gpca %}
+												{% include 'atendimento/fichas/uroginecologia.html' %}
+								            {% endif %}
+								            {% if form_fichas.diag_fisio %}
+												{% include 'atendimento/fichas/neurologia.html' %}
+								            {% endif %}
+								            {% if form_fichas.qpdhda %}
+												{% include 'atendimento/fichas/nutricao.html' %}
+								            {% endif %}
+								            <div>
+								            	{% if not ocultar_botao_salvar == "display_button"%}
+													<button type="submit" class="btn btn-primary pull-right">Salvar</button>
+													<a href="{% url 'atendimentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+													{% else %}
+													<a href="javascript:void(0)" onClick="history.go(-1); return false;" class="btn btn-info btn-group pull-right">Voltar</a>
+												{% endif %}
+											</div>
+										</form>
+									</div>
+								</div>
+							</div> 
+						</div>
+					</div>
+				</div> <!-- end row -->
+			</div>
+		</div>
 <script type="text/javascript">
-	$(document).ready(function(){
-	   if($("#id_tipo option:selected" ).val() =='AV'){
-	   	$("#hidden_div").show();
-	   	$("#hidden_evolucao").hide();
+$(document).ready(function(){
+	if($("#id_tipo option:selected" ).val() =='AV'){
+		$("#hidden_div").show();
+		$("#hidden_evolucao").hide();
 	}
-	});
-	function showDiv(select){
-	   if(select.value == 'AV'){
-	    document.getElementById('hidden_div').style.display = "block";
-	    document.getElementById('hidden_evolucao').style.display = "none";
-	   } else{
-	    document.getElementById('hidden_div').style.display = "none";
-	    document.getElementById('hidden_evolucao').style.display = "block";
-	   }
-	} 
-	$('#id_data').daterangepicker({
-	    singleDatePicker: true,
-	    showDropdowns: true,
-	    "locale": {
-	    "format": "DD/MM/YYYY",
-	    "separator": " - ",
-	    "applyLabel": "Aplicar",
-	    "cancelLabel": "Cancelar",
-	    "fromLabel": "De",
-	    "toLabel": "Até",
-	    "customRangeLabel": "Custom",
-	    "daysOfWeek": [
-	        "Dom",
-	        "Seg",
-	        "Ter",
-	        "Qua",
-	        "Qui",
-	        "Sex",
-	        "Sáb"
-	    ],
-	    "monthNames": [
-	        "Janeiro",
-	        "Fevereiro",
-	        "Março",
-	        "Abril",
-	        "Maio",
-	        "Junho",
-	        "Julho",
-	        "Agosto",
-	        "Setembro",
-	        "Outubro",
-	        "Novembro",
-	        "Dezembro"
-	    ],
-	    "firstDay": 0
+});
+function showDiv(select){
+	if(select.value == 'AV'){
+		document.getElementById('hidden_div').style.display = "block";
+		document.getElementById('hidden_evolucao').style.display = "none";
+	} else{
+		document.getElementById('hidden_div').style.display = "none";
+		document.getElementById('hidden_evolucao').style.display = "block";
+	}
+} 
+$('#id_data').daterangepicker({
+	singleDatePicker: true,
+	showDropdowns: true,
+	"locale": {
+		"format": "DD/MM/YYYY",
+		"separator": " - ",
+		"applyLabel": "Aplicar",
+		"cancelLabel": "Cancelar",
+		"fromLabel": "De",
+		"toLabel": "Até",
+		"customRangeLabel": "Custom",
+		"daysOfWeek": [
+		"Dom",
+		"Seg",
+		"Ter",
+		"Qua",
+		"Qui",
+		"Sex",
+		"Sáb"
+		],
+		"monthNames": [
+		"Janeiro",
+		"Fevereiro",
+		"Março",
+		"Abril",
+		"Maio",
+		"Junho",
+		"Julho",
+		"Agosto",
+		"Setembro",
+		"Outubro",
+		"Novembro",
+		"Dezembro"
+		],
+		"firstDay": 0
 	}});
-	$("#id_convenio").change(function () {
+/*
+$("#id_convenio").change(function () {
       var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view
       var convenioId = $(this).val();  // get the selected convenio ID from the HTML input
 
@@ -372,13 +210,13 @@
         url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
         data: {
           'convenio': convenioId       // add the convenio id to the GET parameters
-        },
+      },
         success: function (data) {   // `data` is the return of the `load_convenios` view function
           $("#id_procedimento").html(data);  // replace the contents of the id_procedimento input with the data that came from the server
-        }
-    });
-   });
-	$("#id_paciente").change(function () {
+      }
+  });
+ });
+		$("#id_paciente").change(function () {
       var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view
       var pacienteId = $(this).val();  // get the selected convenio ID from the HTML input
 
@@ -386,11 +224,12 @@
         url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
         data: {
           'paciente': pacienteId       // add the convenio id to the GET parameters
-        },
+      },
         success: function (data) {   // `data` is the return of the `load_convenios` view function
           $("#id_guia").html(data);  // replace the contents of the id_procedimento input with the data that came from the server
-        }
-    });
-   });
+      }
+  });
+ });
+		*/
 </script>
 {% endblock container %}

@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render,redirect
 from django.contrib.auth import login as auth_login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm
 from controle_usuarios.models import Profissional
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import ProtectedError
 from django.contrib import messages
-from atendimento.models import Agendamento
-from controle_usuarios.forms import ProfissinalForm
+from agenda.models import Agendamento
+from controle_usuarios.forms import ProfissinalForm,SignUpForm
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth import update_session_auth_hash
+from core.decorators import staff_member_required
 '''
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                           Views de Usuarios
@@ -44,6 +45,7 @@ def login_success(request):
 +                           Crud de Profissional/Usuarios
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 '''
+@staff_member_required
 @login_required
 def profissionais(request):
     prof = Profissional.objects.all().exclude(user__username='admin')
@@ -52,12 +54,14 @@ def profissionais(request):
     }
     return render(request,'profissionais/profissionais.html',context)
 
+@staff_member_required
 @login_required
 @transaction.atomic
 def add_profissional(request):
-    user_form = UserCreationForm(request.POST or None)
+    user_form = SignUpForm(request.POST or None)
     profissional_form = ProfissinalForm(request.POST or None)
     if user_form.is_valid() and profissional_form.is_valid():
+        user_form.email = request.POST['email']
         user = user_form.save()
         user.refresh_from_db()  # This will load the Profile created by the Signal
         profissional_form = ProfissinalForm(request.POST, instance=user.profissional)  # Reload the profile form with the profile instance
@@ -87,12 +91,15 @@ def update_profissional(request,pk):
     if profissional_form.is_valid():
         profissional_form.save()
         messages.success(request, ('Dados atualizados com Sucesso!'))
-        return redirect('home')
+        if profissionals.exists():
+            return redirect('home')
+        else:
+            return redirect('profissionais')
     return render(request, 'profissionais/edit_profissional.html', {
         'profissional_form': profissional_form,'atend':at,'prof':profissionals
     })
 
-
+@staff_member_required
 @login_required 
 def excluir_profissional(request,pk):
     try :
@@ -102,3 +109,26 @@ def excluir_profissional(request,pk):
         messages.warning(request,
          "você não pode deletar esse profissional porque ele atendeu pacientes!!")
     return redirect('profissionais')
+
+            
+'''
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                         Reset de senha de Profissional/Usuarios Logados
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'''
+
+def change_password_user(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Sua Senha foi Atualizada com Sucesso!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Por Favor Verifique o Erro!.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'login/change_password.html', {
+        'form': form
+    })

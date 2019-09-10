@@ -27,63 +27,104 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary"data-background-color="purple">
-                    <h4 class="card-title">Atualizar Guia</h4>
+                  <h4 class="card-title">Atualizar Guia</h4>
               </div>
-                <div class="card-content">
-                  <form method="POST">
-                    {% csrf_token %}
-                    <div class="row">
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* Numero</label>
-                         {{form.numero}}
-                        </div>
+              <div class="card-content">
+                <br>
+            <form method="POST">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Numero</label>
+                    {{form.numero}}
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label class="bmd-label-floating">* Paciente</label>
+                  {{form.paciente}}
+                </div>
+                <div class="col-md-3">
+                  <label class="bmd-label-floating">* Profissional</label>
+                  {{form.profissional}}
+                </div>
+                <div class="col-md-3">
+                  <label class="bmd-label-floating">*Convênio</label>
+                  {{form.convenio}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                    <label class="bmd-label-floating"> Procedimento</label>
+                    {{form.procedimento}} 
+                  </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">*Autorização</label>
+                    {{form.data_autorizacao}}
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <!--se a guia ja foi revalidada era não pode mais editar o campo data-->
+                  {% if guia.validada == True %}
+                      <div class="form-group">
+                        <label class="bmd-label-floating">*Validade</label>
+                        <input type="text"value="{{guia.validade|date:'d/m/Y'}}"class="form-control"name="validade"readonly="true">
                       </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">*Convenio</label>
-                         {{form.convenio}}
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* Paciente</label>
-                         {{form.paciente}}
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* Profissional</label>
-                         {{form.profissional}}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">*validade</label>
-                         {{form.validade}}
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* quantidade</label>
-                         <input type="text" name="quantidade"value="{{guia_quant}}"class="form-control"readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="bmd-label-floating"> descricao</label>
-                         {{form.descricao}}
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit"class="btn btn-primary pull-right">Salvar</button>
-                   <a href="{% url 'guias' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
-                    <div class="clearfix"></div>
-                  </form>
-                 </div><!-- end content-->
-                </div><!--  end card  -->
+                  {% else %}
+                      <div class="form-group">
+                      <label class="bmd-label-floating">*Validade</label>
+                      {{form.validade}}
+                  </div>
+                  {% endif %}
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Em ser</label>
+                    {{form.quantidade}}
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Quantidade</label>
+                    {{form.qtdautorizada}}
+                  </div>
+                </div>
+               </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="bmd-label-floating">* Tipo de Guia</label>
+                  {{form.tipo_guia}}
+                </div>
+                 <div class="col-md-2">
+                  <label class="bmd-label-floating">* Status</label>
+                  {{form.status}}
+                </div>
+                 <div class="col-md-2">
+                  <label class="bmd-label-floating">* Ativo</label>
+                  {{form.ativo}}
+                </div> 
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Data de Registro</label>
+                    <input type="text" value="{{guia.criado_em|date:'d/m/Y'}}"class="form-control" disabled>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Data de Atualização</label>
+                    <input type="text" value="{{guia.atualizado_em}}"class="form-control" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <b class="text-danger">{{form.non_field_errors}}</b>
+                 </div>
+              </div>
+              <button type="submit"class="btn btn-primary pull-right">Salvar</button>
+              <a href="{% url 'guias' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+              <div class="clearfix"></div>
+            </form>
+          </div><!-- end content-->
             </div> <!-- end col-md-12 -->
         </div> <!-- end row -->
   </div>

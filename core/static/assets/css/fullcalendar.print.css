@@ -1,0 +1,52 @@
+/*!
+ * FullCalendar v3.6.0 Print Stylesheet
+ * Docs & License: https://fullcalendar.io/
+ * (c) 2017 Adam Shaw
+ */
+
+/*
+ * Include this stylesheet on your page to get a more printer-friendly calendar.
+ * When including this stylesheet, use the media='print' attribute of the <link> tag.
+ * Make sure to include this stylesheet IN ADDITION to the regular fullcalendar.css.
+ */
+
+
+
+/* Global Event Restyling
+--------------------------------------------------------------------------------------------------*/
+
+.fc-event .fc-resizer {
+	display: none;
+}
+
+
+/* Table & Day-Row Restyling
+--------------------------------------------------------------------------------------------------*/
+
+
+/* kill the overlaid, absolutely-positioned components */
+/* common... */
+
+.fc-helper-container {
+	display: none;
+}
+
+/* kill the scrollbars and allow natural height */
+.fc-scroller,
+.fc-day-grid-container,    /* these divs might be assigned height, which we need to cleared */
+.fc-time-grid-container {  /* */
+	overflow: visible !important;
+	height: auto !important;
+}
+
+/* kill the horizontal border/padding used to compensate for scrollbars */
+.fc-row {
+	border: 0 !important;
+	margin: 0 !important;
+}
+
+.fc-nonbusiness {
+  /* default look for non-business-hours areas */
+  /* will inherit .fc-bgevent's styles */
+  background: #e91e6387  !important;
+  }

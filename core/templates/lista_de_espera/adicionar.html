@@ -28,14 +28,61 @@
             <div class="col-md-12">
               <div class="card">
                  <div class="card-header card-header-primary"data-background-color="purple">
-                   <h4 class="card-title ">Adicionar</h4>
+                   <h4 class="card-title ">Adicionar Lista de Espera</h4>
               </div>
                 <div class="card-content">
                   <form method="POST"id="EsperaForm" data-select-url="{% url 'ajax_load_profissionais' %}" novalidate>
                     {% csrf_token %}
-                    <div class="row">
-                      <div class="col-md-12"><br>
-                        {{form.as_p}}
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">* Nome Completo</label>
+                            {{form.nome}}
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Nascimento</label>
+                            {{form.data_nascimento}}
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                        <label  class="bmd-label-floating">Telefone</label>
+                        {{form.telefone}}
+                        </div>
+                        <div class="col-md-1">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Sexo</label>
+                            {{form.sexo}}
+                          </div>
+                        </div>
+                        <div class="col-md-1">
+                          <div class="form-group">
+                            <label  class="bmd-label-floating">*Idade</label>
+                            {{form.idade}}
+                          </div>
+                        </div>
+                         <div class="col-md-3">
+                          <label>Turno</label>
+                          <div class="form-group">
+                            {{form.turno_manha}} <b>Manhã</b>
+                            {{form.turno_tarde}} <b>Tarde</b> 
+                            {{form.turno_noite}} <b>Noite</b>
+                          </div>
+                        </div>
+                      </div>
+                        <div class="row">
+                         <div class="col-md-2">
+                            <label class="bmd-label-floating">*Especialidade</label>
+                            {{form.especialidade}}
+                        </div>
+                        <div class="col-md-2">
+                         <label class="bmd-label-floating">*Profissional</label>
+                         {{form.profissional}}
+                       </div>
+                      <div class="col-md-8">
+                        <labelclass="bmd-label-floating">Observação</label>
+                        {{form.observacao}}
                       </div>
                     </div>
                     <button type="submit"class="btn btn-primary pull-right">Salvar</button>
@@ -48,27 +95,31 @@
         </div> <!-- end row -->
   </div>
 </div>
+
 <script>
+/*
   $("#id_especialidade").change(function () {
       var url = $("#EsperaForm").attr("data-select-url"); 
-      var especialidade = $(this).val();  
+      var especialidadeId = $(this).val();  
      $.ajax({                       // initialize an AJAX request
         url: url,                    // set the url of the request 
         data: {
-          'profissional': especialidade       // add the convenio id to the GET parameters
+          'especialidade': especialidadeId       // add the convenio id to the GET parameters
         },
         success: function (data) {  
           $("#id_profissional").html(data); 
         }
     });
    });
+   */
    jQuery(function($){
     $('#id_telefone').mask('(00) 00000-0000');
+    $('#id_cpf').mask('000.000.000-00', {reverse: true});
   });
-  $('#id_data_nascimento').daterangepicker({
-    singleDatePicker: true,
-    showDropdowns: true,
-    "locale": {
+$('input[name="data_nascimento"]').daterangepicker({
+  singleDatePicker: true,
+  showDropdowns: true,
+  "locale": {
     "format": "DD/MM/YYYY",
     "separator": " - ",
     "applyLabel": "Aplicar",
@@ -77,29 +128,29 @@
     "toLabel": "Até",
     "customRangeLabel": "Custom",
     "daysOfWeek": [
-        "Dom",
-        "Seg",
-        "Ter",
-        "Qua",
-        "Qui",
-        "Sex",
-        "Sáb"
+    "Dom",
+    "Seg",
+    "Ter",
+    "Qua",
+    "Qui",
+    "Sex",
+    "Sáb"
     ],
     "monthNames": [
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Maio",
-        "Junho",
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro"
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
     ],
     "firstDay": 0
-}});
+  }});
 </script>
 {% endblock container %}

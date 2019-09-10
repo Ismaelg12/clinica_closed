@@ -4,13 +4,17 @@ from django.views.generic import ListView,CreateView,UpdateView,DeleteView,Detai
 from django.urls import reverse_lazy
 from pacientes.models import Paciente
 from controle_usuarios.models import Profissional
-from atendimento.models import Atendimento,Agendamento,Guia
+from atendimento.models import Atendimento,Guia
+from agenda.models import Agendamento
 from financeiro.models import ContaReceber
 from django.contrib import messages
 from pacientes.forms import PacienteForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import ProtectedError
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from atendimento.models import *
 '''
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                          Crud de Pacientes/Clientes
@@ -22,17 +26,48 @@ class PacienteCreateView(LoginRequiredMixin,CreateView):
     template_name = 'adicionar_paciente.html'
     form_class    = PacienteForm
     success_url   = reverse_lazy('lista_pacientes')
+    #salvar e adicionar novo 
+    def post(self, request, *args, **kwargs):
+        save_action = None
+        if "cancelar" in request.POST:
+            return HttpResponseRedirect(reverse('lista_pacientes'))
+        else:
+            save_action = super(PacienteCreateView, self).post(request, *args, **kwargs)
+        if "adicionar_outro" in request.POST:
+            messages.success(request,'Paciente Cadastrado com Sucesso! ')
+            return HttpResponseRedirect(reverse('add_paciente'))
+        return save_action
+
 
 class PacienteListView(LoginRequiredMixin,ListView):
     model               = Paciente
     template_name       = 'pacientes.html'
     context_object_name = 'pacientes'
+    paginate_by = 50
+    
+    def get_queryset(self, **kwargs):
+        if self.request.GET.get('paciente'):
+            paciente_search = self.request.GET.get('paciente')
+            return Paciente.objects.filter(nome__icontains=paciente_search).order_by('id')
+        else:
+            return Paciente.objects.prefetch_related('profissional').all()
 
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(PacienteListView, self).get_context_data(*args, **kwargs)
+        context['profissional_logado'] = Profissional.objects.filter(
+            user=self.request.user,tipo=2
+        )
+        context['paciente_clinico'] = Paciente.objects.filter(profissional__user=self.request.user)
+        return context
+
+        
 class PacienteUpdateView(LoginRequiredMixin,UpdateView):
     model = Paciente
     template_name = 'adicionar_paciente.html'
     form_class    = PacienteForm
     success_url   = reverse_lazy('lista_pacientes')
+
 
 @login_required 
 def PacienteDeleteView(request,pk):
@@ -44,36 +79,65 @@ def PacienteDeleteView(request,pk):
          "você não pode deletar esse paciente porque ele tem atendimentos ou agendamentos feitos")
     return redirect('lista_pacientes')
 
+
 class PacienteDetailView(LoginRequiredMixin,DetailView):
     model = Paciente
     template_name = 'paciente_detalhe.html'
     context_object_name = 'paciente'
 
+
 @login_required 
 def paciente_historico(request,pk):
-    #quesyset apenas para condição no template
-    profissional          = Profissional.objects.filter(user=request.user,tipo=2)
+    profissional = ""
+    atendente    = Profissional.prof_objects.filter(user=request.user,tipo=1)
     paciente              = get_object_or_404(Paciente,pk=pk)
+    ######################################################
+    #evolucões       
+    ficha_evolucao        = Evolucao.objects.filter(atendimento__paciente=paciente.id)
+
+    #avaliações
+    ficha_uroginecologia  = Uroginecologia.objects.filter(atendimento__paciente=paciente.id)
+    ########################################################
+    #quesyset apenas para condição no template
+    if atendente.exists() or request.user.is_superuser:
+        #não faz nada :)
+        pass
+    else:
+        profissional = Profissional.prof_objects.get(user=request.user,tipo=2)
+
+    #lista todos os atendimentos na 1ª aba e 2ª aba linha do tempo
+    if profissional:
+        atendimentos      = Atendimento.objects.filter(paciente=paciente,profissional_id=profissional.id)
+    else:
+        atendimentos      = Atendimento.objects.filter(paciente=paciente)
+    atendimentos_count    = Atendimento.objects.filter(paciente=paciente).count()
     agendamentos_count    = Agendamento.objects.filter(paciente=paciente).count()
-    agendamentos_DM_count = Agendamento.objects.filter(paciente=paciente,status='DM').count()
+    agendamentos_FJ_count = Agendamento.objects.filter(paciente=paciente,status='FJ').count()
+    agendamentos_FH_count = Agendamento.objects.filter(paciente=paciente,status='FH').count()
+    agendamentos_FN_count = Agendamento.objects.filter(paciente=paciente,status='FN').count()
     agendamentos_CC_count = Agendamento.objects.filter(paciente=paciente,status='CC').count()
-    atendimentos          = Atendimento.objects.filter(paciente=paciente)
-    atendimento_evolucao  = Atendimento.objects.filter(paciente=paciente,tipo='EV').count()
-    atendimento_avaliacao = Atendimento.objects.filter(paciente=paciente,tipo='AV').count()
-    guias  = Guia.objects.filter(paciente=paciente).order_by('-validade')
-    contas = ContaReceber.objects.filter(paciente=paciente).order_by('-data')
-    
+    atendimento_evolucao  = Atendimento.objects.filter(paciente=paciente,).count()
+    atendimento_avaliacao = Atendimento.objects.filter(paciente=paciente,).count()
+    guias                 = Guia.objects.filter(paciente=paciente).order_by('-validade')
+    contas                = ContaReceber.objects.filter(paciente=paciente).order_by('-data')
+
     context = {
         'profissional':profissional,
         'atendimentos':atendimentos,
+        'atendimentos_count':atendimentos_count,
         'evolucao':atendimento_evolucao,
         'avaliacao':atendimento_avaliacao,
         'paciente':paciente,
         'agendamentos':agendamentos_count,
-        'agendamentos_DM_count':agendamentos_DM_count,
+        'agendamentos_FJ_count':agendamentos_FJ_count,
+        'agendamentos_FH_count':agendamentos_FH_count,
+        'agendamentos_FN_count':agendamentos_FN_count,
         'agendamentos_CC_count':agendamentos_CC_count,
-        'evolucao_avaliacao':atendimentos,
+        'linha_do_tempo':atendimentos,
         'guias':guias,
         'contas':contas,
+        ##########FICHAS PARA O HSITORICO RENDERIZADAS MANUALMENTE#######
+        'ficha_evolucao':ficha_evolucao,
+        'ficha_uroginecologia':ficha_uroginecologia,
     }
     return render(request,'historico.html',context)

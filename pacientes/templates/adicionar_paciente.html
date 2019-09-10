@@ -6,6 +6,12 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<style type="text/css">
+<!--
+.normal { border: 1px solid #000000; }
+.destaca { border: 1px solid #ff0000; }
+-->
+</style>
 {% endblock datepicker %}
 {% block menu_li %}
 <li class="nav-item">
@@ -14,7 +20,7 @@
     <p>Dashboard</p>
   </a>
 </li>
-<li class="nav-item active  ">
+<li class="nav-item active ">
   <a class="nav-link" href="{% url 'lista_pacientes' %}">
    <i class="material-icons">accessible</i>
    <p>Pacientes</p>
@@ -22,6 +28,17 @@
 </li>
 {% endblock menu_li %}
 {% block container %}
+<style> 
+#valor{
+  display: none;
+}
+#numero_carteira{
+  display: none;
+}
+#validade{
+  display: none;
+}
+</style>
 <div class="content">
   <div class="container-fluid">
     <div class="row">
@@ -34,48 +51,68 @@
            <form method="POST">
             {% csrf_token %}
             <div class="row">
-              <div class="col-md-7">
+              <div class="col-md-4">
                 <div class="form-group">
-                  <label class="bmd-label-floating">* Nome Completo</label>
+                  <label class="bmd-label-floating">*Nome Completo</label>
                   {{form.nome}}
+                  <b class="text-danger"> {{form.non_field_errors}}</b>
                 </div>
               </div>
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label class="bmd-label-floating">Email</label>
                   {{form.email}}
                 </div>
               </div>
+               <div class="col-md-4">
+                <div class="form-group">
+                  <label class="bmd-label-floating">*Profissional</label>
+                  {{form.profissional}}
+                   {{form.profissional.errors}}
+                </div>
+              </div>
             </div>
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <div class="form-group">
-                  <label class="bmd-label-floating">* Data de Nascimento</label>
+                  <label class="bmd-label-floating">* Data Nascimento</label>
                   {{form.data_nascimento}}
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <div class="form-group">
-                  <label  class="bmd-label-floating">*Sexo</label>
+                  <label  class="bmd-label-floating">Sexo</label>
                   {{form.sexo}}
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <div class="form-group">
-                  <label class="bmd-label-floating"> CPF</label>
+                  <label class="bmd-label-floating">CPF</label>
                   {{form.cpf}}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Nome do Pai</label>
+                  {{form.pai}}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Nome do Mãe</label>
+                  {{form.mae}}
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="bmd-label-floating"> RG</label>
+                  <label class="bmd-label-floating">RG</label>
                   {{form.rg}}
                 </div>
               </div>
               <div class="col-md-3">
-                 <label  class="bmd-label-floating">*Estado Civil</label>
+                 <label  class="bmd-label-floating">Estado Civil</label>
                  {{form.estado_civil}}
              </div>
              <div class="col-md-2">
@@ -85,24 +122,24 @@
               </div>
             </div>
             <div class="col-md-2">
-             <label class="bmd-label-floating">*Raça</label>
+             <label class="bmd-label-floating">Raça</label>
              {{form.raca}}
            </div>
            <div class="col-md-2">
-            <label  class="bmd-label-floating">*UF</label>
+            <label  class="bmd-label-floating">UF</label>
             {{form.uf}}
           </div>
         </div>
         <div class="row">
           <div class="col-md-3">
             <div class="form-group">
-              <label class="bmd-label-floating">*Endereço(Rua)</label>
+              <label class="bmd-label-floating">Endereço(Rua)</label>
               {{form.rua}}
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
-              <label class="bmd-label-floating">*Bairro</label>
+              <label class="bmd-label-floating">Bairro</label>
               {{form.bairro}}
             </div>
           </div>
@@ -120,46 +157,56 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div class="form-group">
-              <label class="bmd-label-floating">*Cidade</label>
+              <label class="bmd-label-floating">Cidade</label>
               {{form.cidade}}
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div class="form-group">
-              <label class="bmd-label-floating"> Celular</label>
+              <label class="bmd-label-floating">*Celular</label>
               {{form.telefone}}
             </div>
           </div>
-          <div class="col-md-2">
-            <label class="bmd-label-floating">* Convênio</label>
-            {{form.convenio}}
-          </div>
-          <div class="col-md-3">
+           <div class="col-md-3">
             <div class="form-group">
-              <label class="bmd-label-floating">Nº do Convênio</label>
-              {{form.num_convenio}}
+              <label class="bmd-label-floating">Tel. Fixo</label>
+              {{form.telefone_fixo}}
             </div>
           </div>
           <div class="col-md-3">
+            <label class="bmd-label-floating">*Convênio</label>
+            {{form.convenio}}
+          </div>
+          <div class="col-md-3"id="valor">
+            <!--foi removido-->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2" id="numero_carteira">
             <div class="form-group">
-              <label class="bmd-label-floating">Nome Responsável</label>
-              {{form.responsavel}}
+              <label class="bmd-label-floating">Nº da Carteira</label>
+              {{form.num_convenio}}
+            </div>
+          </div>
+           <div class="col-md-2"id="validade">
+            <div class="form-group">
+              <label class="bmd-label-floating">Validade</label>
+              {{form.validade_carteira}}
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <div class="form-group">
               <div class="form-group">
                 <label class="bmd-label-floating"> Outras informações importantes sobre o paciente!</label>
-                <textarea class="form-control" rows="5"name='observacao'></textarea>
+                  {{form.observacao}}
               </div>
-            </div>
           </div>
         </div>
         <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+        <button type="submit" class="btn btn-success pull-right"name="adicionar_outro">Salvar E Adicionar Outro</button>
         <a href="{% url 'lista_pacientes' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
         <div class="clearfix"></div>
       </form>
@@ -170,11 +217,73 @@
 </div>
 </div>
 <script>
+  //através do convenio ele mostra ou omite alguns inputs do formulario quando carregado
+  $(document).ready(function(){
+    if($("#id_convenio option:selected").val() == 1){
+      $("#valor").show();
+      $("#validade").hide();
+      $("#numero_carteira").hide();
+    }else{
+      $("#valor").hide();
+      $("#validade").show();
+      $("#numero_carteira").show();
+    }
+  });
+  //omite os campos se aopção selecionada for particular
+ function showDiv(select){
+      if(select.value == 1){
+        document.getElementById('valor').style.display = "block";
+        document.getElementById('validade').style.display = "none";
+        document.getElementById('numero_carteira').style.display = "none";
+      }else{
+        document.getElementById('valor').style.display = "none";
+        document.getElementById('validade').style.display = "block";
+        document.getElementById('numero_carteira').style.display = "block";
+        //document.getElementById('validade').style.display = "block";
+      }
+    } 
 jQuery(function($){
   $('#id_cep').mask('00000-000');
   $('#id_telefone').mask('(00) 00000-0000');
+  $('#id_telefone_fixo').mask('(00) 00000-0000');
   $('#id_cpf').mask('000.000.000-00', {reverse: true});
 });
+$('#id_validade_carteira').daterangepicker({
+  singleDatePicker: true,
+  showDropdowns: true,
+  "locale": {
+    "format": "DD/MM/YYYY",
+    "separator": " - ",
+    "applyLabel": "Aplicar",
+    "cancelLabel": "Cancelar",
+    "fromLabel": "De",
+    "toLabel": "Até",
+    "customRangeLabel": "Custom",
+    "daysOfWeek": [
+    "Dom",
+    "Seg",
+    "Ter",
+    "Qua",
+    "Qui",
+    "Sex",
+    "Sáb"
+    ],
+    "monthNames": [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+    ],
+    "firstDay": 0
+  }});
 $('#id_data_nascimento').daterangepicker({
   singleDatePicker: true,
   showDropdowns: true,
@@ -212,4 +321,44 @@ $('#id_data_nascimento').daterangepicker({
     "firstDay": 0
   }});
 </script>
+<script>  
+  function confere(form) {
+    var confere = 0;
+    for (i = 0; i < form.elements.length; i++) {
+      if (form.elements[i].type == "checkbox") {
+        if (!form.elements[i].checked) {
+          form.elements[i].className = "destaca";
+          confere++;  
+        }
+         else {
+          form.elements[i].className = "normal";
+        }
+      } else if (form.elements[i].type == "radio") {
+        if(!document.getElementById('formaPagamento').checked) {
+          document.getElementById('formaPagamento').className = "destaca";
+          confere++;  
+        }
+         else {
+          document.getElementById('formaPagamento').className = "normal";
+        }
+      }       
+      else {
+        if (form.elements[i].value == '') {
+          form.elements[i].className = "destaca";
+          confere++;  
+        }
+         else {
+          form.elements[i].className = "normal";
+        }
+      }
+    }
+    if (confere == 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+</script>
+
 {% endblock container %}

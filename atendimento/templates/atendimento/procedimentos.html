@@ -1,8 +1,5 @@
-<option value="">---------</option>
+<option value=""disable>Escolha um  Procedimento</option>
+<option value=""disable>-----------------------------------------------------</option>
 {% for pc in procedimentos %}
-<option value="{{ pc.pk }}">{{ pc.codigo }} - {{ pc.nome }}</option>
-{% endfor %}
-
-{% for g in guias %}
-<option value="{{ g.pk }}">{{ g.numero }} - {{ g.quantidade }}</option>
+	<option value="{{ pc.pk }}">{{ pc.codigo }} - {{ pc.nome }}</option>
 {% endfor %}

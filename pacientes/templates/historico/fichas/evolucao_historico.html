@@ -1,0 +1,22 @@
+   
+{% for evolucao in ficha_evolucao %}
+    {% if evolucao.atendimento.tipo == "AV" %}
+        <h4><b><i class="fa fa-check-square-o"></i> Avaliação dia {{evolucao.atendimento.data}} das {{evolucao.atendimento.hora_inicio}} até {{evolucao.atendimento.hora_fim}}</b></h4><br>
+        <font size="3px">
+            <b>Profissional:</b> {{evolucao.atendimento.profissional}} <br>
+            <b>Convênio:</b> {{evolucao.atendimento.convenio}} <br>                               
+        </font>                              
+    {% else %}
+    <h4><b><i class="fa fa-line-chart"></i> Evolução dia {{evolucao.atendimento.data}} das {{evolucao.atendimento.hora_inicio}} até {{evolucao.hora_fim}}</b></h4><br>
+    <font size="3px">
+        <b>Profissional:</b> {{evolucao.atendimento.profissional}} <br>
+        <b>Convênio:</b> {{evolucao.atendimento.convenio}} <br>
+        <!-- INICIO DA EVOLUÇÃO DO PACIENTE NO PRONTUÁRIO-->
+        <!-- Tem que renderizar o campo evolução aqui-->
+        <!-- FIM DA EVOLUÇÃO DO PACIENTE NO PRONTUÁRIO-->
+        <b>Dados da Evolução: </b>{{evolucao.evolucao}} <br>
+    </font>
+{% endif %}
+<hr>
+
+{%endfor%}

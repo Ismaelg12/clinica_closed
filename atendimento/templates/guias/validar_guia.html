@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+  <script src ="{% static "tables/jquery.min.js" %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="{% url 'procedimentos' %}">
+      <i class="material-icons">accessible</i>
+      <p>Guias</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary"data-background-color="purple">
+                    <h4 class="card-title">Atualizar Guia</h4>
+              </div>
+              <div class="card-content">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Numero</label>
+                   <input type="text"value="{{guia.numero}}"class="form-control"readonly="true">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label class="bmd-label-floating">*Convenio</label>
+                  <input type="text"value="{{guia.convenio}}"class="form-control"readonly="true">
+                </div>
+                <div class="col-md-3">
+                  <label class="bmd-label-floating">* Paciente</label>
+                   <input type="text"value="{{guia.paciente}}"class="form-control"readonly="true">
+                </div>
+                <div class="col-md-3">
+                  <label class="bmd-label-floating">* Profissional</label>
+                   <input type="text"value="{{guia.profissional}}"class="form-control"readonly="true">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">*Data Validade</label>
+                     <input type="text"value="{{guia.validade|date:'d/m/Y'}}"class="form-control"id="id_validade"name="validade">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">*Autorização</label>
+                    <input type="text"value="{{guia.data_autorizacao|date:'d/m/Y'}}"class="form-control"readonly="true">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Quantidade</label>
+                     <input type="text"value="{{guia.quantidade}}"class="form-control"readonly="true">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="bmd-label-floating"> Procedimento</label>
+                    <input type="text"value="{{guia.procedimento}}"class="form-control"readonly="true">
+                </div>
+              </div>
+              <div class="row">
+                 <div class="col-md-3">
+                  <label class="bmd-label-floating">* Tipo de Guia</label>
+                    <input type="text"value="{{guia.get_tipo_guia_display}}"class="form-control"readonly="true">
+                </div>
+                 <div class="col-md-3">
+                  <label class="bmd-label-floating">* Status</label>
+                   <input type="text"value="{{guia.get_status_display}}"class="form-control"readonly="true">
+                </div>
+              </div>
+              <button type="submit"class="btn btn-primary pull-right">Salvar</button>
+              <a href="{% url 'guias' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+              <div class="clearfix"></div>
+            </form>
+          </div><!-- end content-->
+            </div> <!-- end col-md-12 -->
+        </div> <!-- end row -->
+  </div>
+</div>
+<script>
+  $('#id_validade').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    "locale": {
+    "format": "DD/MM/YYYY",
+    "separator": " - ",
+    "applyLabel": "Aplicar",
+    "cancelLabel": "Cancelar",
+    "fromLabel": "De",
+    "toLabel": "Até",
+    "customRangeLabel": "Custom",
+    "daysOfWeek": [
+        "Dom",
+        "Seg",
+        "Ter",
+        "Qua",
+        "Qui",
+        "Sex",
+        "Sáb"
+    ],
+    "monthNames": [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+    ],
+    "firstDay": 0
+}});
+</script>
+{% endblock container %}

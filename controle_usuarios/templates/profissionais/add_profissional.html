@@ -39,28 +39,38 @@
                    <form method="POST">
                 {% csrf_token %}
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                     <label class="bmd-label-floating">*Nome de Usuario</label>
-                       <b style="color:red;">{{user_form.username.errors}}</b>
-                    <input type="text"name="username"class="form-control">
+                      <b style="color:red;">{{user_form.username.errors}}</b>
+                      <!--<input type="text"name="username"class="form-control">-->
+                      {{user_form.username}}
                     </div>
                   </div>
-                   <div class="col-md-3">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                    <label class="bmd-label-floating">*Email</label>
+                       <b style="color:red;">{{profissional_form.email.errors}}</b>
+                      {{profissional_form.email}}
+                    </div>
+                  </div>
+                   <div class="col-md-2">
                     <div class="form-group">
                       <label class="bmd-label-floating">*Senha</label>
-                        <input type="text"name="password1"class="form-control">
+                        <!--<input type="password"name="password1"class="form-control">-->
+                        {{user_form.password1}}
                     </div>
                   </div>
-                   <div class="col-md-3">
+                   <div class="col-md-2">
                     <b style="color:red;">{{user_form.password2.errors}}</b>
                     <div class="form-group">
-                      <label class="bmd-label-floating">*Confirmação de Senha</label>
-                      <input type="text"name="password2"class="form-control">
+                      <label class="bmd-label-floating">*Confirmar Senha</label>
+                      <!--<input type="password"name="password2"class="form-control">-->
+                      {{user_form.password2}}
                     </div>
                   </div>
-                 <div class="col-md-3 ">
-                  <b style="color:red;">{{user_form.tipo.errors}}</b>
+                 <div class="col-md-3">
+                 <b style="color:red;">{{profissional_form.tipo.errors}}</b>
                    <label class="bmd-label-floating">Atuação</label>
                       <select requerid class="selectpicker"name="tipo"data-style="select-with-transition" data-size="7"id="permissao">
                         <option value="">Escolha a Função no Sistema</option>
@@ -72,14 +82,14 @@
                 <div class="row">
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label class="bmd-label-floating">Nome</label>
+                      <label class="bmd-label-floating">*Nome</label>
                        <b style="color:red;">{{profissional_form.nome.errors}}</b>
                      {{profissional_form.nome}}
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label class="bmd-label-floating">Sobrenome</label>
+                      <label class="bmd-label-floating">*Sobrenome</label>
                        <b style="color:red;">{{profissional_form.sobrenome.errors}}</b>
                      {{profissional_form.sobrenome}}
                     </div>
@@ -93,7 +103,7 @@
                   </div>
                    <div class="col-md-3">
                     <div class="form-group">
-                      <label class="bmd-label-floating">Registro</label>
+                      <label class="bmd-label-floating">Nº do Conselho</label>
                       <b style="color:red;">{{profissional_form.registro.errors}}</b>
                        {{profissional_form.registro}}
                     </div>
@@ -103,37 +113,86 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label class="bmd-label-floating">*CPF</label>
-                     <b style="color:red;">{{profissional_form.cpf.errors}}</b>
+                      <b style="color:red;">{{profissional_form.cpf.errors}}</b>
                         {{profissional_form.cpf}}
                     </div>
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label class="bmd-label-floating">Data de Nascimento</label>
                        <b style="color:red;">{{profissional_form.data_nascimento.errors}}</b>
                       {{profissional_form.data_nascimento}}
                     </div>
                   </div>
-                   <div class="col-md-3">
-                    <label class="bmd-label-floating">*Área do profissional</label>
-                       <b style="color:red;">{{profissional_form.area_atuacao.errors}}</b>
-                      {{profissional_form.area_atuacao}}
-                  </div>
                   <div class="col-md-3"id="numero_atendimentos">
                     <label class="bmd-label-floating">*Atendimentos por Dia</label>
                       <b style="color:red;">{{profissional_form.quantidade_atend.errors}}</b>
                       {{profissional_form.quantidade_atend}}
                   </div>
-                   <div class="col-md-2">                   
+                  <div class="col-md-2">                   
                       <label class="bmd-label-floating">*Ativo</label>
                        <b style="color:red;">{{profissional_form.ativo.errors}}</b>
                       {{profissional_form.ativo}}
                   </div>
                 </div>
+                 <br/> <br/>
+                <div class="row">
+                  <div class="col-md-4">
+                    <b>ÀREA DE ATUAÇÂO</b><br/>
+                    {% for field in profissional_form.area_atuacao %}         
+                      <div class="checkbox">
+                        <label>
+                          <!-- Generates the checkbox for the field -->
+                          {{ field.tag }}
+                          <span class="checkbox-material"></span><i class="text-warning">{{ field.choice_label}}</i> 
+                          <!-- Generates the named label of the field -->
+                        </label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                 
+                  <div class="col-md-8">                   
+                      <label class="bmd-label-floating">*Atendimentos</label>
+                       <b style="color:red;">{{profissional_form.atent_categoria.errors}}</b>
+                      {{profissional_form.atent_categoria}}
+                  </div>
+                   
+                  <div class="col-md-8">    
+                  <br/>                
+                      <label class="bmd-label-floating">*Abordagem</label>
+                       <b style="color:red;">{{profissional_form.abordagem.errors}}</b>
+                      {{profissional_form.abordagem}}
+                  </div>
+                   
+                   <div class="col-md-8"> 
+                   <br/>                  
+                      <label class="bmd-label-floating">*Observação</label>
+                       <b style="color:red;">{{profissional_form.observacao.errors}}</b>
+                      {{profissional_form.observacao}}
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Dias de Atendimento</label>
+                     <b style="color:red;">{{profissional_form.horario_trabalho.errors}}</b>
+                      {{profissional_form.horario_trabalho}}
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">*Dados Bancários</label>
+                     <b style="color:red;">{{profissional_form.conta_banco.errors}}</b>
+                      {{profissional_form.conta_banco}}
+                    </div>
+                  </div>                    
+                </div>
+                
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
                 <a href="{% url 'profissionais' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
                 <div class="clearfix"></div>
-              </form>
+                </form>
                  </div><!-- end content-->
                 </div><!--  end card  -->
             </div> <!-- end col-md-12 -->

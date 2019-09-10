@@ -35,27 +35,34 @@
              <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                 <thead class=" text-primary">
                   <th>Nº</th>
-                  <th>Descrição</th>
-                  <th>Vencimento</th>
+                  <th>Data</th>
                   <th>Valor</th>
+                  <th>Profissional</th>
                   <th>Forma_Pagamento</th>
                   <th>Categoria</th>
                   <th>Status</th>
-                  <th>Excluir</th>
                 </thead>
                 <tbody>
                   {% for c in contas %}
                   <tr>
                     <td>{{forloop.counter}}</td>
-                    <td>{{c.descricao}}</td>
                     <td>{{c.vencimento|date:'d/m/Y'}}</td>
                     <td>{{c.valor_total}}</td>
+                    <td>{{c.profissional}}</td>
                     <td>{{c.get_forma_pagamento_display}}</td>
-                    <td>{{c.categoria}}</td>
-                    <td>{{c.status_pag}}</td>
-                    <td  width="10%">
-                      <a href="" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                    <td>
+                      {% if  c.categoria == None%}
+                        --------------------
+                      {% else %}
+                        {{c.categoria}}
+                      {% endif %}
                     </td>
+                    <td> 
+                      {% if c.status_Pag == True %}
+                        <b class="text-success"><i class="material-icons">check_circle</i></b>  
+                      {% else %}
+                        <b class="text-danger"><i class="material-icons">cancel</i></b>
+                      {% endif %}</td>
                   </tr>
                   {% endfor %}
                 </tbody>

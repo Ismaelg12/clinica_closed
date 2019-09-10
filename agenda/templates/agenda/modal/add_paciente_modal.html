@@ -1,0 +1,68 @@
+
+<!-- INICIO DO MODAL AGENDAMENTO NOVO PACIENTE-->
+<div id="createPacienteModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header card-header-primary"data-background-color="green">
+          <h4 class="card-title ">Novo Paciente</h4>
+        </div>
+        <form method="POST"id="paciente_form"action="{% url 'adicionar_paciente_calendar' %}">
+          {% csrf_token %}
+        <div id="modalBody" class="modal-body">
+          <div class="row">
+           <div class="row">
+            <div class="col-md-6">
+              <div class="form-group ">
+                <label>Nome Do Paciente:*</label>
+                <input class="form-control" name="nome" type="text"id="nome">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group ">
+                <label>Nascimento:*</label>
+                <input class="form-control" name="nascimento" type="text"id="nascimento" >
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group ">
+                <label>Telefone:*</label>
+                <input class="form-control telefone" name="telefone" type="text"id="celular">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Profisional:*</label>
+              <select name="profissional" id="prof_paciente" class="selectpicker"data-style="select-with-transition"
+              data-size=7 data-live-search="true"multiple>
+              <option value=""disable> --- </option>
+              {% for pr in profissionais %}
+                <option value="{{pr.id}}">{{pr.nome}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label>Convenio:*</label>
+            <select id="convenio"name="convenio"  class="selectpicker"data-style="select-with-transition"
+            data-size=7 data-live-search="true">
+            <option value=""disable> --- </option>
+            {% for c in convenios %}
+              <option value="{{c.id}}">{{c.nome}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer btn-enviar">
+        <button class="btn btn-raised btn-danger btn-xs" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+        <button type="submit" class="btn btn-primary btn-raised btn-xs" id="submitSaveButton">Salvar</button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+</div>
+<!-- FIM DO MODAL  AGENDAMENTO NOVO PACIENTE-->
+

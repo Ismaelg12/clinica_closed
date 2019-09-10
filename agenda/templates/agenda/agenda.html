@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+  <script src="{% static 'assets/js/jquery.min.js'%}" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/locales/pt-br.js" type="text/javascript"></script>
+  <script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
+  <script src="{% static 'calendar/crud_full_calendar.js' %}"></script>
+{% endblock datepicker %}
+{% block menu_li %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'home' %}">
+    <i class="material-icons">dashboard</i>
+    <p>Dashboard</p>
+  </a>
+</li>
+<li class="nav-item active  ">
+  <a class="nav-link" href="#">
+   <i class="material-icons">calendar_today</i>
+   <p>Agenda</p>
+ </a>
+</li>
+{% endblock menu_li %}
+{% block container %}
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12 col-md-offset-0">
+            <div class="card card-calendar">
+              <div class="card-content" class="ps-child">
+                <!--inicio da busca-->
+                <div class="col-md-12">
+                  <!--customizar aqui-->
+                  {% if infoProfissional %}
+                  <div class="col-md-4 form-group">
+                    <ul class="nav">
+                      <li id="prof"value="{{infoProfissional.id}}"></li><!-- o id do profissional -->
+                      <li><span><b>Profissional: </b></span>{{infoProfissional.nome}}</li>
+                      <li><span><b>Abordagem: </b></span>{{infoProfissional.abordagem}}</li>
+                      <li><span><b>Telefone: </b></span>{{infoProfissional.telefone}}</li>
+                      <li>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalContaBanco">
+                          Dados Bancários
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <ul class="nav">
+                      <li><span><b>CRP: </b></span>{{infoProfissional.registro}}</li>
+                      <li><span><b>Atendimento: </b></span>{{infoProfissional.atent_categoria}}</li>
+                      <li><span><b>Observação: </b></span><span class="text-warning">{{infoProfissional.observacao}}</span></li>
+                    </ul>
+                  </div> 
+                  <!-- INICIO DO MODAL  CONTA BANCO-->
+                  <div id="ModalContaBanco" class="modal fade">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="card">
+                          <div class="card-header card-header-primary"data-background-color="green">
+                            <h4 class="card-title ">Dados Bancários</h4>
+                          </div>
+                          <div id="modalBody" class="modal-body">
+                            <div class="row">                               
+                              <div class="col-md-12 form-group">
+                                <ul class="nav">
+                                  <b>{{infoProfissional.conta_banco}}</b>
+                                </li>
+                              </ul>
+                            </div>                                
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+                <!-- FIM DO MODAL  CONTA BANCO-->
+                {% else %}
+                  <span id="prof"value="{{id_profissional}}"></span>          
+                {% endif %}
+                {% if not verifica_prof_log %}
+                  <form method="GET"name="search">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3">
+                        <select class="selectpicker" name="profissional"data-style="select-with-transition" title="Pesquisar Por Profissional" data-size="7"data-live-search="true">
+                          <option value="">Selecione o Profissional</option>
+                          {% for p in profissionais %}
+                          <option value="{{p.id}}">{{p.nome}} {{p.sobrenome}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>                      
+                      <div class="col-md-1 col-sm-1">
+                       <button type="submit" class="btn btn-primary pull-right btn-round"><i class="material-icons">search</i></button>
+                     </div>
+                   </div>
+                 </form>
+               {% endif %}
+             </div>
+             <br><br><br><br>
+            <div id="fullCalendar"></div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+ <!--MODAL PÁGINA DE AGENDAMENTO FULLCALENDAR E DETALHES-->
+ {% include 'agenda/modal/add_agendamento_modal.html' %}
+ 
+ <!--MODAL PÁGINA ADICIONAR NOVO PACIENTE-->
+ {% include 'agenda/modal/add_paciente_modal.html' %}
+</div>
+</div>
+<script>
+$(document).ready(function () {
+  var id_profissional = $("#prof").attr("value");
+  //alert(id_profissional);
+  var calendar = $('#fullCalendar').fullCalendar({
+    hiddenDays: [0],
+    dragScroll: false,
+    defaultView: 'agendaWeek', 
+    minTime: '08:00:00',
+    maxTime: '20:00:00',
+    timeFormat: 'H:mm' ,
+    selectable: true,
+    selectHelper: true,
+    editable: true,
+    eventLimit: true,
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay,listWeek'
+    },
+    businessHours: [
+    {% if infoProfissional.horario_trabalho %}
+    { 
+        dow: "{{infoProfissional.horario_trabalho}}", // Monday the Saturday
+        start: '08:00',
+        end: '12:00', 
+      },
+      {   // PM
+        dow: "{{infoProfissional.horario_trabalho}}", // Monday the Saturday
+        start: '14:00',
+        end: '20:00',
+      }
+      {% else %}
+        {   // AM
+          dow: [1,2,3,4,5,6], // Monday the Saturday
+          start: '08:00',
+          end: '12:00', 
+          //rendering: 'background'
+        },
+        {   // PM
+          dow: [1,2,3,4,5,6], // Monday the Saturday
+          start: '14:00',
+          end: '20:00',
+        }
+        {%endif%}
+      ],selectConstraint: "businessHours",
+      /*eventos  de redenrização no calendario assim que é abertp */
+    eventRender: function(event, element) {
+      $(element).tooltip({title: event.title});
+      //trás setado o profissional no modal de adicionar agenda   
+      $('#profissional').selectpicker('val',id_profissional);
+      //opção desativa os values não selecionados
+      $('#profissional option:not(:selected)').prop( "disabled", true );  
+      //trás setado o profissional no modal de adicionar um novo paciente
+      $('#prof_paciente').selectpicker('val',id_profissional);        
+    },
+    //opção de click no evento para redirecionar para modal
+    eventClick:eventClickAgendamento,
+      events: [
+      {% for event in agenda %}
+        {
+          id: '{{ event.id }}',
+          profissional: "{{ event.profissional|title|truncatechars_html:27}}",
+          convenio: "{{ event.convenio|title}}",
+          celular: "{{ event.telefone}}",
+          title: "{{ event.paciente|title|truncatechars_html:27}}",
+          start: '{{ event.data|date:"Y-m-d" }}T{{event.hora_inicio}}',
+          end: ' {{ event.data|date:"Y-m-d" }}T{{event.hora_fim}}',
+          color: '{% if event.status == 'AT'%} blue {% elif event.status == 'FJ'%} yellow {% elif event.status == 'FH'%} orange {% elif event.status == 'FN'%} grey {% elif event.status == 'DM'%} purple {% elif event.status == 'AD'%} pink {% elif event.status == 'BQ'%} black  {% elif event.status == 'PT'%} #08d0aa{%endif%}',
+          allDay:false,
+            //ids das chaves estrangeiras
+            paciente_id:'{{event.paciente.id}}',
+            profissional_id:'{{event.profissional_id}}',
+            convenio_id:'{{event.convenio_id}}',
+            status:'{{event.status}}',
+            sala_id:'{{event.sala_id}}',
+            telefone:'{{event.telefone}}',
+            observacao:'{{event.observacao}}',
+          },
+        {% endfor %}
+      ],
+    //evento de seleção do calendario
+    select: addAgendamentoOnSelection
+  });
+});
+</script>
+<script type="text/javascript">
+ $(function () {
+  $('.hora_agenda').datetimepicker({    
+    format: 'HH:mm'
+  });
+});
+ $("#paciente").change(function() {
+    var pacienteContato = $(this).find('option:selected').text();
+    var telefonePaciente = pacienteContato.split('--')[1];
+    $('#telefone').val(telefonePaciente.replace(/\s/g, ''));
+      //alert(telefonePaciente.replace(/\s/g, ''));
+  }); 
+ //mascaras jquery input mask
+  $('#nascimento').mask('00/00/0000', {placeholder: "__/__/____"});
+  $('.telefone').mask('(00) 00000-0000',{placeholder: "(__) _ ____-____" });
+  $('#valor').mask("#.##0.00", {reverse: true});
+</script>
+{% endblock container %}
+
+

@@ -1,0 +1,51 @@
+   
+{% for uroginecologia in ficha_uroginecologia %}
+    {% if uroginecologia.atendimento.tipo == "AV" %}
+        <h4><b><i class="fa fa-check-square-o"></i> Avaliação dia {{uroginecologia.atendimento.data}} das {{uroginecologia.atendimento.hora_inicio}} até {{uroginecologia.atendimento.hora_fim}}</b></h4><br>
+        <font size="3px">
+            <b>Profissional:</b> {{uroginecologia.atendimento.profissional}} <br>
+            <b>Convênio:</b> {{uroginecologia.atendimento.convenio}} <br>
+        </font>                              
+    {% else %}
+    <h4><b><i class="fa fa-line-chart"></i> Evolução dia {{uroginecologia.atendimento.data}} das {{uroginecologia.atendimento.hora_inicio}} até {{uroginecologia.hora_fim}}</b></h4><br>
+    <font size="3px">
+        <b>Profissional:</b> {{uroginecologia.atendimento.profissional}} <br>
+        <b>Convênio:</b> {{uroginecologia.atendimento.convenio}} <br>
+        <!-- INICIO DA EVOLUÇÃO DO PACIENTE NO PRONTUÁRIO-->
+        <!-- Tem que renderizar o campo evolução aqui-->
+        <!-- FIM DA EVOLUÇÃO DO PACIENTE NO PRONTUÁRIO-->
+    </font>
+{% endif %}
+<hr>
+    <font size="3px">
+        <b>Queixa Principal: </b>{{uroginecologia.queixa}} <br>              
+        <b>HDA: </b>{{uroginecologia.hda}}<br>                 
+        <b>HPP: </b>{{uroginecologia.hpp}}<br>                   
+        <b>Antecedentes Cirurgicos: </b>{{uroginecologia.antece_cirurgico}}<br>     
+        <b>Antecedentes Familiares: </b>{{uroginecologia.antece_familiar}}<br>      
+        <b>Medicações: </b>{{uroginecologia.uso_medicacao}}<br>        
+        <b>Incontinência Urinária: </b>{{uroginecologia.incont_urinaria}} <br>     
+        <b>Como você perde: </b>{{uroginecologia.como_perde}} <br>         
+        <b>Quanto Perde: </b>{{uroginecologia.quanto_perde}} <br>       
+        <b>Como urina: </b>{{uroginecologia.como_urina}}<br>           
+        <b>Frequência de perdas / no de vezes: </b>{{uroginecologia.frequencia_perda}} <br>   
+        <b>Faz uso de protetores / fralda: </b>{{uroginecologia.usa_frauda}}  <br>         
+        <b>Frequência urinária: </b>{{uroginecologia.frequencia_urina}}  <br>  
+        <b>Funções Intestinais: </b>{{uroginecologia.funcao_intestinal}} <br>  
+        <b>Menarca: </b>{{uroginecologia.menarca}}<br>              
+        <b>contracepção/tipo: </b>{{uroginecologia.contracepcao_tipo}} <br>  
+        <b>enopausa/Idade: </b>{{uroginecologia.menopausa}}<br>             
+        <b>GPCA: </b>{{uroginecologia.gpca}}<br>                
+        <b>Episotomia: </b>{{uroginecologia.episotomia}}<br>          
+        <b>Fórceps: </b>{{uroginecologia.forceps}}<br>             
+        <b>Maior tempo de trabalho de part: </b>{{uroginecologia.tempo_parto}}<br>         
+        <b>Complicações: gestação/ puérperio qual?: </b>{{uroginecologia.complicacao}} <br>  
+        <b>Cirurgias ginecológica: </b>{{uroginecologia.Cirurg_ginecologica}}  <br>
+        <b>DSTs: </b>{{uroginecologia.dst}} <br>               
+        <b>Infecção urinária recorrente: </b>{{uroginecologia.infec_urinaria}} <br>      
+        <b>Exames complementares: </b>{{uroginecologia.exame_complementar}} <br>  
+        <b>Exame físico Inspeção MAP: </b>{{uroginecologia.exame_fisico}}  <br>       
+        <b>AFA: </b>{{uroginecologia.afa}}<br>                  
+        <b>PERFECT: </b>{{uroginecologia.perfect}}<br>             
+    </font>
+{% endfor %}

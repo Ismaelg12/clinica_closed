@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from decouple import config,Csv
+from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
+    'agenda.apps.AgendaConfig',
     'pacientes.apps.PacientesConfig',
     'controle_usuarios.apps.ControleUsuariosConfig',
     'atendimento.apps.AtendimentoConfig',
@@ -57,12 +60,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'sistema_fisioterapia.urls'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['controle_usuarios/templates/'],#usado somente para reset de senha
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,9 +90,11 @@ DATABASES = {
         'PASSWORD':config('DB_PASSWORD'),
         'HOST':config('DB_HOST'),
         'PORT':'3306',
+        'OPTIONS': {
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    	},
     }
 }
-
 """
 DATABASES = {
     'default': {
@@ -99,7 +103,6 @@ DATABASES = {
     }
 }
 """
-
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -118,7 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+#section expire
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -143,14 +147,25 @@ LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL           = 'login'
 
 #emails
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 #configurado para o hotmail
-
-DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL', default='')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL', default='')
 EMAIL_HOST          = config('EMAIL_HOST', default='localhost')
+EMAIL_HOST_USER     = config('EMAIL_HOST_USER', default='')
 EMAIL_PORT          = config('EMAIL_PORT', default=25, cast=int)
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-EMAIL_HOST_USER     = config('EMAIL_HOST_USER', default='')
 EMAIL_USE_TLS       = config('EMAIL_USE_TLS', default=False, cast=bool)
 
+#alerts messages
+MESSAGE_TAGS = {
+    messages.DEBUG  : 'alert-info',
+    messages.INFO   : 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR  : 'alert-danger',
+}
 
+# insta_project/settings.py
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

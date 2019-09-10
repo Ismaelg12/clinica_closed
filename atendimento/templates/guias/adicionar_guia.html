@@ -1,98 +1,139 @@
 {% extends "base.html" %}
 {% load static %}
 {% block datepicker %}
-  <script src ="{% static "tables/jquery.min.js" %}"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src ="{% static "tables/jquery.min.js" %}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 {% endblock datepicker %}
 {% block menu_li %}
-  <li class="nav-item">
-      <a class="nav-link" href="{% url 'home' %}">
-        <i class="material-icons">dashboard</i>
-        <p>Dashboard</p>
-      </a>
-    </li>
-  <li class="nav-item active  ">
-    <a class="nav-link" href="{% url 'procedimentos' %}">
-      <i class="material-icons">accessible</i>
-      <p>Guias</p>
-    </a>
-  </li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'home' %}">
+    <i class="material-icons">dashboard</i>
+    <p>Dashboard</p>
+  </a>
+</li>
+<li class="nav-item active  ">
+  <a class="nav-link" href="{% url 'guias' %}">
+    <i class="material-icons">accessible</i>
+    <p>Guias</p>
+  </a>
+</li>
 {% endblock menu_li %}
 {% block container %}
-  <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary"data-background-color="purple">
-                    <h4 class="card-title">Cadastrar Guia</h4>
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary"data-background-color="purple">
+            <h4 class="card-title">Cadastrar Guia</h4>
+          </div>
+          <div class="card-content">
+            <br>
+           <form method="POST"id="atendForm" data-select-url="{% url 'ajax_load_proced' %}"novalidate>
+            {% csrf_token %}
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Numero da Guia</label>
+                    {{form.numero}}
+                    {{form.numero.errors}}
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label class="bmd-label-floating">* Paciente</label>
+                  {{form.paciente}}
+                  {{form.paciente.errors}}
+                </div>
+                <div class="col-md-3">
+                  <label class="bmd-label-floating">* Profissional</label>
+                  {{form.profissional}}
+                  {{form.profissional.errors}}
+                </div>
+                <div class="col-md-3">
+                  <label class="bmd-label-floating">*Convênio</label>
+                  {{form.convenio}}
+                  {{form.convenio.errors}}
+                </div>
               </div>
-                <div class="card-content">
-                  <form method="POST">
-                    {% csrf_token %}
-                    <div class="row">
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* Numero</label>
-                         {{form.numero}}
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">*Convenio</label>
-                         {{form.convenio}}
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* Paciente</label>
-                         {{form.paciente}}
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* Profissional</label>
-                         {{form.profissional}}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">*validade</label>
-                         {{form.validade}}
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">* quantidade</label>
-                         {{form.quantidade}}
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="bmd-label-floating"> descricao</label>
-                         {{form.descricao}}
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit"class="btn btn-primary pull-right">Salvar</button>
-                   <a href="{% url 'guias' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
-                    <div class="clearfix"></div>
-                  </form>
-                 </div><!-- end content-->
-                </div><!--  end card  -->
-            </div> <!-- end col-md-12 -->
-        </div> <!-- end row -->
+              <div class="row">
+                  <div class="col-md-4">
+                    <label class="bmd-label-floating">*Procedimento</label>
+                    {{form.procedimento}} 
+                    {{form.procedimento.errors}} 
+                  </div>
+                 <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">*Autorização</label>
+                    {{form.data_autorizacao}}
+                    {{form.data_autorizacao.errors}}
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">*Validade</label>
+                    {{form.validade}}
+                    {{form.validade.errors}}
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Em Ser</label>
+                    {{form.quantidade}}
+                    {{form.quantidade.errors}}
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Quantidade</label>
+                    {{form.qtdautorizada}}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                 <div class="col-md-3">
+                  <label class="bmd-label-floating">* Tipo de Guia</label>
+                  {{form.tipo_guia}}
+                  {{form.tipo_guia.errors}}
+                </div>
+                 <div class="col-md-3">
+                  <label class="bmd-label-floating">* Status</label>
+                  {{form.status}}
+                </div>
+                <div class="col-md-6">
+                 <b class="text-danger">{{form.non_field_errors}}</b>
+                </div>
+              </div>
+              <button type="submit"class="btn btn-primary pull-right">Salvar</button>
+              <a href="{% url 'guias' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+              <div class="clearfix"></div>
+            </form>
+          </div><!-- end content-->
+        </div><!--  end card  -->
+      </div> <!-- end col-md-12 -->
+    </div> <!-- end row -->
   </div>
 </div>
 <script>
-  $('#id_validade').daterangepicker({
-    singleDatePicker: true,
-    showDropdowns: true,
-    "locale": {
+$("#id_convenio").change(function () {
+      var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view
+      var convenioId = $(this).val();  // get the selected convenio ID from the HTML input
+
+     $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'convenio': convenioId       // add the convenio id to the GET parameters
+      },
+        success: function (data) {   // `data` is the return of the `load_convenios` view function
+          $("#id_procedimento").html(data);  // replace the contents of the id_procedimento input with the data that came from the server
+      }
+  });
+ });
+$('#id_validade').daterangepicker({
+  singleDatePicker: true,
+  showDropdowns: true,
+  "locale": {
     "format": "DD/MM/YYYY",
     "separator": " - ",
     "applyLabel": "Aplicar",
@@ -101,29 +142,65 @@
     "toLabel": "Até",
     "customRangeLabel": "Custom",
     "daysOfWeek": [
-        "Dom",
-        "Seg",
-        "Ter",
-        "Qua",
-        "Qui",
-        "Sex",
-        "Sáb"
+    "Dom",
+    "Seg",
+    "Ter",
+    "Qua",
+    "Qui",
+    "Sex",
+    "Sáb"
     ],
     "monthNames": [
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Maio",
-        "Junho",
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro"
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
     ],
     "firstDay": 0
-}});
+  }});
+$('#id_data_autorizacao').daterangepicker({
+  singleDatePicker: true,
+  showDropdowns: true,
+  "locale": {
+    "format": "DD/MM/YYYY",
+    "separator": " - ",
+    "applyLabel": "Aplicar",
+    "cancelLabel": "Cancelar",
+    "fromLabel": "De",
+    "toLabel": "Até",
+    "customRangeLabel": "Custom",
+    "daysOfWeek": [
+    "Dom",
+    "Seg",
+    "Ter",
+    "Qua",
+    "Qui",
+    "Sex",
+    "Sáb"
+    ],
+    "monthNames": [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+    ],
+    "firstDay": 0
+  }});
 </script>
 {% endblock container %}

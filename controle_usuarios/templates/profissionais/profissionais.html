@@ -47,7 +47,7 @@
                         {% for prof in lista_profissionais %}
                           <tr>
                             <td>{{forloop.counter}}</td>
-                            <td><b>{{prof.nome}} {{prof.sobrenome}}</b></td>
+                            <td><b>{{prof.nome|title}} {{prof.sobrenome|title}}</b></td>
                             <td><b>{{prof.user.profissional.get_tipo_display}}</b></td>
                             <td>{{prof.user.profissional.telefone}}</td>
                             <td>{{prof.user.profissional.cpf}}</td>

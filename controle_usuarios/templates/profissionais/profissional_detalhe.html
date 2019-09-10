@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block menu_li %}
+{% block datepicker %}
+<!--datatables-->
+  <script src ="{% static "tables/jquery.min.js" %}"></script>
+{% endblock datepicker %}
   <li class="nav-item">
       <a class="nav-link" href="{% url 'home' %}">
         <i class="material-icons">dashboard</i>
@@ -39,33 +43,33 @@
                       </div>
                     </div>
                     <div class="row">
-                       <div class="col-md-4">
+                       <div class="col-md-3">
                         <div class="form-group">
                           <label class="bmd-label-floating">Telefone</label>
                           <input type="email" value="{{prof.telefone}}"class="form-control" disabled>
                         </div>
                       </div>
-                       <div class="col-md-4">
+                       <div class="col-md-3">
                         <div class="form-group">
                           <label class="bmd-label-floating">* Cpf</label>
                           <input type="text" value="{{prof.cpf}}"class="form-control" disabled>
                         </div>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <div class="form-group">
-                          <label class="bmd-label-floating">*data_nascimento</label>
+                          <label class="bmd-label-floating">*Data Nascimento</label>
                           <input type="text" value="{{prof.data_nascimento|date:"d/m/Y"}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Nº Conselho</label>
+                          <input type="text" value="{{prof.registro}}"class="form-control" disabled>
                         </div>
                       </div>
                     </div>
                     <div class="row">
-                       <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Registro</label>
-                          <input type="text" value="{{prof.registro}}"class="form-control" disabled>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <div class="form-group">
                           <label class="bmd-label-floating">* Função</label>
                           <input type="text" value="{{prof.get_tipo_display}}"class="form-control" disabled>
@@ -83,13 +87,25 @@
                           <input type="text" value="{{prof.quantidade_atend}}"class="form-control" disabled>
                         </div>
                       </div>
+                       <div class="col-md-2">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Data de Registro</label>
+                          <input type="text" value="{{prof.data_cadastro|date:'d/m/Y'}}"class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Data de Atualização</label>
+                          <input type="text" value="{{prof.atualizado_em}}"class="form-control" disabled>
+                        </div>
+                      </div>
                     </div>
-                   <a href="{% url 'profissionais' %}" class="btn btn-danger btn-group pull-right" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+                   <a href="{% url 'profissionais' %}" class="btn btn-success btn-group pull-right" onclick="return confirm('Deseja realmente Voltar?');">Voltar</a>
                     <div class="clearfix"></div>
                     <hr>
                     <h3 class="text-center"><i class="material-icons">people</i>  Atendimentos Feito Por {{prof.nome}}</h3>
                     <div class="tab-pane active show" id="profile">
-                      <table class="table" id="Table" style="width:100%">
+                      <table class="table" id="datatables" style="width:100%">
                       <thead class=" text-primary">
                         <th>Evolução/Avaliação</th>
                         <th>Data</th>
@@ -121,7 +137,7 @@
                             {{atendimento.hora_inicio}}h -- {{atendimento.hora_fim}}h
                           </td>
                           <td>
-                            <a href="{% url 'detalhe_atendimento' atendimento.id %}" title="Ver Atendimento"><i class="material-icons">visibility</i></a>
+                            <a href="{% url 'update_atendimento' atendimento.id %}" title="Ver Atendimento"><i class="material-icons">visibility</i></a>
                           </td>
                         </tr>
                         {% endfor %}
@@ -135,4 +151,57 @@
         </div> <!-- end row -->
   </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datatables').DataTable({
+      "pagingType": "full_numbers",
+      "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+      responsive: true,
+      searching: true, 
+      "language": {
+          "sProcessing":   "Processando...",
+          "sLengthMenu":   " _MENU_ ",
+          "sZeroRecords":  "<b><center>Não foram encontrados resultados</center><b>",
+          "info": "Pág _PAGE_ de _PAGES_",
+          "sInfoEmpty":    "",
+          "sInfoFiltered": "",
+          "sInfoPostFix":  "",
+          "sSearch":       "Busca",
+          "sUrl":          "",
+          "oPaginate": {
+              "sFirst":    "Primeiro",
+              "sPrevious": "",
+              "sNext":     "",
+              "sLast":     "Último"
+          }
+      }
+    });
+
+
+    var table = $('#datatables').DataTable();
+
+    // Edit record
+    table.on( 'click', '.edit', function () {
+      $tr = $(this).closest('tr');
+
+      var data = table.row($tr).data();
+      alert( 'You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.' );
+    } );
+
+    // Delete a record
+    table.on( 'click', '.remove', function (e) {
+      $tr = $(this).closest('tr');
+      table.row($tr).remove().draw();
+      e.preventDefault();
+    } );
+
+    //Like record
+    table.on( 'click', '.like', function () {
+      alert('You clicked on Like button');
+    });
+
+    $('.card .material-datatables label').addClass('form-group');
+  });
+
+</script>
 {% endblock container %}

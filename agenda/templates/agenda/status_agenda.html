@@ -1,0 +1,21 @@
+{% if agenda.status == 'AG' %}
+      <b class="text-success" title="Agendado"><i class="material-icons">swap_vertical_circle</i></b>
+      {% elif agenda.status == 'AT'%}
+      <b class="text-info"title="Atendido"><i class="material-icons">swap_vertical_circle</i></b>
+      {% elif agenda.status == 'DM'%}
+      <b style="color:purple"title="Desmarcado Pelo Profissional"><i class="material-icons">swap_vertical_circle</i></b>
+      {% elif agenda.status == 'FJ'%}
+      <b style="color:yellow"title="Justificado"><i class="material-icons">swap_vertical_circle</i></b>
+      {% elif agenda.status == 'FN'%}
+      <b style="color:grey"title="Não Justificado"><i class="material-icons">swap_vertical_circle</i></b>
+      {% elif agenda.status == 'FH'%}
+      <b style="color:orange"title="Justificado na Hora"><i class="material-icons">swap_vertical_circle</i></b>
+      {% elif agenda.status == 'AD'%}
+      <b style="color:pink"title="Pronto para Atender"><i class="material-icons">swap_vertical_circle</i></b>
+      {% elif agenda.status == 'BQ'%}
+      <b style="color:black"title="Bloqueado"><i class="material-icons">swap_vertical_circle</i></b>
+      {% elif agenda.status == 'PT'%}
+      <b style="color:#08d0aa"title="Somente Particular"><i class="material-icons">swap_vertical_circle</i></b>
+      {% else %}
+      <b class="text-danger" title="Cancelado"><i class="material-icons">swap_vertical_circle</i></b>
+{% endif %}

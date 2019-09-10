@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8" />
+	<link rel="apple-touch-icon" sizes="76x76" href="{% static "img/apple-icon.png" %}">
+	<link rel="icon" type="image/png" href="{% static "img/favicon.png" %}">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Psicocenter</title>
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<!--  Social tags      -->
+	<meta name="keywords" content="fisiolife clinica"
+	<meta name="description" content="Material Dashboard PRO is a Premium Material Bootstrap Admin with a fresh, new design inspired by Google's Material Design.">
+	<!-- Bootstrap core CSS     -->
+	<link rel="stylesheet" href="{% static "assets/css/bootstrap.min.css" %}"/>
+	<!--  Material Dashboard CSS    -->
+	<link rel="stylesheet" href="{% static "assets/css/material-dashboard.css" %}"/>
+	<!--  CSS for Demo Purpose, don't include it in your project     -->
+	<link rel="stylesheet" href="{% static "assets/css/demo.css" %}"/>
+	<!--     Fonts and icons     -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 alert alert-rose alert-with-icon text-center " data-notify="container">
+				<i class="material-icons" data-notify="icon">notifications</i>
+				<button type="button" aria-hidden="true" class="close">
+					<i class="material-icons">close</i>
+				</button>
+				<span data-notify="message"><i class="material-icons"style="color:black">
+					lock
+				</i> <b>Acesso Negado - </b> Talvez você não tenha acesso a essa página.. por favor tente novamente com uma conta de administrador :)</span>
+				<a href="{% url 'home' %}"><b><i class="material-icons"style="color:black">
+					reply
+				</i> Clique aqui para voltar </b></a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

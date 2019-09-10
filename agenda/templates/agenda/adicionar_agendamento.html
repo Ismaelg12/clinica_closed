@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% load static %}
+{% block add_modal %}
+<script src="{% static "js/core/jquery.min.js" %}"></script>
+<script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
+<!--boostrap datepicker-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet"type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock add_modal %}
+</head>
+{% block menu_li %}
+<li class="nav-item active ">
+	<li class="nav-item">
+		<a class="nav-link" href="{% url 'home' %}">
+			<i class="material-icons">dashboard</i>
+			<p>Dashboard</p>
+		</a>
+	</li>
+	<li class="nav-item active">
+		<a class="nav-link" href="{% url 'agendamentos' %}">
+			<i class="material-icons">event</i>
+			<p>Agenda</p>
+		</a>
+	</li>
+</li>
+{% endblock menu_li %}
+{% block navbar %}
+<a class="navbar-brand" href="#">Novo Agendamemento</a>
+{% endblock navbar %}
+{% block container %}
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-primary"data-background-color="purple">
+						<h4 class="card-title ">Agenda de Atendimento</h4>
+					</div>
+					<div class="card-content">
+						<form method="post" >
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Inicio</label></br>
+										{{form.hora_inicio}}
+										<span class="text-danger">{{form.non_field_errors}}</span>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Fim</label></br>
+										{{form.hora_fim}}
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Contato</label></br>	
+										{{form.telefone}}
+										<span class="text-danger">{{form.telefone.errors}}</span>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Data</label></br>	
+										{{form.data}}
+									</div>
+								</div>
+								<div class="col-md-2">
+									<label>Sala</label></br>					
+									{{form.sala}}
+								</div>
+								<div class="col-md-2">
+									<label>* Repetir Sessões</label></br>	
+									<select class="selectpicker" data-style="select-with-transition"title="Selecione a Quantidade" data-size="5"name="sessoes">
+										<option disabled> Repetir</option>
+										<option value="1" selected>1 Vez</option>
+										<option value="2">2 Vezes</option>
+										<option value="3">3 Vezes</option>
+										<option value="4">4 Vezes</option>
+										<option value="5">5 Vezes</option>
+										<option value="6">6 Vezes</option>
+										<option value="7">7 Vezes </option>
+										<option value="8">8 Vezes</option>
+										<option value="9">9 Vezes</option>
+										<option value="10">10 Vezes</option>
+										<option value="11">11 Vezes</option>
+										<option value="12">12 Vezes</option>
+										<option value="13">13 Vezes</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-5">
+									<div class="form-group">
+										<label>* Paciente</label></br>	
+										{{form.paciente}}
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">	
+										<label>Status</label></br>							
+										<select class="form-control" id="status" name="status">
+											<option selected value="AG">Agendado</option>
+											<option value="FJ">Justificada</option>
+											<option value="FH">Justificada na Hora</option>
+											<option value="FN">Não Justificada</option>
+											<option value="DM">Desmarcado/Profissional</option>
+											<option value="CC">Cancelado</option>
+											<option value="BQ">Bloqueado</option>
+											<option value="PT">Particular</option>
+										  </select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Profissional</label></br>	
+										{{form.profissional}}
+										<span class="text-danger">{{form.profissional.errors}}</span>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Convenio</label></br>	
+										{{form.convenio}}
+									</div>
+								</div>							
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>* Valor</label></br>	
+										{{form.valor}}
+									</div>
+								</div>
+								<div class="col-md-4">
+									<label>* Pacote?</label></br>	
+									{{form.pacote}}
+								</div>
+								<div class="col-md-4">
+									<label>Pago?</label></br>							
+									{{form.pago}}	
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Observações:</label>
+										<div class="form-group">
+											<label class="bmd-label-floating"></label>
+											{{form.observacao}}
+										</div>
+									</div>
+								</div>
+							</div>
+				        <button type="submit" class="btn btn-primary btn-sm pull-right">Salvar</button>
+				        <a href="{% url 'agendamentos' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+				        <div class="clearfix"></div>
+				    </form>
+				</div><!-- end content-->
+			</div><!--  end card  -->
+		</div> <!-- end col-md-12 -->
+	</div> <!-- end row -->
+</div>
+</div>
+<script>
+//através do convenio ele mostra ou omite alguns inputs do formulario quando carregado
+/*
+  $(document).ready(function(){
+    if($("#id_convenio option:selected").val() == 1){
+      $("#ocultar").show();
+    }else{
+      $("#ocultar").hide();
+    }
+  });
+  */
+	$.noConflict();
+	jQuery( document ).ready(function( $ ) {
+		$('#id_hora_inicio').daterangepicker({
+			singleDatePicker: true,
+			timePicker: true,
+			timePicker24Hour: true,
+			timePickerIncrement: 05,
+			timePickerSeconds: false,
+			minDate: ' 08:00:00',
+			maxDate: ' 20:00:00',
+			locale: {
+				format: 'HH:mm'
+			}
+		}).on('show.daterangepicker', function (ev, picker) {
+			picker.container.find(".calendar-table").hide();
+		});
+		$('#id_hora_fim').daterangepicker({
+			singleDatePicker: true,
+			timePicker: true,
+			timePicker24Hour: true,
+			timePickerIncrement: 05,
+			timePickerSeconds: false,
+			minDate: ' 08:00:00',
+			maxDate: ' 20:00:00',
+			locale: {
+				format: 'HH:mm'
+			}
+		}).on('show.daterangepicker', function (ev, picker) {
+			picker.container.find(".calendar-table").hide();
+		});
+		$('#id_data').daterangepicker({
+			singleDatePicker: true,
+			showDropdowns: true,
+			"locale": {
+				"format": "DD/MM/YYYY",
+				"separator": " - ",
+				"applyLabel": "Aplicar",
+				"cancelLabel": "Cancelar",
+				"fromLabel": "De",
+				"toLabel": "Até",
+				"customRangeLabel": "Custom",
+				"daysOfWeek": [
+				"Dom",
+				"Seg",
+				"Ter",
+				"Qua",
+				"Qui",
+				"Sex",
+				"Sáb"
+				],
+				"monthNames": [
+				"Janeiro",
+				"Fevereiro",
+				"Março",
+				"Abril",
+				"Maio",
+				"Junho",
+				"Julho",
+				"Agosto",
+				"Setembro",
+				"Outubro",
+				"Novembro",
+				"Dezembro"
+				],
+				"firstDay": 0
+			}})});
+	jQuery(function($){
+		$('#id_valor').mask("#.##0.00", {reverse: true});
+		$('#id_telefone').mask('(00) 00000-0000');
+   		$("#id_paciente").change(function() {
+   			//seta o contato automaticamente conforme paciente
+		  var pacienteContato = $(this).find('option:selected').text();
+		  $('#id_telefone').val(pacienteContato.split('...')[1]);
+		});    		
+   	});
+	</script>
+	{% endblock container %}

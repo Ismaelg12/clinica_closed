@@ -36,25 +36,32 @@
                 <div class="col-md-3">
                     <div class="form-group">
                       <label class="bmd-label-floating">Paciente</label>
-                      <input type="text" value="{{conta.paciente}}"class="form-control" disabled>
+                      <input type="text" value="{{conta.paciente}}"class="form-control"disabled>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="form-group">
                       <label class="bmd-label-floating">Valor Total </label>
-                      <input type="text" value="{{conta.valor_total}}"class="form-control" disabled>
+                      <input type="text" value="{{conta.valor_total}}"class="form-control"name="valor_total"disabled>
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label class="bmd-label-floating">Procedimento </label>
-                      <input type="text" value="{{conta.procedimento}}"class="form-control" disabled>
+                      <input type="text" value="{% if form.procediemnto == None %}---Nenhum---{% else %}
+                      {{conta.procedimento}}{% endif %}"class="form-control" disabled>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-2">
                     <div class="form-group">
-                      <label class="bmd-label-floating">Escolha uma forma de Pagamento</label>
+                      <label class="bmd-label-floating">Forma de Pagamento</label>
                      {{form.forma_pagamento}}
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Recebido</label>
+                     {{form.receptor}}
                     </div>
                   </div>
                 </div>
@@ -79,7 +86,7 @@
                   </div>                      
                 </div>          
                 <a href="" class="btn btn-primary btn-group">Voltar</a>
-                 <button type="submit"class="btn btn-info pull-right">Pagar</button>
+                 <button type="submit"class="btn btn-info pull-right" id="ocultar">Pagar</button>
                 <div class="clearfix"></div>
               </form>
               </div><!-- end content-->
@@ -100,13 +107,14 @@ $(function() {
       $('#tipo_cartão').hide(); 
     }else if($('#id_forma_pagamento').val() == 'CC') {
       $('#valor_pago_dinheiro').hide(); 
-      $('#valor_pago_cartao').show(); 
-      $('#tipo_cartão').show(); 
+      $('#valor_pago_cartao').hide(); 
+      $('#tipo_cartão').hide(); 
+      $('#ocultar').hide(); 
     }
     else if($('#id_forma_pagamento').val() == 'EC') {
       $('#valor_pago_dinheiro').show(); 
       $('#valor_pago_cartao').show(); 
-      $('#tipo_cartão').show(); 
+      $('#tipo_cartão').hide(); 
     } 
     });
 });

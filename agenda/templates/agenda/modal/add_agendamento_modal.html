@@ -1,0 +1,224 @@
+<!-- INICIO DO MODAL AGENDAMENTO FULLCALENDAR -->
+<div id="createEventModal" class="modal fade" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST"id="agendamento_form">
+        {% csrf_token %}
+        <div id="modalBody" class="modal-body">
+         <div class="row">
+           <div class="col-md-12">
+            <h5 class="modal-title pull-left"><strong><i class="fa fa-calendar"></i> Agendamento</strong></h5>
+            <button class="btn btn-raised btn-danger btn-xs pull-right" data-dismiss="modal" onclick="javascript:window.location.reload()" aria-hidden="true">Sair</button>
+            <button type="submit" class="btn btn-primary btn-raised btn-xs pull-right" id="submitButton">Salvar</button>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group ">
+              <label>Data:*</label>
+              <input class="form-control" name="data" type="text"id="data_agenda">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group ">
+              <label for="date">Horário:*</label>
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="input-group">
+                    <span class="input-group-addon">das</span>
+                    <input class="form-control hora_agenda" id="hora_inicial" type="text" value=""name="hora_inicio">
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="input-group">
+                    <span class="input-group-addon">às</span>
+                    <input class="form-control hora_agenda" id="hora_fim" type="text" value=""name="hora_fim">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Repetir:*</label>
+              <div class="input-group">
+                <input class="form-control" id="sessoes" min="1" max="100" name="sessoes" type="number" value="1">
+                <span class="input-group-addon">sessões</span>
+              </div>
+            </div>
+          </div> 
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+           <select name="paciente" id="paciente" class="selectpicker"data-style="select-with-transition"
+           data-size=7 data-live-search="true"title="Escolha seu Paciente">
+           <option value=""disable> --- </option>
+           {% for p in pacientes %}
+           <option value="{{p.id}}">{{p.nome}}...{{p.convenio__nome}} -- {{p.telefone}} </option>
+           {% endfor %}
+         </select>
+       </div>
+       <div class="col-md-2">
+        <button class="btn btn-just-icon btn-simple btn-success" type="button"data-toggle="modal" data-target="#createPacienteModal">
+          <i class="fa fa-user-plus"></i>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <select name="profissional" id="profissional" class="selectpicker"data-style="select-with-transition"
+          data-size=7 data-live-search="true">
+          <option value=""disable> --- </option>
+          {% for pr in profissionais %}
+          <option value="{{pr.id}}">{{pr.nome}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <select name="sala" id="sala" class="selectpicker"data-style="select-with-transition"
+        data-size=7 data-live-search="true"title="Sala">
+        <option value=""disable> --- </option>
+        {% for s in salas %}
+        <option value="{{s.id}}">{{s.nome}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <label>Convênio:*</label>
+      <select name="convenio" id="convenio" class="selectpicker"data-style="select-with-transition" data-size=7 data-live-search="true">
+        <option value=""disable> --- </option>
+        {% for c in convenios %}
+        <option value="{{c.id}}">{{c.nome}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Status:</label>
+        <select class="form-control" id="status" name="status">
+          <option value="AG">Agendado</option>
+          <option value="FJ">Justificada</option>
+          <option value="FH">Justificada na Hora</option>
+          <option value="FN">Não Justificada</option>
+          <option value="DM">Desmarcado/Profissional</option>
+          <option value="CC">Cancelado</option>
+          <option value="BQ">Bloqueado</option>
+          <option value="PT">Particular</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Celular:</label>
+        <input class="form-control telefone" id="telefone"minlength="10" autocomplete="off" name="telefone" type="text" maxlength="16">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+     <div class="col-md-4">
+      <div class="form-group">
+        <label>Valor:</label>
+        <input class="form-control" name="valor" type="text"id="valor" >
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Pacote:</label>
+        <select class="form-control"name="pacote">
+          <option value="True">Sim</option>
+          <option value="False">Não</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Pago?:</label>
+        <select class="form-control"name="pago">
+          <option value="True">Sim</option>
+          <option value="False">Não</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Observação:</label>
+        <input class="form-control" id="observacao" type="text"name="observacao">
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- FIM DO MODAL AGENDAMENTO FULLCALENDAR -->
+
+<!-- INICIO DO MODAL DETALHES DO ATENDIMENTO -->
+<div class="modal fade" id="DetalheModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <div><strong>HORÁRIO: </strong><span id="modalStartDate"></span>h - <span id="modalEndTime"></span>h   <b id="deleteButton"class="text-danger"><i class="fa fa-trash fa-lg"></i></b>
+          <hr>
+        </div>
+
+      </div>      
+      <div class="modal-body">
+        <div><strong>Profissional: </strong><span id="modalProfissional"class="pull-right"></span></div>
+        <div><strong>Paciente: </strong><span id="modalPaciente"class="pull-right"></span></div>
+        <div><strong>Celular: </strong><span id="modalCelular"class="pull-right"></span></div>
+        <div><strong>Convenio: </strong><span id="modalConvenio"class="pull-right"></span></div>
+        <div class="modal-footer text-center">
+
+          <button class="btn btn-raised btn-info btn-xs" id="updateButton"data-dismiss="modal" aria-hidden="true"><span id="id_agenda"style="display:none"></span>Atualizar</button>
+
+          {% if verifica_prof_log %}
+          <span class="dropdown">
+            <button href="" class="btn btn-raised btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="true"id="add_atendimento">
+              Atender
+              <b class="caret"></b>
+            </button>
+            <ul class="dropdown-menu">
+             <li><a  class=" dropdown-item atender" tipo="?tipo=evolucao" href="" > EVOLUÇÃO</a></li>
+
+             {% for f in lista_fichas_options%}
+             <li>
+              {% if f == 'Terapeuta ocupacional' %}
+              <a  class="dropdown-item atender" tipo="?tipo=TerapiaOcupacional" href="">Terapia Ocupacional</a>
+              {% endif %}
+            </li>
+            <li>{% if f == 'Psiquiatra' %}
+              <a  class="dropdown-item atender" tipo="?tipo=Psiquiatra" href="">Psiquiatria</a>
+              {% endif %}
+            </li>
+            <li>{% if f == 'Psicólogo(a)' %}
+              <a  class="dropdown-item atender" tipo="?tipo=AnamineseAdulto" href="">Anaminese Adulto</a>
+            </li>
+            <li><a  class="dropdown-item atender" tipo="?tipo=AnamineseCrianca" href="">Anaminese Criança</a>
+              {% endif %}
+            </li>
+            <li>{% if f == 'Fisioterapeuta' %}
+              <a  class="dropdown-item atender" tipo="?tipo=Fisioterapeuta" href="">Fisio Convencional</a>
+            </li>
+            <li><a  class="dropdown-item atender" tipo="?tipo=Neurologia" href="">Neurologia</a>
+            </li>
+            <li><a  class="dropdown-item atender" tipo="?tipo=Uroginecologia" href="">Uroginecologia</a>
+              {% endif %}
+              {% endfor %}
+            </li>
+          </ul>
+        </span><br><br>
+        {% endif %}
+        <button class="btn btn-raised btn-danger btn-xs" data-dismiss="modal" aria-hidden="true">Sair</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- FIM DO MODAL DETALHES DO ATENDIMENTO -->
+
