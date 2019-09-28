@@ -43,9 +43,8 @@
                       class="material-icons">search</i></button>
                   </div>
                   <div class="col-md-3 pull-right">
-                    <input type="text" class="form-control" name="paciente" placeholder="Nome do Paciente">
+                    <input type="text" class="form-control" name="paciente" placeholder="Nome do Paciente"value="{{request.GET.paciente}}">
                   </div>
-
                 </div>
               </form>
             </div>
@@ -57,6 +56,7 @@
                   <th>Nome</th>
                   <th>Profissional</th>
                   <th>Telefone</th>
+                  <th>Convênio</th>
                   <th>Histórico</th>
                   <th>Ação</th>
                 </thead>
@@ -74,6 +74,7 @@
                       {% endfor %}
                     </td>
                     <td>{{p.telefone}}</td>
+                    <td>{{p.convenio}}</td>
                     <td width="18%">
                       <a href="{% url 'historico' p.id %}">
                         <div style="background-color:green;text-align:center;color:white;border-radius: 5px 5px;">
@@ -105,6 +106,7 @@
                       {% endif %}
                     </td>
                     <td>{{p.telefone}}</td>
+                    <td>{{p.convenio}}</td>
                     <td width="18%">
                       <a href="{% url 'historico' p.id %}">
                         <div style="background-color:green;text-align:center;color:white;border-radius: 5px 5px;">

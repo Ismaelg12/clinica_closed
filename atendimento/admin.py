@@ -4,9 +4,12 @@ from atendimento.models import *
 class GuiaAdmin(admin.ModelAdmin):
 	list_display = ('numero','validade','paciente','quantidade',
 		'atualizado_em','ativo')
+	search_fields = ('paciente__nome',)
 
 class AtendimentoAdmin(admin.ModelAdmin):
-	list_display = ('tipo','data','paciente','hora_inicio','hora_fim','procedimento')
+	list_display = ('tipo','data','paciente','hora_inicio','hora_fim','procedimento',
+'criado_em')
+	search_fields = ('paciente__nome',)
 
 
 class EvolucaoAdmin(admin.ModelAdmin):

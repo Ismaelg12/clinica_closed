@@ -38,7 +38,7 @@
 						<h4 class="card-title ">Agenda de Atendimento</h4>
 					</div>
 					<div class="card-content">
-						<form method="post" >
+						<form method="post">
 							{% csrf_token %}
 							<div class="row">
 								<div class="col-md-2">
@@ -96,51 +96,65 @@
 									<div class="form-group">
 										<label>* Paciente</label></br>	
 										{{form.paciente}}
+										<span class="text-danger">{{form.paciente.errors}}</span>
 									</div>
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">	
 										<label>Status</label></br>							
-										<select class="form-control" id="status" name="status">
-											<option selected value="AG">Agendado</option>
-											<option value="FJ">Justificada</option>
-											<option value="FH">Justificada na Hora</option>
-											<option value="FN">Não Justificada</option>
-											<option value="DM">Desmarcado/Profissional</option>
-											<option value="CC">Cancelado</option>
-											<option value="BQ">Bloqueado</option>
-											<option value="PT">Particular</option>
-										  </select>
+										{{form.status}}										 
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label>* Profissional</label></br>	
 										{{form.profissional}}
-										<span class="text-danger">{{form.profissional.errors}}</span>
+										<span class="text-danger">{{form.profissional.errors}}</span>		
 									</div>
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
 										<label>* Convenio</label></br>	
 										{{form.convenio}}
+										<span class="text-danger">{{form.convenio.errors}}</span>
 									</div>
 								</div>							
 							</div>
-							<div class="row">
-								<div class="col-md-4">
+							<div class="row"id="ocultar_fields">
+								<div class="col-md-4"id="valor">
 									<div class="form-group">
 										<label>* Valor</label></br>	
 										{{form.valor}}
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-4"id="pacote">
 									<label>* Pacote?</label></br>	
 									{{form.pacote}}
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-4"id="pago">
 									<label>Pago?</label></br>							
 									{{form.pago}}	
+								</div>
+							</div>
+							<div class="row" id="hide_guia">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label color="red">Escolha a guia aser decrementada nesta aba</label>
+										<div class="form-group">
+											<select class="selectpicker" data-style="select-with-transition"title="" data-size="5"name="lista_guias_field" >
+												{% for i in guias_views %}
+													<option value="{{i}}">{{i}}</option>
+												{%empty%}
+													<option value="">Sem Guia</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 text-center">
+									<span class="text-danger" id="span_alerta" style="display:none;" ><b>O CANCELAMENTO DESTE AGENDAMENTO IRÁ CANCELAR TODOS OS AGENDAMENTOS DESTE PACIENTE!</b></span>
 								</div>
 							</div>
 							<div class="row">
@@ -154,7 +168,7 @@
 									</div>
 								</div>
 							</div>
-				        <button type="submit" class="btn btn-primary btn-sm pull-right">Salvar</button>
+				         <button type="submit" class="btn btn-primary btn-sm pull-right"> Enviar</button>
 				        <a href="{% url 'agendamentos' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
 				        <div class="clearfix"></div>
 				    </form>
@@ -164,17 +178,61 @@
 	</div> <!-- end row -->
 </div>
 </div>
+
 <script>
 //através do convenio ele mostra ou omite alguns inputs do formulario quando carregado
-/*
-  $(document).ready(function(){
-    if($("#id_convenio option:selected").val() == 1){
-      $("#ocultar").show();
-    }else{
-      $("#ocultar").hide();
-    }
-  });
-  */
+//https://stackoverflow.com/questions/11918397/jquery-hide-and-show-an-input-element
+ 
+ $(document).ready(function(){
+ 	$('#id_status').change(function(){
+ 		if($(this).val() == 'CC'){
+ 			$("#span_alerta").show();  
+ 			}
+ 		else{
+	  		$("#span_alerta").hide();
+
+	  	} 
+ 	});
+
+ });	      
+ $(document).ready(function(){	      
+	$('#id_status').change(function(){
+    	if($(this).val() == 'FN' || $(this).val() == 'FH'){
+    		$("#hide_guia").show();   		
+	  	}
+	  	else{
+	  		$("#hide_guia").hide();
+	  		$("#hide_guia").prop('disabled',true);
+
+	  	} 
+	});
+	if($("#id_status option:selected").val() != 'FN' && $("#id_status option:selected").val() != 'FH'){
+	      $("#hide_guia").hide();
+	    }else{
+	      $("#hide_guia").show();
+	      $("#hide_guia").prop('disabled',true);
+	    }
+});
+
+  $(document).ready(function()
+	{
+	 $("#id_convenio").change(function()
+	 {
+	  if($(this).val() == "1")
+	  {
+	   $("#ocultar_fields").show();
+	  }
+	  else
+	  {
+	   $("#ocultar_fields").hide();
+	  }
+	 });
+	 	if($("#id_convenio option:selected").val() == 1){
+	      $("#ocultar_fields").show();
+	    }else{
+	      $("#ocultar_fields").hide();
+	    }
+	});
 	$.noConflict();
 	jQuery( document ).ready(function( $ ) {
 		$('#id_hora_inicio').daterangepicker({
@@ -242,6 +300,10 @@
 				"firstDay": 0
 			}})});
 	jQuery(function($){
+		// Remove statusm atender e atendido 
+   	    $("#id_status option[value='AT']").remove();
+   	    $("#id_status option[value='AD']").remove();
+
 		$('#id_valor').mask("#.##0.00", {reverse: true});
 		$('#id_telefone').mask('(00) 00000-0000');
    		$("#id_paciente").change(function() {

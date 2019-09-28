@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 
 TIPO_CARTAO = (
     ('VS','Visa'),
@@ -75,6 +75,8 @@ TIPO_ATENDIMENTO = (
     ('EV','Evolução'),
     ('AV','Avaliação'),
     ('DM','Desmarcado na Hora'),
+    ('FH','Justificada na Hora'),#orange
+    ('FN','Falta Não Justificada'),#grey
 )
 
 RACA = (
@@ -132,12 +134,12 @@ ESTADO_CIVIL =(
 STATUS =(
     ('AG','Agendado'),#green
     ('AT','Atendido'),#blue
-    ('FJ','Justificada'),
-    ('FH','Justificada na Hora'),
-    ('FN','Não Justificada'),
-    ('DM','Desmarcado/Profisssional'),
+    ('FJ','Justificada'),#yellow
+    ('FH','Justificada na Hora'),#orange
+    ('FN','Não Justificada'),#grey
+    ('DM','Desmarcado/Profisssional'),#purple
     ('CC','Cancelado'),#red
-    ('BQ','Bloqueo'),#black
+    ('BQ','Bloqueio'),#black
     ('PT','Particular'),#08d0aa eletricblue
     ('AD','Atender'),#pink
 )

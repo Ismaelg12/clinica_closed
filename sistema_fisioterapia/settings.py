@@ -68,6 +68,8 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'core.processors.verificar_atendente_logado',#customizado
+                'core.processors.verificar_profissional_logado',#customizado
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

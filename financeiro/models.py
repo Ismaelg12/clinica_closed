@@ -11,7 +11,7 @@ from decimal import Decimal
 
 class ContaReceber(models.Model):
     data                = models.DateField()
-    agendamento         = models.ForeignKey(Agendamento,on_delete=models.CASCADE)
+    agendamento         = models.ForeignKey(Agendamento,on_delete=models.CASCADE,blank=True, null=True)
     paciente            = models.ForeignKey(Paciente,on_delete=models.PROTECT)
     profissional        = models.ForeignKey(Profissional,on_delete=models.PROTECT)
     valor_total         = models.DecimalField(max_digits=6, decimal_places=2)
@@ -85,18 +85,32 @@ def create_conta(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Agendamento)
 def create_conta(sender, instance, created, **kwargs):
     if created:
-        ContaReceber.objects.create(
-        agendamento=instance,
-        data=instance.data,
-        paciente=instance.paciente,
-        profissional=instance.profissional,
-        valor_total=instance.valor,
-        convenio=instance.convenio,
-        valor_inicial=instance.valor,
-        status='PD',
-        forma_pagamento = '',
-        valor_pago_dinheiro = 00.00 
-    )
+        if instance.pago == True:
+            ContaReceber.objects.create(
+            agendamento=instance,
+            data=instance.data,
+            paciente=instance.paciente,
+            profissional=instance.profissional,
+            valor_total=instance.valor,
+            convenio=instance.convenio,
+            valor_inicial=instance.valor,
+            status='PG',
+            forma_pagamento = '',
+            valor_pago_dinheiro = 00.00 
+            )
+        else:
+            ContaReceber.objects.create(
+            agendamento=instance,
+            data=instance.data,
+            paciente=instance.paciente,
+            profissional=instance.profissional,
+            valor_total=instance.valor,
+            convenio=instance.convenio,
+            valor_inicial=instance.valor,
+            status='PD',
+            forma_pagamento = '',
+            valor_pago_dinheiro = 00.00 
+            )
 
 def save_conta(sender, instance, **kwargs):
     instance.contareceber.save()

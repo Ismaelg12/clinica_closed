@@ -12,9 +12,11 @@ urlpatterns = [
 	path('excluir/atendimento/<int:pk>/',views.excluir_atendimento,name='excluir_atendimento'),
 	path('ajax/procedimentos/', views.load_procedimentos_guias, name='ajax_load_proced'),
 	#############Guias#############
-	path('guias',views.guias,name='guias'),
+	path('guias',views.GuiaListView.as_view(),name='guias'),
+	path('guias_finalizadas',views.guias_finalizadas,name='guias_finalizadas'),
 	path('adicionar/guia',views.adicionar_guia,name='add_guia'),
 	path('atualizar/guia/<int:pk>/',views.update_guia,name='update_guia'),
+	path('sobre/guia/<int:pk>/',views.sobre_guia,name='sobre_guia'),
 	path('finalizar/guia/<int:pk>/',views.finalizar_guia,name='finalizar_guia'),
 	path('validar/guia/<int:pk>/',views.validar_guia,name='validar_guia'),
 	path('excluir/guia/<int:pk>/',views.excluir_guia,name='excluir_guia'),

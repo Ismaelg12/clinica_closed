@@ -43,7 +43,7 @@
         Tip 2: you can also add an image using data-image tag
         Tip 3: you can change the color of the sidebar with data-background-color="white | black"
       -->
-      <div class="logo"align="center">
+       <div class="logo"align="center">
         <a href="{% url 'home' %}" class="simple-text logo-normal">
           {% for c in clinica %}
             <img src="{{c.logo_menu.url}}" width="80%">
@@ -104,6 +104,15 @@
               <p>Pacientes</p>
             </a>
           </li>
+           {% if atendente %}
+            <li>
+              <a href="{% url 'guias' %}">
+                <i class="material-icons">chrome_reader_mode</i>
+                <p>Guias</p>
+              </a>
+            </li>
+            
+            {% endif %}
           <li class="nav-item ">
             <a class="nav-link" href="{% url 'atendimentos' %}">
               <i class="material-icons">enhanced_encryption</i>
@@ -150,33 +159,29 @@
                     <span class="sidebar-normal">Guias</span>
                   </a>
                 </li>
-                {% elif atendente %}
-                <li>
-                  <a href="{% url 'guias' %}">
-                    <i class="material-icons">chrome_reader_mode</i>
-                    <span class="sidebar-normal">Guias</span>
-                  </a>
-                </li>
+                {% elif atendente%}
                  <li>
                   <a href="{% url 'procedimentos' %}">
                     <i class="material-icons">apps</i>
-                    <span class="sidebar-normal"> Procedimentos</span>
+                    <p> Procedimentos</p>
                   </a>
                 </li>
                 {% endif %}
+                <!--
                 <li>
                   <a href="{% url 'add_paciente' %}">
                     <i class="material-icons">group_add</i>
                     <span class="sidebar-normal">Pacientes</span>
                   </a>
                 </li>
+              -->
                 <li>
                   <a href="{% url 'lista_espera' %}">
                     <i class="material-icons">person</i>
                     <span class="sidebar-normal"> Lista de Espera</span>
                   </a>
                 </li>
-              </ul>
+               </ul>
             </div>
           </li>
           <li>
@@ -263,14 +268,14 @@
               </div>
             </div>
             {% endfor %}
-            {% elif oculta_fields %}
-              <div class="col-md-5">
-                <div class="alert alert-danger alert-with-icon animated fadeInDown">
-                  <i class="material-icons" data-notify="icon">info_outline</i>
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
-                  <span data-notify="message"> <b>'Atenção!!! Esse Agendamento é Particular, Informe o Valor:)'</b>  </span>
-                </div>
+          {% elif oculta_fields %}
+            <div class="col-md-5">
+              <div class="alert alert-info alert-with-icon animated fadeInDown">
+                <i class="material-icons" data-notify="icon">info_outline</i>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
+                <span data-notify="message"> <b>'Atenção!!! Esse Agendamento é Particular :)'</b>  </span>
               </div>
+            </div>
           {% endif %}
         </div>
       </div>

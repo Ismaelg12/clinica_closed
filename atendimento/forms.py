@@ -484,7 +484,7 @@ class GuiaForm(forms.ModelForm):
         model = Guia
         fields = '__all__'
         widgets = {
-            'numero'      : forms.NumberInput(attrs={'class': 'form-control'}),
+            'numero'      : forms.TextInput(attrs={'class': 'form-control'}),
             'convenio'    : forms.Select(attrs={'class':'selectpicker',
             'data-style':'select-with-transition','data-size':7,'data-live-search':'true'}),
             'paciente'    : forms.Select(attrs={'class':'selectpicker',
@@ -503,7 +503,16 @@ class GuiaForm(forms.ModelForm):
         }
 
 
+    def clean(self):
+        data = self.cleaned_data
+        #print(Guia.objects.filter(numero=data.get('numero', None)),'exists')
+        if Guia.objects.filter(numero=data.get('numero', None),id=self.instance.id).exists():
+            pass
+        elif Guia.objects.filter(numero=data.get('numero', None)).exists():
+            raise forms.ValidationError('Guia já Existente na Base de Dados')
+
     #verifica se o paciente tem mais de 1 guia para um mesmo profissional
+    """
     def clean(self):
         data  = self.cleaned_data
         profissional = data['profissional']
@@ -512,5 +521,6 @@ class GuiaForm(forms.ModelForm):
             paciente__id=paciente.id,ativo=True).exists():
             raise forms.ValidationError('Esse Profissional já possui 1 Guia com esse paciente')
         return data
+    """
     
         

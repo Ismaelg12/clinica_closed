@@ -16,11 +16,11 @@ class PacienteForm(forms.ModelForm):
 		model   = Paciente
 		fields  = '__all__'
 		widgets = {
-			'nome'           : forms.TextInput(attrs={'class': 'form-control','required': 'true' }),
+			'nome'           : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
 			'email'          : forms.EmailInput(attrs={'class': 'form-control input-rounded'}),
 			#'profissional'   : forms.Select(attrs={'class':'selectpicker',
 			#	'multiple':'multiple'}),
-			'data_nascimento': forms.DateInput(attrs={'class': 'form-control'}),
+			'data_nascimento': forms.DateInput(attrs={'class': 'form-control','required': 'true'}),
 			'sexo'           : forms.Select(attrs={'class': 'form-control'}),
 			'raca'           : forms.Select(attrs={'class':'selectpicker',
 				'data-style':'select-with-transition','data-size':5}),
@@ -49,22 +49,36 @@ class PacienteForm(forms.ModelForm):
 		}
 
 
-	def clean_cpf(self):
+	def clean(self):
+		cpf = self.cleaned_data['cpf']
+		possui_cpf = self.cleaned_data['possui_cpf']
+		if not possui_cpf:
+			if Paciente.objects.filter(cpf__iexact=cpf,id=self.instance.id).exists() and cpf != None:
+				pass
+			else:
+				raise ValidationError('CPF JÁ EXISTE')
+
+		else:
+			pass
+		"""
 		if self.cleaned_data['cpf'] == "":
 			return None
 		else:
 			return self.cleaned_data['cpf']
+		"""
 	
 	#valida se tem registros duplicados no banco
+	"""
 	def clean(self):
 		nome = self.cleaned_data['nome']
 		data_nascimento = self.cleaned_data['data_nascimento']
 		if not data_nascimento:
-			raise ValidationError('Preencha a Data de Nasciemnto.')
+			raise ValidationError('Preencha a Data de Nascimento.')
 		if Paciente.objects.filter(nome__iexact=nome,data_nascimento__iexact=data_nascimento,id=self.instance.id).exists():
 			#raise ValidationError('Atualizando dados')
 			pass
 		elif Paciente.objects.filter(nome__iexact=nome,data_nascimento__iexact=data_nascimento).exists():
-			raise ValidationError('Paciente Já existe na base da dados!')
+			raise ValidationError('Paciente Já existe')
 		return None
+	"""
 	

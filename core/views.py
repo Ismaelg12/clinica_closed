@@ -25,15 +25,18 @@ from core.decorators import staff_member_required
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 '''
 
+
 class DashboardView(TemplateView,DashboardMixin):
     template_name = 'dashboard.html'
     
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardView, self).get_context_data(*args, **kwargs)
         #contexto enviado para permmissoes de atendentee profissional
+        """
         context['atendente'] = Profissional.objects.filter(
             user=self.request.user,tipo=1
         )
+        """
         
         context['clinica']          = Clinica.objects.all()[:1]
         context['convenios']        = Convenio.objects.all()
@@ -155,7 +158,7 @@ class ProcedCreateView(LoginRequiredMixin,CreateView):
     form_class    = ProcedimentoForm
     success_url   = reverse_lazy('procedimentos')
 
-@method_decorator(staff_member_required, name='dispatch')
+#@method_decorator(staff_member_required, name='dispatch')
 class ProcedListView(LoginRequiredMixin,ListView):
     model = Procedimento
     context_object_name = 'procedimentos'

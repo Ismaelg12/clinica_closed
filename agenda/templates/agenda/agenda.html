@@ -190,6 +190,9 @@ $(document).ready(function () {
             sala_id:'{{event.sala_id}}',
             telefone:'{{event.telefone}}',
             observacao:'{{event.observacao}}',
+            valor:'{{event.valor}}',
+            pago:'{{event.pago}}',
+            pacote:'{{event.pacote}}',
           },
         {% endfor %}
       ],
@@ -199,10 +202,34 @@ $(document).ready(function () {
 });
 </script>
 <script type="text/javascript">
+  //https://stackoverflow.com/questions/11918397/jquery-hide-and-show-an-input-element
+  $(document).ready(function()
+  {
+   $("#convenio").change(function(){
+    if($(this).val() == "1")
+    {
+     $("#ocultar_fields").show();
+    }
+    else
+    {
+     $("#ocultar_fields").hide();
+    }
+   });
+    $("#ocultar_fields").hide();
+
+  });
+
+
  $(function () {
   $('.hora_agenda').datetimepicker({    
     format: 'HH:mm'
   });
+});
+ 
+//https://pt.stackoverflow.com/questions/276562/checkbox-com-jquery-habilitar-e-desabilitar-campo
+$("#possui_cpf").click(function(){
+ var cpf = $("#cpf");
+ cpf.prop("disabled", !cpf.prop("disabled"));
 });
  $("#paciente").change(function() {
     var pacienteContato = $(this).find('option:selected').text();
@@ -214,6 +241,7 @@ $(document).ready(function () {
   $('#nascimento').mask('00/00/0000', {placeholder: "__/__/____"});
   $('.telefone').mask('(00) 00000-0000',{placeholder: "(__) _ ____-____" });
   $('#valor').mask("#.##0.00", {reverse: true});
+  $('#cpf').mask('000.000.000-00', {reverse: true});
 </script>
 {% endblock container %}
 

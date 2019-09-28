@@ -35,12 +35,13 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary"data-background-color="purple">
-            <h4 class="card-title"> Agenda de Atendimentos do Dia  <a class="btn btn-success pull-right btn-round btn-fab btn-fab-mini" href="{% url 'add_agendamento' %}">
-              <i class="material-icons">calendar_today</i>
-              <div class="ripple-container"></div></a>
-              <a  href="{% url 'agenda' %}"class="btn btn-raised btn-round btn-rose btn-xs pull-right">
-                <i class="material-icons">calendar_today</i>  Agenda Completa</a>
+            <h4 class="card-title"> Agenda de Atendimentos do Dia  
+              <a  href="{% url 'agenda' %}"class="btn btn-raised btn-rose btn-xs pull-right">
+                <i class="material-icons">calendar_today</i> Agenda Completa</a>
+              <a class="btn btn-raised btn-success btn-xs pull-right" href="{% url 'add_agendamento' %}">
+                <i class="material-icons">calendar_today</i> Novo</a>
               </h4>
+
             </div>
             <div class="card-content">
              <div class="col-md-12">
@@ -65,16 +66,10 @@
                   <div class="col-md-2">
                     <select class="selectpicker" name="status"data-style="select-with-transition" title="status" data-size="7">
                       <option value=""disabled selected>Todos</option>
-                      <option value="AG">Agendado</option>
-                      <option value="FJ">Justificado</option>
-                      <option value="FH">Jsutificado na Hora</option>
-                      <option value="FN">Não Justificado</option>
-                      <option value="Dm">Desmarcado/Profissional</option>
-                      <option value="CC">Cancelados</option>
                     </select>
                   </div>
                   <div class="col-md-3">
-                   <input type="text"class="form-control" name="paciente" placeholder="Nome do Paciente">
+                   <input type="text"class="form-control" name="paciente" placeholder="Nome do Paciente"value="{{request.GET.paciente}}">
                  </div>
                  <div class="col-md-1 col-sm-1">
                    <button type="submit" class="btn btn-primary pull-right btn-round"><i class="material-icons">search</i></button>
@@ -116,8 +111,8 @@
                 <td width="15%"> 
                  {% if agenda.status == 'AD' or agenda.status == 'AG' or agenda.status == 'BQ' or agenda.status == 'AT'%}
                       <!--apenas troca a cor do icone se foi liberado ou não-->
-                      {% if agenda.liberado == False %}
-                        <a href="{% url 'liberar_agendamento' agenda.id %}"title="Imprimir PDF"onclick="liberarPaciente();"target="_blank">
+                      {% if agenda.status == 'AG' %}
+                        <a href="{% url 'liberar_agendamento' agenda.id %}"title="Imprimir PDF" onclick="liberarPaciente();" target="_blank">
                         <i class="material-icons text-primary">print</i></a>
                       {% else %}
                         <a href="{% url 'liberar_agendamento' agenda.id %}"title="Imprimir PDF"onclick="reiprimirPDF();"target="_blank">
@@ -202,7 +197,7 @@
                     </ul>
                     </span>
                   {% endif %}
-                  {% if agenda.status == 'AG' or agenda.status == 'BQ' or agenda.status == 'PT' %}
+                  {% if agenda.status == 'AG' or agenda.status == 'BQ' or agenda.status == 'PT' or agenda.status == 'CC' %}
                     <a href="{% url 'update_agendamento' agenda.id %}" title="Editar"><i class="material-icons text-info">sync</i></a>
                     {% if agenda.status != 'AD' %}
                     <!--Não mostra o botão deletar no status pre atendimento-->

@@ -51,7 +51,7 @@
 	<div class="container">
 		<div class="card">
 			<div class="card-header">
-				<h2>Comprovante de Atendimento - {{ today | date:"d/m/Y" }}</h2>
+				<h2>Atendimento realizado em - {{ agenda.data | date:"d/m/Y" }} das {{agenda.hora_inicio}} às {{agenda.hora_fim}}</h2>
 			</div>
 			<div class="list-group">
 				<p>CLINICA PSICOCENTER</p>
@@ -65,8 +65,12 @@
 								<b>{{ agenda.paciente|upper }}</b>
 							</div>
 							<div class="col-sm-3 col-md-2 col-5">
-								<label style="font-weight:bold;">Horário:</label>
+								<label style="font-weight:bold;">Liberado as:</label>
 								<b>{% now "H:i" %}H</b>
+							</div>
+							<div class="col-sm-3 col-md-2 col-5">
+								<label style="font-weight:bold;">Valor da sessão:</label>
+								<b>R$ {{agenda.valor}}</b>
 							</div>
 							<div class="col-sm-3 col-md-2 col-5">
 								<label style="font-weight:bold;">PROFISSIONAL:</label>

@@ -38,56 +38,50 @@
                   <div class="form-group">
                     <label class="bmd-label-floating">* Numero da Guia</label>
                     {{form.numero}}
-                    {{form.numero.errors}}
                   </div>
                 </div>
                 <div class="col-md-4">
                   <label class="bmd-label-floating">* Paciente</label>
                   {{form.paciente}}
-                  {{form.paciente.errors}}
                 </div>
                 <div class="col-md-3">
                   <label class="bmd-label-floating">* Profissional</label>
                   {{form.profissional}}
-                  {{form.profissional.errors}}
                 </div>
                 <div class="col-md-3">
                   <label class="bmd-label-floating">*Convênio</label>
                   {{form.convenio}}
-                  {{form.convenio.errors}}
                 </div>
               </div>
               <div class="row">
                   <div class="col-md-4">
                     <label class="bmd-label-floating">*Procedimento</label>
                     {{form.procedimento}} 
-                    {{form.procedimento.errors}} 
-                  </div>
+                 </div>
                  <div class="col-md-2">
                   <div class="form-group">
                     <label class="bmd-label-floating">*Autorização</label>
                     {{form.data_autorizacao}}
-                    {{form.data_autorizacao.errors}}
-                  </div>
+                     </div>
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
                     <label class="bmd-label-floating">*Validade</label>
                     {{form.validade}}
-                    {{form.validade.errors}}
+                  
                   </div>
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label class="bmd-label-floating">* Em Ser</label>
-                    {{form.quantidade}}
-                    {{form.quantidade.errors}}
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="bmd-label-floating">* Quantidade</label>
+                    <label class="bmd-label-floating">* Sessões Autorizadas</label>
                     {{form.qtdautorizada}}
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">* Sessões Restantes</label>
+                    {{form.quantidade}}
+                   
                   </div>
                 </div>
               </div>
@@ -95,17 +89,14 @@
                  <div class="col-md-3">
                   <label class="bmd-label-floating">* Tipo de Guia</label>
                   {{form.tipo_guia}}
-                  {{form.tipo_guia.errors}}
-                </div>
+                 </div>
                  <div class="col-md-3">
                   <label class="bmd-label-floating">* Status</label>
                   {{form.status}}
                 </div>
-                <div class="col-md-6">
-                 <b class="text-danger">{{form.non_field_errors}}</b>
-                </div>
+
               </div>
-              <button type="submit"class="btn btn-primary pull-right">Salvar</button>
+              <button type="submit"class="btn btn-primary pull-right" id="submitButton">Salvar</button>
               <a href="{% url 'guias' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
               <div class="clearfix"></div>
             </form>
@@ -115,6 +106,37 @@
     </div> <!-- end row -->
   </div>
 </div>
+<script>  
+  $(document).ready(function() {
+    //dicionario dos dados
+    $('#submitButton').on('click',function(){
+    $('#atendForm').validate({
+      rules: {
+        numero: { required: true, },
+        paciente: { required: true,},
+        profissional: { required: true,},
+        convenio: { required: true,},
+        procedimento: { required: true,},
+        data_autorizacao: { required: true,},
+        tipo_guia: { required: true,},
+        qtdautorizada: { required: true,},
+        quantidade: { required: true,},
+      },
+      messages: {
+        numero: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        paciente: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        convenio: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        procedimento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        data_autorizacao: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        tipo_guia: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        qtdautorizada: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        quantidade: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+      },
+    });
+  });
+  });
+</script>
 <script>
 $("#id_convenio").change(function () {
       var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view

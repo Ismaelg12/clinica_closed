@@ -28,6 +28,7 @@ from dateutil.relativedelta import relativedelta
 def add_agend_calendar(request):
     data_now  = request.POST.get('data', None)
     new_dates = datetime.strptime(data_now,'%d/%m/%Y')
+
     sessoes   = int(request.POST.get("sessoes", None))
     for i in range(0,sessoes):
         if i != 0:
@@ -49,7 +50,12 @@ def add_agend_calendar(request):
         new_agendamento.sala_id         = request.POST.get('sala',None)
         new_agendamento.status          = request.POST.get('status', None)
         new_agendamento.convenio_id     = request.POST.get('convenio', None)
-        new_agendamento.save()
+        if Agendamento.objects.filter(data=new_dates,paciente_id = request.POST.get('paciente',None),
+            profissional_id = request.POST.get('profissional',None),
+            hora_inicio = request.POST.get('hora_inicio',None)).exists():
+            pass           
+        else: 
+            new_agendamento.save()
    
     data = {}
     return JsonResponse(data)
@@ -147,13 +153,19 @@ def adicionar_paciente_calendar(request):
     data_nascimento          = datetime.strptime(
         request.POST.get("nascimento", None),'%d/%m/%Y').strftime('%Y-%m-%d')
     nome                     = request.POST.get('nome',None)
+    cpf                      = request.POST.get('cpf',None)
     paciente                 = Paciente()
     paciente.nome            = nome
     paciente.telefone        = request.POST.get('telefone',None)
     paciente.data_nascimento = data_nascimento
     paciente.convenio_id     = request.POST.get('convenio',None)
-    if Paciente.objects.filter(nome__iexact=nome,
-        data_nascimento__iexact=data_nascimento).exists():
+    paciente.cpf             = cpf
+    if request.POST.get('possui_cpf',None) == 'on':
+        paciente.possui_cpf  = True
+    else:
+        paciente.possui_cpf  = False
+    
+    if Paciente.objects.filter(cpf__iexact=cpf).exists() and cpf != None:
         messages.error(request,'Erro: Paciente Já Existente na Base de Dados! ')
     else:
         paciente.save()
@@ -386,13 +398,62 @@ def add_agendamento(request):
 """
 @login_required
 def update_agendamento(request,pk):
-    agenda = Agendamento.objects.get(pk=pk)
-    form = AgendaForm(request.POST or None,instance = agenda)
+    agenda               = Agendamento.objects.get(pk=pk)
+    form                 = AgendaForm(request.POST or None,instance = agenda)
+    lista_guias_paciente = Guia.objects.filter(paciente_id=agenda.paciente.id,quantidade__gte=1,ativo=True)
+    lista_guias          = []
+    for g in lista_guias_paciente:
+        lista_guias.append(g)
     if form.is_valid():
-        form.save()
-        messages.success(request,'Agendamento Atualizado com Sucesso! ')
-        return redirect('agendamentos')            
-    return render(request,'agenda/adicionar_agendamento.html',{'form':form})
+        form.save(commit=False)
+        if agenda.convenio.id != 1:
+            #testa se é diferente de particular
+            if request.POST['status'] == 'FH' or request.POST['status'] == 'FN':
+                if lista_guias_paciente.exists():                
+                    #if request.POST['lista_guias_field'] != None:
+                    guia = Guia.objects.get(
+                        paciente_id=agenda.paciente.id,quantidade__gte=1,
+                        ativo=True,numero= request.POST['lista_guias_field'].split('|')[:][0])
+                   
+                    guia.quantidade -= 1
+                    guia.save()
+                    form.save()
+                    #converte datas
+                    data_now  = datetime.strptime(request.POST.get('data'),'%d/%m/%Y').strftime('%Y-%m-%d')
+                    new_date  = datetime.strptime(data_now, '%Y-%m-%d').date()
+                    
+                    #cria um atendimento baseado nos dados do agendamento feito
+                    Atendimento.objects.create(
+                        tipo=request.POST['status'],
+                        data=new_date,
+                        paciente_id=request.POST['paciente'],
+                        hora_inicio=request.POST['hora_inicio'],
+                        hora_fim=request.POST['hora_fim'],
+                        profissional_id=request.POST['profissional'],
+                        convenio_id=request.POST['convenio'],
+                        procedimento_id=guia.procedimento.id,
+                        guia_id=guia.id,
+                    )
+                    print('criou agenda')
+                    #finaliza a guia se tiver menor que zero a quantidade
+                    if guia.quantidade < 1:
+                        guia.ativo = False
+                        guia.save()
+                    
+                    messages.success(request,'Agendamento Atualizado com Sucesso! ')
+                    return redirect('agendamentos')
+                else:
+                    #print('dentro do else em condição em guia')
+                    messages.error(request,'Atenção...esse paciente não possui Uma Guia para Decrementar')
+            else:
+                form.save()
+                messages.success(request,'Agendamento Atualizado com Sucesso! ')
+                return redirect('agendamentos')  
+        else:
+            form.save()
+            messages.success(request,'Agendamento Atualizado com Sucesso! ')
+            return redirect('agendamentos')
+    return render(request,'agenda/adicionar_agendamento.html',{'form':form,'guias_views':lista_guias})
 """
 @login_required
 def update_agendamento(request,pk):
@@ -473,7 +534,7 @@ def cancel_agendamento(request,pk):
 @login_required
 def liberar_agendamento(request,pk):
     agenda = get_object_or_404(Agendamento,pk=pk)
-    if agenda.liberado == False:
+    if agenda.status == 'AG':
         agenda.liberado = True
         agenda.status   = 'AD'
         agenda.save()

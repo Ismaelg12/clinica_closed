@@ -27,7 +27,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary"data-background-color="purple">
-                  <h4 class="card-title">Atualizar Guia</h4>
+                  <h4 class="card-title">Sobre Guia</h4>
               </div>
               <div class="card-content">
                 <br>
@@ -36,93 +36,90 @@
               <div class="row">
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label class="bmd-label-floating">* Numero</label>
-                    {{form.numero}}
-                    {{form.numero.errors}}
+                    <label class="bmd-label-floating">* Numero</label><br/>
+                    {{guia.numero}}
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <label class="bmd-label-floating">* Paciente</label>
-                  {{form.paciente}}
+                  <label class="bmd-label-floating">* Paciente</label><br/>
+                  {{guia.paciente}}
                 </div>
                 <div class="col-md-3">
-                  <label class="bmd-label-floating">* Profissional</label>
-                  {{form.profissional}}
+                  <label class="bmd-label-floating">* Profissional</label><br/>
+                   {% for prof in guia.profissional.all %}
+                      {{prof.nome}},
+                    {% endfor %}
                 </div>
                 <div class="col-md-3">
-                  <label class="bmd-label-floating">*Convênio</label>
-                  {{form.convenio}}
+                  <label class="bmd-label-floating">*Convênio</label><br/>
+                  {{guia.convenio}}
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-4">
-                    <label class="bmd-label-floating"> Procedimento</label>
-                    {{form.procedimento}} 
+                    <label class="bmd-label-floating"> Procedimento</label><br/>
+                    {{guia.procedimento}} 
                   </div>
                 <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="bmd-label-floating">*Autorização</label>
-                    {{form.data_autorizacao}}
+                  <div class="guia-group">
+                    <label class="bmd-label-floating">*Autorização</label><br/>
+                    {{guia.data_autorizacao}}
                   </div>
                 </div>
                 <div class="col-md-2">
                   <!--se a guia ja foi revalidada era não pode mais editar o campo data-->
                   {% if guia.validada == True %}
                       <div class="form-group">
-                        <label class="bmd-label-floating">*Validade</label>
+                        <label class="bmd-label-floating">*Validade</label><br/>
                         <input type="text"value="{{guia.validade|date:'d/m/Y'}}"class="form-control"name="validade"readonly="true">
                       </div>
                   {% else %}
                       <div class="form-group">
-                      <label class="bmd-label-floating">*Validade</label>
-                      {{form.validade}}
+                      <label class="bmd-label-floating">*Validade</label><br/>
+                      {{guia.validade}}
                   </div>
                   {% endif %}
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label class="bmd-label-floating">** Sessões Restantes</label>
-                    {{form.quantidade}}
+                    <label class="bmd-label-floating">** Sessões Restantes</label><br/>
+                    {{guia.quantidade}}
                   </div>
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label class="bmd-label-floating">* * Sessões Autorizadas</label>
-                    {{form.qtdautorizada}}
+                    <label class="bmd-label-floating">* * Sessões Autorizadas</label><br/>
+                    {{guia.qtdautorizada}}
                   </div>
                 </div>
                </div>
               <div class="row">
                 <div class="col-md-2">
-                  <label class="bmd-label-floating">* Tipo de Guia</label>
-                  {{form.tipo_guia}}
+                  <label class="bmd-label-floating">* Tipo de Guia</label><br/>
+                  {{guia.get_tipo_guia_display}}
                 </div>
                  <div class="col-md-2">
-                  <label class="bmd-label-floating">* Status</label>
-                  {{form.status}}
+                  <label class="bmd-label-floating">* Status</label><br/>
+                  {{guia.get_status_display}}
                 </div>
                  <div class="col-md-2">
-                  <label class="bmd-label-floating">* Ativo</label>
-                  {{form.ativo}}
+                  <label class="bmd-label-floating">* Ativo</label><br/>
+                  {{guia.ativo}}
                 </div> 
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label class="bmd-label-floating">Data de Registro</label>
+                    <label class="bmd-label-floating">Data de Registro</label><br/>
                     <input type="text" value="{{guia.criado_em|date:'d/m/Y'}}"class="form-control" disabled>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label class="bmd-label-floating">Data de Atualização</label>
+                    <label class="bmd-label-floating">Data de Atualização</label><br/>
                     <input type="text" value="{{guia.atualizado_em}}"class="form-control" disabled>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <b class="text-danger">{{form.non_field_errors}}</b>
-                 </div>
               </div>
-              <button type="submit"class="btn btn-primary pull-right">Salvar</button>
-              <a href="{% url 'guias' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+                <a href="javascript:history.back()" class="btn btn-info btn-group">Voltar</a>
               <div class="clearfix"></div>
             </form>
           </div><!-- end content-->
@@ -130,78 +127,4 @@
         </div> <!-- end row -->
   </div>
 </div>
-<script>
- $('#id_validade').daterangepicker({
-  singleDatePicker: true,
-  showDropdowns: true,
-  "locale": {
-    "format": "DD/MM/YYYY",
-    "separator": " - ",
-    "applyLabel": "Aplicar",
-    "cancelLabel": "Cancelar",
-    "fromLabel": "De",
-    "toLabel": "Até",
-    "customRangeLabel": "Custom",
-    "daysOfWeek": [
-    "Dom",
-    "Seg",
-    "Ter",
-    "Qua",
-    "Qui",
-    "Sex",
-    "Sáb"
-    ],
-    "monthNames": [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro"
-    ],
-    "firstDay": 0
-  }});
-$('#id_data_autorizacao').daterangepicker({
-  singleDatePicker: true,
-  showDropdowns: true,
-  "locale": {
-    "format": "DD/MM/YYYY",
-    "separator": " - ",
-    "applyLabel": "Aplicar",
-    "cancelLabel": "Cancelar",
-    "fromLabel": "De",
-    "toLabel": "Até",
-    "customRangeLabel": "Custom",
-    "daysOfWeek": [
-    "Dom",
-    "Seg",
-    "Ter",
-    "Qua",
-    "Qui",
-    "Sex",
-    "Sáb"
-    ],
-    "monthNames": [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro"
-    ],
-    "firstDay": 0
-  }});
-</script>
 {% endblock container %}

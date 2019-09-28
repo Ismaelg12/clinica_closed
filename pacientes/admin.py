@@ -4,8 +4,8 @@ from django.forms import CheckboxSelectMultiple
 from pacientes.models import *
 
 class PacienteAdmin(admin.ModelAdmin):
-	list_display = ['nome','telefone','convenio','telefone','data_nascimento']
-	search_fields  = ['nome']
+	list_display = ['nome','cpf','convenio','telefone','data_nascimento','criado_em']
+	search_fields  = ['nome','cpf']
 	formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }

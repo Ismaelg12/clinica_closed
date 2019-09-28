@@ -327,7 +327,8 @@
                         <th>Convenio</th>
                         <th>Profissional</th>
                         <th>Validade</th>
-                        <th>Quant.</th>
+                        <th>Sessões Autorizadas</th>
+                        <th>Sessoes Restantes</th>
                         <th>Ação</th>
                       </thead>
                       <tbody>
@@ -342,7 +343,8 @@
                             {% endfor %}
                           </td>
                           <td>{{guia.validade|date:'d/m/Y'}}</td>
-                          <td>{{guia.quantidade}}</td>
+                          <td>{{guia.qtdautorizada}}</td>
+                          <td>{{guia.quantidade}}</td>                          
                           <td  width="10%">
                             <a href="{% url 'update_guia' guia.id %}" title="Editar"><i class="material-icons">sync</i></a>
                             <a href="" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>

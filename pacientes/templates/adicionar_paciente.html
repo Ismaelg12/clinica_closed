@@ -48,14 +48,14 @@
            <h4 class="card-title ">Dados Cadastrais</h4>
          </div>
          <div class="card-content">
-           <form method="POST">
+           <form method="POST" id="paciente_form">
             {% csrf_token %}
             <div class="row">
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="bmd-label-floating">*Nome Completo</label>
                   {{form.nome}}
-                  <b class="text-danger"> {{form.non_field_errors}}</b>
+                  <span class="text-danger"> {{form.non_field_errors}}</span>
                 </div>
               </div>
               <div class="col-md-4">
@@ -73,22 +73,22 @@
               </div>
             </div>
             <div class="row">
+               <div class="col-md-2">
+                <div class="form-group">
+                  <label class="bmd-label-floating">CPF</label>
+                  {{form.cpf}}
+                 
+                </div>
+              </div>
+              <div class="col-md-2">
+                <br><br>
+                {{form.possui_cpf}}
+                <label><b>NÃO POSSUI CPF</b></label>
+              </div>
               <div class="col-md-2">
                 <div class="form-group">
                   <label class="bmd-label-floating">* Data Nascimento</label>
                   {{form.data_nascimento}}
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label  class="bmd-label-floating">Sexo</label>
-                  {{form.sexo}}
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label class="bmd-label-floating">CPF</label>
-                  {{form.cpf}}
                 </div>
               </div>
               <div class="col-md-3">
@@ -105,13 +105,19 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label  class="bmd-label-floating">Sexo</label>
+                  {{form.sexo}}
+                </div>
+              </div>
+              <div class="col-md-2">
                 <div class="form-group">
                   <label class="bmd-label-floating">RG</label>
                   {{form.rg}}
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                  <label  class="bmd-label-floating">Estado Civil</label>
                  {{form.estado_civil}}
              </div>
@@ -205,8 +211,8 @@
               </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-        <button type="submit" class="btn btn-success pull-right"name="adicionar_outro">Salvar E Adicionar Outro</button>
+        <button type="submit" class="btn btn-primary pull-right" id="submitButton">Salvar</button>
+        <button type="submit" class="btn btn-success pull-right" id="submitButton1" name="adicionar_outro">Salvar E Adicionar Outro</button>
         <a href="{% url 'lista_pacientes' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
         <div class="clearfix"></div>
       </form>
@@ -322,43 +328,69 @@ $('#id_data_nascimento').daterangepicker({
   }});
 </script>
 <script>  
-  function confere(form) {
-    var confere = 0;
-    for (i = 0; i < form.elements.length; i++) {
-      if (form.elements[i].type == "checkbox") {
-        if (!form.elements[i].checked) {
-          form.elements[i].className = "destaca";
-          confere++;  
-        }
-         else {
-          form.elements[i].className = "normal";
-        }
-      } else if (form.elements[i].type == "radio") {
-        if(!document.getElementById('formaPagamento').checked) {
-          document.getElementById('formaPagamento').className = "destaca";
-          confere++;  
-        }
-         else {
-          document.getElementById('formaPagamento').className = "normal";
-        }
-      }       
-      else {
-        if (form.elements[i].value == '') {
-          form.elements[i].className = "destaca";
-          confere++;  
-        }
-         else {
-          form.elements[i].className = "normal";
-        }
-      }
-    }
-    if (confere == 0) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-</script>
+$(document).ready(function() {
+  $('#id_possui_cpf').click(function(event) {  //on click
+      if(this.checked) { // check select status
+          $('#id_possui_cpf').each(function() { //loop through each checkbox
+          $('#id_cpf').attr('disabled','disabled');
+          });
 
+      }else{
+          $('#id_possui_cpf').each(function() { //loop through each checkbox
+          $('#id_cpf').removeAttr('disabled','disabled');
+          });         
+      }
+  });
+});
+  $(document).ready(function() {
+    $("#possui_cpf").click(function(){
+     var cpf = $("#cpf");
+     cpf.prop("disabled", !cpf.prop("disabled"));
+    });
+    //dicionario dos dados
+    $('#submitButton').on('click',function(){
+    $('#paciente_form').validate({
+      rules: {
+        nome: { required: true, },
+        profissional: { required: true,},
+        cpf: { required: true,},
+        telefone: { required: true,},
+        convenio: { required: true,},
+      },
+      messages: {
+        nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        cpf: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        convenio: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+      },
+    });
+  });
+  });
+    $(document).ready(function() {
+    $("#possui_cpf").click(function(){
+     var cpf = $("#cpf");
+     cpf.prop("disabled", !cpf.prop("disabled"));
+    });
+    //dicionario dos dados
+    $('#submitButton1').on('click',function(){
+    $('#paciente_form').validate({
+      rules: {
+        nome: { required: true, },
+        profissional: { required: true,},
+        cpf: { required: true,},
+        telefone: { required: true,},
+        convenio: { required: true,},
+      },
+      messages: {
+        nome: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        cpf: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        profissional: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        telefone: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+        convenio: { required: '<span class="text-danger">Prencha esse Campo</span>' },
+      },
+    });
+  });
+  });
+</script>
 {% endblock container %}

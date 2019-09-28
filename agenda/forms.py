@@ -32,8 +32,8 @@ class AgendaForm(forms.ModelForm):
                 'data-size':7,'data-live-search':'true'}),
             'paciente'    : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
                 'data-size':7,'data-live-search':'true','required': 'true'}),
-            'convenio'    : forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
-                'data-size':7,'data-live-search':'true','required': 'true'}),
+            'convenio'    : forms.Select(attrs={'class':'selectpicker',
+            'data-style':'select-with-transition','data-size':7,'data-live-search':'true'}),
             'profissional': forms.Select(attrs={'class':'selectpicker','data-style':'select-with-transition',
                 'data-size':7,'data-live-search':'true','required': 'true'}),
             'telefone'    : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
@@ -48,4 +48,11 @@ class AgendaForm(forms.ModelForm):
         data = self.cleaned_data
         print( data.get('hora_inicio', None), data.get('hora_fim', None))
         if data.get('hora_inicio', None) >= data.get('hora_fim', None):
-            raise forms.ValidationError('Os Horarios estão Confusos')
+            raise forms.ValidationError('Corrija o horário')
+      
+    """
+    def clean_profissional(self):
+        data = self.cleaned_data
+        if data.get('profissional', None) == None:
+            raise forms.ValidationError('Campo é obrigatório')
+    """

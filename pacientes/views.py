@@ -46,11 +46,11 @@ class PacienteListView(LoginRequiredMixin,ListView):
     paginate_by = 50
     
     def get_queryset(self, **kwargs):
+        queryset = Paciente.objects.prefetch_related('profissional').all()
         if self.request.GET.get('paciente'):
             paciente_search = self.request.GET.get('paciente')
-            return Paciente.objects.filter(nome__icontains=paciente_search).order_by('id')
-        else:
-            return Paciente.objects.prefetch_related('profissional').all()
+            queryset = Paciente.objects.filter(nome__icontains=paciente_search).order_by('id')
+        return queryset
 
 
     def get_context_data(self, *args, **kwargs):
@@ -58,7 +58,13 @@ class PacienteListView(LoginRequiredMixin,ListView):
         context['profissional_logado'] = Profissional.objects.filter(
             user=self.request.user,tipo=2
         )
-        context['paciente_clinico'] = Paciente.objects.filter(profissional__user=self.request.user)
+        context['paciente_clinico'] = Paciente.objects.filter(
+            profissional__user=self.request.user)
+        #if tiver busca ele filtra os meus pacientes
+        if self.request.GET.get('paciente'):
+            paciente_search = self.request.GET.get('paciente')
+            context['paciente_clinico'] = Paciente.objects.filter(
+                nome__icontains=paciente_search,profissional__user=self.request.user).order_by('id')
         return context
 
         

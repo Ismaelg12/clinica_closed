@@ -105,7 +105,7 @@
           <option value="DM">Desmarcado/Profissional</option>
           <option value="CC">Cancelado</option>
           <option value="BQ">Bloqueado</option>
-          <option value="PT">Particular</option>
+          zz<option value="PT">Particular</option>
         </select>
       </div>
     </div>
@@ -116,19 +116,20 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row" id="ocultar_fields">
      <div class="col-md-4">
       <div class="form-group">
         <label>Valor:</label>
-        <input class="form-control" name="valor" type="text"id="valor" >
+        <input class="form-control" name="valor" type="text"id="valor"value="0" >
       </div>
     </div>
     <div class="col-md-4">
       <div class="form-group">
         <label>Pacote:</label>
         <select class="form-control"name="pacote">
+          <option value=""> --- </option>
           <option value="True">Sim</option>
-          <option value="False">Não</option>
+          <option value="False"selected>Não</option>
         </select>
       </div>
     </div>
@@ -137,8 +138,9 @@
       <div class="form-group">
         <label>Pago?:</label>
         <select class="form-control"name="pago">
+          <option value=""> --- </option>
           <option value="True">Sim</option>
-          <option value="False">Não</option>
+          <option value="False"selected>Não</option>
         </select>
       </div>
     </div>
@@ -174,9 +176,9 @@
         <div><strong>Celular: </strong><span id="modalCelular"class="pull-right"></span></div>
         <div><strong>Convenio: </strong><span id="modalConvenio"class="pull-right"></span></div>
         <div class="modal-footer text-center">
-
+          <!--
           <button class="btn btn-raised btn-info btn-xs" id="updateButton"data-dismiss="modal" aria-hidden="true"><span id="id_agenda"style="display:none"></span>Atualizar</button>
-
+          -->
           {% if verifica_prof_log %}
           <span class="dropdown">
             <button href="" class="btn btn-raised btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="true"id="add_atendimento">

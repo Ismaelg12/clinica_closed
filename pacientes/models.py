@@ -17,6 +17,8 @@ class Paciente(models.Model):
 	cpf               = models.CharField(max_length=14,unique=True,blank=True,null=True)
 	rg                = models.CharField(max_length=14,blank=True,null=True)
 	uf                = models.CharField(max_length=2,choices=UF,default='PI')
+	possui_cpf        = models.BooleanField(default=False)
+
 	#endereco
 	cidade            = models.CharField('Cidade', max_length=40,blank=True)
 	rua               = models.CharField('Rua', max_length=70,blank=True)

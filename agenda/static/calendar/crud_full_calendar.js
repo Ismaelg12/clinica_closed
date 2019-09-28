@@ -76,22 +76,19 @@ $(document).ready(function() {
   //envia pra um span no botão atualizar
   $('#id_agenda').html(event.id);
   //oculta botão conforme status
-  if(event.status == 'AT' || event.status == 'FH' || event.status == 'FJ'){
+  if(event.status == 'AG' || event.status == 'BQ' || event.status == 'PT'){
     //hide buttons
     $('#add_atendimento').hide();
+    $('#updateButton').show();
+    $('#deleteButton').show();
+  }else if(event.status == 'AD'){
+    $('#add_atendimento').show();
     $('#updateButton').hide();
-  }else if(event.status == 'AG'){
+    $('#deleteButton').hide();
+  }else{
     $('#add_atendimento').hide();
-    $('#updateButton').show();
-  }
-  else if(event.status == 'AD'){
-    $('#add_atendimento').show();
     $('#updateButton').hide();
-  }
-  else{
-    //show all buttons
-    $('#add_atendimento').show();
-    $('#updateButton').show();
+    $('#deleteButton').hide();
   }
   var id_atender  = event.id;
   $(".atender").click(function () {
@@ -120,6 +117,7 @@ $('#submitSaveButton').on('click',function(){
       nascimento: { required: true },
       profissional: { required: true },
       convenio: { required: true },
+      cpf: { required: true },
 
     },
     messages: {
@@ -128,6 +126,7 @@ $('#submitSaveButton').on('click',function(){
       nascimento: { required: '<span class="text-danger">Prencha esse Campo</span>' },
       profissional: { required:'<span class="text-danger">Prencha esse Campo</span>'},
       convenio: { required:'<span class="text-danger">Prencha esse Campo</span>'},
+      cpf: { required:'<span class="text-danger">Prencha esse Campo</span>'},
     },
     submitHandler: function( form ){
       var dados = $('#paciente_form').serialize();
@@ -235,13 +234,13 @@ function deleteAgendamento(event){
       data: {'id': id,'status':status},
       dataType: "json",
       success: function (data) {
-        calendar.fullCalendar('refetchEvents');
-        alert('Agendamento Removido');
+        alert('Agendamento Removido Com Sucesso!');
       },
       failure: function (data) {
         alert('There is a problem!!!');
       }
+
     });
-    location.reload();
+      location.reload();
   }
 }

@@ -10,7 +10,7 @@ from core.utils import STATUS
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from decimal import Decimal
 '''
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                           Models de Agendamento
@@ -34,9 +34,9 @@ class Agendamento(models.Model):
     cancelado     = models.TextField(blank=True,max_length=50)
     liberado      = models.BooleanField(default=False)
     valor         = models.DecimalField('Valor do Atendimento',
-        max_digits=6, decimal_places=2,null=True,blank=True)
-    pago          = models.BooleanField('pagamento')
-    pacote        = models.BooleanField('pacote')
+        max_digits=6, decimal_places=2,null=True,blank=True, default=Decimal(0.00))
+    pago          = models.BooleanField('pagamento', default=False)
+    pacote        = models.BooleanField('pacote', default=False)
     
     
 
@@ -47,21 +47,28 @@ class Agendamento(models.Model):
     def __str__(self):
         return self.paciente.nome
     
-  
+
 # method for updating guia
 @receiver(post_save, sender=Agendamento, dispatch_uid="update_decrement_guia_count")
 def update_decrement_guia(sender, instance, **kwargs):
-    if(instance.status == 'FH'):
+    if(instance.status == 'FH' or instance.status == 'FN'):
         print("status",instance.status)
+        pass
+        """
         guia_paciente = Guia.objects.filter(
             paciente_id=instance.paciente.id,quantidade__gte=1,ativo=True)
         #guia = Guia.objects.get(paciente_id=instance.paciente.id)
         if guia_paciente.exists():
             guia = Guia.objects.get(
                 paciente_id=instance.paciente.id,quantidade__gte=1,ativo=True)
-            print(guia)
+            #print(guia)
             guia.quantidade -= 1
             guia.save()
+            #finaliza a guia se tiver menor que zero a quantidade
+            if guia.quantidade < 1:
+                guia.ativo = False
+                guia.save()
+        
         Atendimento.objects.create(
             tipo='DM',
             data=instance.data,
@@ -70,10 +77,9 @@ def update_decrement_guia(sender, instance, **kwargs):
             hora_fim=instance.hora_fim,
             profissional=instance.profissional,
             convenio_id=instance.convenio.id,
-            valor= 00.00,
-          
-           
+            guia_id=instance.convenio.id,
         )
+        """
     #cancela todos os agendamentos relacioandos
     elif(instance.status == 'CC'): 
         agendamentos = Agendamento.objects.filter(
@@ -83,4 +89,3 @@ def update_decrement_guia(sender, instance, **kwargs):
         for ag in agendamentos:
             ag.status = "CC"
             ag.save()
-            

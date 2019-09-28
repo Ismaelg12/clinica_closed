@@ -131,8 +131,7 @@
 								            {% endif %}
 								            <div>
 								            	{% if not ocultar_botao_salvar == "display_button"%}
-								            		<button type="submit" onclick="this.disabled = true; this.value = 'Enviando…'; this.form.submit();" class="btn btn-primary pull-right"> Enviar</button>
-													
+													<button type="submit" class="btn btn-primary pull-right">Salvar</button>
 													<a href="{% url 'atendimentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
 													{% else %}
 													<a href="javascript:void(0)" onClick="history.go(-1); return false;" class="btn btn-info btn-group pull-right">Voltar</a>
@@ -147,87 +146,16 @@
 				</div> <!-- end row -->
 			</div>
 		</div>
-<script type="text/javascript">
-$(document).ready(function(){
-	if($("#id_tipo option:selected" ).val() =='AV'){
-		$("#hidden_div").show();
-		$("#hidden_evolucao").hide();
-	}
-});
-function showDiv(select){
-	if(select.value == 'AV'){
-		document.getElementById('hidden_div').style.display = "block";
-		document.getElementById('hidden_evolucao').style.display = "none";
-	} else{
-		document.getElementById('hidden_div').style.display = "none";
-		document.getElementById('hidden_evolucao').style.display = "block";
-	}
-} 
-$('#id_data').daterangepicker({
-	singleDatePicker: true,
-	showDropdowns: true,
-	"locale": {
-		"format": "DD/MM/YYYY",
-		"separator": " - ",
-		"applyLabel": "Aplicar",
-		"cancelLabel": "Cancelar",
-		"fromLabel": "De",
-		"toLabel": "Até",
-		"customRangeLabel": "Custom",
-		"daysOfWeek": [
-		"Dom",
-		"Seg",
-		"Ter",
-		"Qua",
-		"Qui",
-		"Sex",
-		"Sáb"
-		],
-		"monthNames": [
-		"Janeiro",
-		"Fevereiro",
-		"Março",
-		"Abril",
-		"Maio",
-		"Junho",
-		"Julho",
-		"Agosto",
-		"Setembro",
-		"Outubro",
-		"Novembro",
-		"Dezembro"
-		],
-		"firstDay": 0
-	}});
-/*
-$("#id_convenio").change(function () {
-      var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view
-      var convenioId = $(this).val();  // get the selected convenio ID from the HTML input
-
-     $.ajax({                       // initialize an AJAX request
-        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
-        data: {
-          'convenio': convenioId       // add the convenio id to the GET parameters
-      },
-        success: function (data) {   // `data` is the return of the `load_convenios` view function
-          $("#id_procedimento").html(data);  // replace the contents of the id_procedimento input with the data that came from the server
-      }
-  });
- });
-		$("#id_paciente").change(function () {
-      var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view
-      var pacienteId = $(this).val();  // get the selected convenio ID from the HTML input
-
-     $.ajax({                       // initialize an AJAX request
-        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
-        data: {
-          'paciente': pacienteId       // add the convenio id to the GET parameters
-      },
-        success: function (data) {   // `data` is the return of the `load_convenios` view function
-          $("#id_guia").html(data);  // replace the contents of the id_procedimento input with the data that came from the server
-      }
-  });
- });
-		*/
-</script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			//bloquea campos do form par não atualizar
+			$("#id_guia").prop( "disabled", true );  
+			$("#id_paciente").prop( "disabled", true );  
+			$("#id_hora_inicio").prop( "disabled", true );  
+			$("#id_hora_fim").prop( "disabled", true );  
+			$("#id_convenio").prop( "disabled", true );  
+			$("#id_profissional").prop( "disabled", true );  
+			$("#id_data").prop( "disabled", true );  
+		});
+		</script>
 {% endblock container %}
