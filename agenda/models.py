@@ -35,7 +35,7 @@ class Agendamento(models.Model):
     liberado      = models.BooleanField(default=False)
     valor         = models.DecimalField('Valor do Atendimento',
         max_digits=6, decimal_places=2,null=True,blank=True, default=Decimal(0.00))
-    pago          = models.BooleanField('pagamento', default=False)
+    #pago          = models.BooleanField('pagamento', default=False)
     pacote        = models.BooleanField('pacote', default=False)
     
     
@@ -51,37 +51,8 @@ class Agendamento(models.Model):
 # method for updating guia
 @receiver(post_save, sender=Agendamento, dispatch_uid="update_decrement_guia_count")
 def update_decrement_guia(sender, instance, **kwargs):
-    if(instance.status == 'FH' or instance.status == 'FN'):
-        print("status",instance.status)
-        pass
-        """
-        guia_paciente = Guia.objects.filter(
-            paciente_id=instance.paciente.id,quantidade__gte=1,ativo=True)
-        #guia = Guia.objects.get(paciente_id=instance.paciente.id)
-        if guia_paciente.exists():
-            guia = Guia.objects.get(
-                paciente_id=instance.paciente.id,quantidade__gte=1,ativo=True)
-            #print(guia)
-            guia.quantidade -= 1
-            guia.save()
-            #finaliza a guia se tiver menor que zero a quantidade
-            if guia.quantidade < 1:
-                guia.ativo = False
-                guia.save()
-        
-        Atendimento.objects.create(
-            tipo='DM',
-            data=instance.data,
-            paciente=instance.paciente,
-            hora_inicio=instance.hora_inicio,
-            hora_fim=instance.hora_fim,
-            profissional=instance.profissional,
-            convenio_id=instance.convenio.id,
-            guia_id=instance.convenio.id,
-        )
-        """
     #cancela todos os agendamentos relacioandos
-    elif(instance.status == 'CC'): 
+    if(instance.status == 'CC'): 
         agendamentos = Agendamento.objects.filter(
             paciente_id=instance.paciente.id,status="AG",
             profissional_id=instance.profissional.id
@@ -89,3 +60,5 @@ def update_decrement_guia(sender, instance, **kwargs):
         for ag in agendamentos:
             ag.status = "CC"
             ag.save()
+ 
+   

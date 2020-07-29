@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+{% block navbar %}
+  <a class="navbar-brand" href="#pablo">GERENCIADOR FINANCEIRO</a>
+{% endblock navbar %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+      {% if request.user.is_superuser or atendente or profissional_logado %}
+        <div class="col-lg-4 col-md-4 col-sm-4">
+          <div class="card card-stats">
+            <div class="card-header" data-background-color="green">
+              <i class="material-icons">local_atm</i>
+            </div>
+            <div class="card-content">
+              <p class="category">Contas a Receber</p>
+              <h3 class="card-title">{{view.clientes}}</h3>
+              <h3 class="card-title">{{view.birthday}}</h3>
+            </div>
+            <div class="card-footer">
+               <a href="{% url 'conta_receber' %}"><span class="pull-left">Visualizar</span></a>
+                <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if request.user.is_superuser or profissional_logado %}
+        <div class="col-lg-4 col-md-4 col-sm-4">
+          <div class="card card-stats">
+            <div class="card-header" data-background-color="red">
+              <i class="material-icons">monetization_on</i>
+            </div>
+            <div class="card-content">
+              <p class="category">Contas a Pagar</p>
+              <h3 class="card-title">{{view.clientes}}</h3>
+            </div>
+            <div class="card-footer">
+               <a href="{% url 'contas_a_pagar' %}"><span class="pull-left">Visualizar</span></a>
+               <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% if request.user.is_superuser %}
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="card card-stats">
+          <div class="card-header" data-background-color="blue">
+            <i class="material-icons">call_to_action</i>
+          </div>
+          <div class="card-content">
+            <p class="category">Faturamento</p>
+            <h3 class="card-title"> </h3>
+          </div>
+          <div class="card-footer">
+             <a href="{% url 'faturamento' %}"><span class="pull-left">Visualizar</span></a>
+             <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+   {% if request.user.is_superuser or profissional_logado %}
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="purple">
+          <i class="material-icons">gavel</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Faturadas</p>
+          <h3 class="card-title">{{view.agendamentos}}</h3>
+        </div>
+        <div class="card-footer">
+           <a href="{% url 'faturadas' %}"><span class="pull-left">Visualizar</span></a>
+          <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+        </div>
+      </div>
+    </div>
+   {% endif %}
+    {% if request.user.is_superuser %}
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="card card-stats">
+          <div class="card-header" data-background-color="blue">
+            <i class="material-icons">vertical_split</i>
+          </div>
+          <div class="card-content">
+            <p class="category">Lotes</p>
+            <h3 class="card-title">{{view.agendamentos}}</h3>
+          </div>
+          <div class="card-footer">
+             <a href="{% url 'lista_lotes' %}"><span class="pull-left">Visualizar</span></a>
+            <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+          </div>
+        </div>
+      </div>
+     {% endif %}
+    {% if request.user.is_superuser %}
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <div class="card card-stats">
+        <div class="card-header" data-background-color="orange">
+          <i class="material-icons">show_chart</i>
+        </div>
+        <div class="card-content">
+          <p class="category">Relatórios</p>
+          <h3 class="card-title">{{view.agendamentos}}</h3>
+        </div>
+        <div class="card-footer">
+           <a href=""><span class="pull-left">Visualizar</span></a>
+          <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+    </div>
+    </div>
+  <footer class="footer">
+  <div class="container-fluid">
+      <p class="copyright pull-right">
+        &copy; <script>//document.write(new Date().getFullYear())</script>
+        <a href="#" target="_blank">Psicocenter </a> - Todos os Direitos reservados.
+      </p>
+  </div>
+</footer>
+</div>
+</div>
+{% endblock container %}

@@ -94,6 +94,11 @@
                     <div style="background-color:grey;text-align:center;color:white;border-radius: 5px 5px;"><font size="2">Falta Não Justificada</font>
                     </div>
                   </td>
+                   {% elif atendimento.tipo == 'AR' %}
+                  <td width="18%">
+                    <div style="background-color:pink;text-align:center;color:white;border-radius: 5px 5px;"><font size="2">Atendido/Recepção</font>
+                    </div>
+                  </td>
                 {% else %}
                   <td width="18%">
                     <div style="background-color:green;text-align:center;color:white;border-radius: 5px 5px;"><font size="2">---------</font>
@@ -117,14 +122,14 @@
                  {{atendimento.profissional__nome}}
                </td>
                <td>
-                 {{atendimento.criado_em|date:"d/m/Y H:m"}} hs
+                 {{atendimento.criado_em|date:"d/m/Y H:i"}} hs
                </td>
                <td>                     
                 {% if not at %}
                   <a href="{% url 'update_atendimento' atendimento.id %}?ocultarBotao=ocultarBotao" title="Ver Atendimento"><i class="material-icons">visibility</i></a>
                   {% if atendimento.tipo != 'DM' %}
                     <!--se for diferente de desmarcado ele mostra a opção update-->
-                    <a href="{% url 'update_atendimento' atendimento.id %}" title="Editar"><i class="material-icons">sync</i></a>
+                    <a href="{% url 'update_atendimento' atendimento.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
                   {% endif %}
                  {% endif %}
               </td>

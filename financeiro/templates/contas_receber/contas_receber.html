@@ -28,27 +28,27 @@
       <div class="col-md-12">
         <div class="card">
          <div class="card-header card-header-primary"data-background-color="purple">
-          <h4 class="card-title ">Contas a Receber | Valor Total {{valor.total}} | Valor Espécie {{valor.especie}} | Valor Cartão {{valor.cartao}} <i  class=" material-icons collapsed pull-right" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">search</i></h4> 
+          <h4 class="card-title ">Demonstrativo Financeiro de receitas de Atendimentos Particular <i  class=" material-icons collapsed pull-right" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">search</i></h4> 
         </div>
         <div class="card-content">
          <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion" style="">
           <div class="card-body">
            <form method="GET"name="search">
             <div class="row">
-              <div class="col-md-3 col-sm-3">
+              <div class="col-md-2 col-sm-3">
                 <div class="form-group">
                   <input name="date_ranger"class="form-control"required>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-3">
+              <div class="col-md-2 col-sm-3">
                 <select class="selectpicker" name="profissional"data-style="select-with-transition" title="Profissional" data-size="7">
                   <option value="" selected>Profissional</option>
                   {% for p in pf %}
-                  <option value="{{p.nome}}">{{p.nome}}</option>
+                    <option value="{{p.nome}}">{{p.nome}}</option>
                   {% endfor %}
                 </select>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <select class="selectpicker" name="status"data-style="select-with-transition" title="status" data-size="7">
                   <option value="" selected>Todos</option>
                   <option value="PD">Pendentes</option>
@@ -57,36 +57,17 @@
                   <option value="PC">Parcial</option>
                 </select>
               </div>
-              <div class="col-md-3">
-                <select class="selectpicker" name="convenio"data-style="select-with-transition" title="convenio" data-size="7">
-                  <option value="" selected>Convenio</option>
-                  <option value="particular">Particular</option>
-                  <option value="unimed">Unimed</option>
-                  <option value="humanasaude">Humana Saúde</option>
-                  <option value="saudecaixa">Saúde Caixa</option>
-                  <option value="intermed">Intermed</option>
-                  <option value="geapsaude">Geap Saúde</option>
-                  <option value="fusma">Fusma</option>
-                  <option value="cassi">Cassi</option>
-                </select>
-              </div>
-            </div>
-            <div class="row">
-             <div class="col-md-3">
+             <div class="col-md-2">
                <input type="text"class="form-control" name="paciente" placeholder="Nome do Paciente">
              </div>
-             <div class="col-md-3">
-              <select class="selectpicker" name="pagamento"data-style="select-with-transition" title="pagamento" data-size="7">
+             <div class="col-md-2">
+              <select class="selectpicker" name="forma_pagamento"data-style="select-with-transition" title="pagamento" data-size="7">
                 <option value="" selected>Forma Pagamento</option>
-                <option value="CV">Convênio</option>
-                <option value="DI">Dinheiro</option>
-                <option value="CC">Cartão de Crédito</option>
-                <option value="EC">Dinheiro e Cartão</option>
-                <option value="BB">Boleto bancário</option>
-                <option value="TB">Transferência bancária</option>
+                <option value="DI">Especie</option>
+                <option value="TF">Transferência</option>
               </select>
             </div>
-            <div class="col-md-6 col-sm-1">
+            <div class="col-md-2 col-sm-1">
              <button type="submit" class="btn btn-primary pull-right btn-round"><i class="material-icons">search</i></button>
            </div>
          </div>
@@ -94,24 +75,64 @@
      </form>
    </div>     
    <br>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header card-header-primary"data-background-color="green">
+          <span class="card-title">Demonstrativo Financeiro</span>
+        </div>
+        <div class="card-content">
+          <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion" style="">
+          <div class="card-body"></div>
+
+          </div>     
+          <br>
+           <span class="card-title"><b>Total a Receber:</b></span><span class="pull-right"><b>R$ {{valor.total}}</b></span><br>
+           <span class="card-title text-success"><b>Entradas:</span><span class="pull-right text-success"><b>R$ {{valor.cartao|add:valor.especie}}</span><hr>
+           <span class="card-title text-danger"><b>Saldo:</span><span class="pull-right text-danger"><b>R$ 
+            {% if valor.total %}
+             {{valor.total|subtract:entradas}}
+           {% endif %}</span><p></p>
+        </div><!-- end content-->
+      </div><!--  end card  -->
+    </div> <!-- end col-md-6 -->
+
+     <div class="col-md-6">
+      <div class="card">
+        <div class="card-header card-header-primary"data-background-color="blue">
+          <span class="card-title">Balancete Financeiro</span>
+        </div>
+        <div class="card-content">
+          <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion" style="">
+          <div class="card-body"></div>
+
+          </div>     
+          <br>
+           <span class="card-title"><b>Recebido em Cartão:</b></span><span class="pull-right"><b>R$ {{valor.cartao}}</b></span><br>
+           <span class="card-title"><b>Recebido em Especie:</span><span class="pull-right"><b>R$ {{valor.especie}}</span><hr>
+           <span class="card-title"><b>Saldo:</span><span class="pull-right"><b>R$ {{valor.cartao|add:valor.especie}}</span><p></p>
+        </div><!-- end content-->
+      </div><!--  end card  -->
+    </div> <!-- end col-md-6 -->
+
    <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
     <thead class=" text-primary">
+      <th>Nº</th>
       <th>Data</th>
       <th>Paciente</th>
-      <th>Convenio</th>
+      <th>Profissional</th>
       <th>F. Pagamento</th>
-      <th>Valor Total</th>
+      <th>R$ Total</th>
+      <th>R$ Cartão</th>
+      <th>R$ Especie</th>
       <th>Status</th>
-      <th>$ Cartão</th>
-      <th>$ Especie</th>
-      <th>$ Saldo</th>
     </thead>
     <tbody>
-      {% for c in contas %}
+      {% for c in lista_dados %}
       <tr>
+        <td>{{forloop.counter}}</td>
         <td>{{c.data|date:'d/m/Y'}}</td>
         <td>{{c.paciente}}</td>
-        <td>{{c.convenio|upper}}</td>
+        <td>{{c.profissional}}</td>
         <td>
           {% if c.get_forma_pagamento_display == '' %}
           <b class="text-danger">--------</b>
@@ -119,34 +140,11 @@
           <b class="text-info">{{c.get_forma_pagamento_display}}</b>
           {% endif %}
         </td>
-        <td><b class="text-success">
-          {% if request.user.is_superuser %}
-            {{c.valor_total}}
-          {% else %}
-            {% if c.convenio.nome == 'particular' %}
-              {{c.valor_total}}
-            {% else %}
-              --------------
-            {% endif %}
-          {% endif %}
+        <td><b class="text-success">       
+            {{c.valor_total_pago}}         
         </b></td>
-        <td>
-         {% if c.status == 'PD' %}
-         <b class="text-danger">{{c.get_status_display}}</b>
-         {% elif c.status == 'PG' %}
-         <b class="text-info">{{c.get_status_display}}</b>
-         {% elif c.status == 'FT' %}
-         <b class="text-info">{{c.get_status_display}}</b>
-         {% elif c.status == 'PC' %}
-         <b class="text-warning">{{c.get_status_display}}</b>
-         {% endif %}
-       </td>
        <td>
-        {% if c.valor_pago_cartao%}
         {{c.valor_pago_cartao}}
-        {% else %}
-        {{c.procedimento}}
-        {% endif %}
       </td>
       <td>
         {% if c.valor_pago_dinheiro %}
@@ -159,22 +157,19 @@
         {{c.valor_pago_dinheiro}}
         {% endif %}
       </td>
-      <td>
-        {% if c.valor_total|subtract:c.valor_pago_dinheiro > 0 %}
-        <b class="text-warning">{{c.valor_total|subtract:c.valor_pago_dinheiro}}</b>
-        {% else %}
-        {{c.valor_total|subtract:c.valor_pago_dinheiro}}
-        {% endif %}
-      </td>
       <td> 
         {% if c.status == 'PD' or c.status == 'PC' %}
         <a href="{% url 'fazer_pagamento' c.id %}" title="Efetuar Pagamento"><i class="material-icons text-danger">monetization_on</i></a>
+        {% else %}
+        <a href="{% url 'conta_detalhes' c.id %}" title="Pagamento Realizado"><i class="material-icons text-success">monetization_on</i></a>
+
         {% endif %}
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+ {% include "paginator.html" %}
 </div><!-- end content-->
 </div><!--  end card  -->
 </div> <!-- end col-md-12 -->
@@ -238,6 +233,7 @@ $(document).ready(function() {
     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
     responsive: true,
     searching: false, 
+    bPaginate:false,
     "language": {
       "sProcessing":   "Processando...",
       "sLengthMenu":   " _MENU_ ",

@@ -4,7 +4,7 @@ from django.views.generic import ListView,CreateView,UpdateView,DeleteView,Detai
 from django.urls import reverse_lazy
 from pacientes.models import Paciente
 from controle_usuarios.models import Profissional
-from atendimento.models import Atendimento,Guia
+from atendimento.models import Atendimento,Guia,Avaliacao
 from agenda.models import Agendamento
 from financeiro.models import ContaReceber
 from django.contrib import messages
@@ -44,12 +44,15 @@ class PacienteListView(LoginRequiredMixin,ListView):
     template_name       = 'pacientes.html'
     context_object_name = 'pacientes'
     paginate_by = 50
-    
+
     def get_queryset(self, **kwargs):
-        queryset = Paciente.objects.prefetch_related('profissional').all()
+        queryset = Paciente.objects.select_related(
+            'convenio').prefetch_related('profissional').all()
         if self.request.GET.get('paciente'):
             paciente_search = self.request.GET.get('paciente')
-            queryset = Paciente.objects.filter(nome__icontains=paciente_search).order_by('id')
+            queryset = Paciente.objects.filter(
+                nome__icontains=paciente_search).select_related(
+            'convenio').prefetch_related('profissional').order_by('id')
         return queryset
 
 
@@ -58,12 +61,14 @@ class PacienteListView(LoginRequiredMixin,ListView):
         context['profissional_logado'] = Profissional.objects.filter(
             user=self.request.user,tipo=2
         )
-        context['paciente_clinico'] = Paciente.objects.filter(
+        context['paciente_clinico'] = Paciente.objects.select_related(
+            'convenio').prefetch_related('profissional').filter(
             profissional__user=self.request.user)
         #if tiver busca ele filtra os meus pacientes
         if self.request.GET.get('paciente'):
             paciente_search = self.request.GET.get('paciente')
-            context['paciente_clinico'] = Paciente.objects.filter(
+            context['paciente_clinico'] = Paciente.objects.select_related(
+            'convenio').prefetch_related('profissional').filter(
                 nome__icontains=paciente_search,profissional__user=self.request.user).order_by('id')
         return context
 
@@ -98,12 +103,7 @@ def paciente_historico(request,pk):
     atendente    = Profissional.prof_objects.filter(user=request.user,tipo=1)
     paciente              = get_object_or_404(Paciente,pk=pk)
     ######################################################
-    #evolucões       
-    ficha_evolucao        = Evolucao.objects.filter(atendimento__paciente=paciente.id)
 
-    #avaliações
-    ficha_uroginecologia  = Uroginecologia.objects.filter(atendimento__paciente=paciente.id)
-    ########################################################
     #quesyset apenas para condição no template
     if atendente.exists() or request.user.is_superuser:
         #não faz nada :)
@@ -113,9 +113,17 @@ def paciente_historico(request,pk):
 
     #lista todos os atendimentos na 1ª aba e 2ª aba linha do tempo
     if profissional:
-        atendimentos      = Atendimento.objects.filter(paciente=paciente,profissional_id=profissional.id)
+        atendimentos    = Atendimento.objects.filter(paciente=paciente,profissional_id=profissional.id)
+        #evolucões       
+        ficha_evolucao  =  Evolucao.objects.filter(atendimento__paciente=paciente.id,atendimento__profissional_id=profissional.id)
+
+        #avaliações
+        ficha_avaliacao = Avaliacao.objects.filter(atendimento__paciente=paciente.id,atendimento__profissional_id=profissional.id)
     else:
         atendimentos      = Atendimento.objects.filter(paciente=paciente)
+        ficha_evolucao    =  Evolucao.objects.filter(atendimento__paciente=paciente.id)
+        ficha_avaliacao   = Avaliacao.objects.filter(atendimento__paciente=paciente.id)
+
     atendimentos_count    = Atendimento.objects.filter(paciente=paciente).count()
     agendamentos_count    = Agendamento.objects.filter(paciente=paciente).count()
     agendamentos_FJ_count = Agendamento.objects.filter(paciente=paciente,status='FJ').count()
@@ -129,7 +137,6 @@ def paciente_historico(request,pk):
 
     context = {
         'profissional':profissional,
-        'atendimentos':atendimentos,
         'atendimentos_count':atendimentos_count,
         'evolucao':atendimento_evolucao,
         'avaliacao':atendimento_avaliacao,
@@ -142,8 +149,8 @@ def paciente_historico(request,pk):
         'linha_do_tempo':atendimentos,
         'guias':guias,
         'contas':contas,
-        ##########FICHAS PARA O HSITORICO RENDERIZADAS MANUALMENTE#######
+        ##########FICHAS PARA O HISTORICO RENDERIZADAS MANUALMENTE#######
         'ficha_evolucao':ficha_evolucao,
-        'ficha_uroginecologia':ficha_uroginecologia,
+        'ficha_avaliacao':ficha_avaliacao,
     }
     return render(request,'historico.html',context)

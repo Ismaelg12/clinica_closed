@@ -85,6 +85,7 @@
                 <th>Data</th>
                 <th>Sala</th>
                 <th>Profissional</th>
+                <th>Convenvio</th>
                 <th>Horário</th>
                 <th>Ações</th>
               </thead>
@@ -107,26 +108,17 @@
                   {% endif %}
                 </td>
                 <td>{{agenda.profissional|title}}</td>
+                <td>{{agenda.convenio}}</td>
                 <td>{{agenda.hora_inicio}}H -- {{agenda.hora_fim}}H</td>
                 <td width="15%"> 
-                 {% if agenda.status == 'AD' or agenda.status == 'AG' or agenda.status == 'BQ' or agenda.status == 'AT'%}
-                      <!--apenas troca a cor do icone se foi liberado ou não-->
-                      {% if agenda.status == 'AG' %}
-                        <a href="{% url 'liberar_agendamento' agenda.id %}"title="Imprimir PDF" onclick="liberarPaciente();" target="_blank">
-                        <i class="material-icons text-primary">print</i></a>
-                      {% else %}
-                        <a href="{% url 'liberar_agendamento' agenda.id %}"title="Imprimir PDF"onclick="reiprimirPDF();"target="_blank">
-                        <i class="material-icons text-success">print</i></a>
-                      {% endif %}
-                      {% if agenda.status != 'AD' %}
-                        <!--Não mostra o botão deletar no status pre atendimento-->
-                        <a href="{% url 'update_agendamento' agenda.id %}" title="Editar"><i class="material-icons text-info">sync</i></a>
+                  {% if agenda.status == 'AT' or agenda.status == 'AR' or agenda.status == 'FH' or agenda.status == 'FN'%}
+                  <a href="{% url 'liberar_agendamento' agenda.id %}"title="Imprimir PDF" onclick="liberarPaciente();" target="_blank">
+                  <i class="material-icons text-primary">print</i></a>
+                  {% endif %}
+                 {% if  agenda.status == 'AG' or agenda.status == 'BQ' %}
+                      <a href="{% url 'update_agendamento' agenda.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
                         <a href="{% url 'deletar_agendamento' agenda.id %}" title="deletar atendimento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
-                        <!--
-                        <a href="{% url 'desmarcar_agendamento' agenda.id %}"title="Desmarcar atendimento" onclick="return confirm('Deseja realmente desmarcar?');"><i class="material-icons text-warning">label_off</i></a>
-                        <a href="{% url 'cancel_agendamento' agenda.id %}" title="cancelar atendimento" onclick="return confirm('Deseja realmente cancelar?');"><i class="material-icons  text-danger">cancel</i></a>
-                        -->
-                      {% endif %}
+                        <a href="{% url 'atender_recepcao' agenda.id %}" title="Atender" ><i class="material-icons  text-success">touch_app</i></a>
                     {% endif %}
                   </td>
                 </tr>
@@ -150,12 +142,13 @@
                   {% endif %}
                 </td>
                 <td>{{agenda.profissional|title}}</td>
+                <td>{{agenda.convenio}}</td>
                 <td>{{agenda.hora_inicio}}h -- {{agenda.hora_fim}}h</td>
                 <td width="15%"> 
                   {% if profissional %}
                   <!--so mostrar se quem estiver logado pro profissional-->
-                    {% if agenda.status == 'AD' %}
-                     <!--so mostra o botão se o status for de pre atendimento-->
+                    {% if agenda.status == 'AG' %}
+                     <!--so mostra o botão se o status for de agendado-->
                     <span class="dropdown">
                       <button href="#pablo" class="btn btn-raised btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                         Atender
@@ -164,41 +157,13 @@
                       <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=evolucao"class="btn btn-primary btn-xs" >EVOLUÇÃO</a>
                         </li>
-                        {% for f in lista_fichas_options%}
-                          <li>
-                            {% if f == 'Terapeuta ocupacional' %}
-                            <a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=TerapiaOcupacional" class="btn btn-primary btn-xs" >Terapia Ocupacional</a>
-                            {% endif %}
-                          </li>
-                          <li>{% if f == 'Psiquiatra' %}
-                            <a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=Psiquiatra" class="btn btn-primary btn-xs" >Psiquiatria</a>
-                            {% endif %}
-                          </li>
-                          <li>{% if f == 'Psicólogo(a)' %}
-                            <a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=AnamineseAdulto" class="btn btn-primary btn-xs" >Anaminese Adulto</a>
-                          </li>
-                          <li><a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=AnamineseCrianca"class="btn btn-primary btn-xs" >Anaminese Criança</a>
-                            {% endif %}
-                          </li>
-                          <li>{% if f == 'Nutricionista' %}
-                            <a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=Nutricao" class="btn btn-primary btn-xs" >Nutriçao</a>
-                            {%endif%}
-                          </li>
-                          <li>{% if f == 'Fisioterapeuta' %}
-                            <a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=Fisioterapeuta" class="btn btn-primary btn-xs" >Fisio Convencional</a>
-                          </li>
-                          <li><a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=Neurologia" class="btn btn-primary btn-xs" >Neurologia</a>
-                          </li>
-                          <li>
-                          <a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=Uroginecologia" class="btn btn-primary btn-xs" >Uroginecologia</a>
-                          {% endif %}
-                      {% endfor %}
-                      </li>
+                        <li><a class="dropdown-item" href="{% url 'add_atendimento' agenda.id %}?tipo=avaliacao"class="btn btn-primary btn-xs" >AVALIAÇÃO</a>
+                        </li>
                     </ul>
                     </span>
                   {% endif %}
                   {% if agenda.status == 'AG' or agenda.status == 'BQ' or agenda.status == 'PT' or agenda.status == 'CC' %}
-                    <a href="{% url 'update_agendamento' agenda.id %}" title="Editar"><i class="material-icons text-info">sync</i></a>
+                    <a href="{% url 'update_agendamento' agenda.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
                     {% if agenda.status != 'AD' %}
                     <!--Não mostra o botão deletar no status pre atendimento-->
                       <a href="{% url 'deletar_agendamento' agenda.id %}" title="deletar atendimento" onclick="return confirm('Deseja realmente deletar o agendamento?');"><i class="material-icons  text-danger">delete</i></a>
@@ -220,6 +185,7 @@
 </div>
 </div>
 <script type="text/javascript">
+  /*
   function liberarPaciente(){
     confirm('Liberar paciente e imprimir confirmação!');
     swal({ title:"Pré Atendimento", 
@@ -242,6 +208,7 @@
       window.location.reload(true);
     })
   }
+  */
 $('input[name="date_ranger"]').daterangepicker({
   "timePicker": false,
   "startDate": moment(),

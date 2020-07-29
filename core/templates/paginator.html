@@ -1,0 +1,19 @@
+<ul class="pagination">
+{% if lista_dados.has_previous %}
+<li><a href="?page={{ lista_dados.previous_page_number }}">&laquo;</a></li>
+{% else %}
+<li class="disabled"><span>&laquo;</span></li>
+{% endif %}
+ {% for i in lista_dados.paginator.page_range %}
+    {% if lista_dados.number == i %}
+      <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+    {% else %}
+      <li><a href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+  {% endfor %}
+{% if lista_dados.has_next %}
+  <li><a href="?page={{ lista_dados.next_page_number }}">&raquo;</a></li>
+{% else %}
+<li class="disabled"><span>&raquo;</span></li>
+{% endif %}
+</ul>

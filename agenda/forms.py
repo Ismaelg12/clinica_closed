@@ -2,6 +2,7 @@ from django import forms
 from agenda.models import Agendamento
 from controle_usuarios.models import Profissional
 from pacientes.models import Paciente
+from core.models import Sala
 
 OP_CHOICES = (
     ('', 'Escolha Um Opçao'),
@@ -13,9 +14,9 @@ class AgendaForm(forms.ModelForm):
     #filtra apenas os profissionais que trabalham como fisioterapeutas
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['paciente'].queryset     = Paciente.objects.select_related('convenio')
         self.fields['profissional'].queryset = Profissional.objects.filter(tipo=2,ativo=True)
         self.fields['paciente'].label_from_instance = self.paciente_label
-        
     #metodo para override de labels do pacientes
     @staticmethod
     def paciente_label(self):
@@ -40,7 +41,6 @@ class AgendaForm(forms.ModelForm):
             'status'      : forms.Select(attrs={'class': 'selectpicker','data-style':'select-with-transition', 'required':'True'}),
             'observacao'  : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "3",}),
             'valor'       : forms.TextInput(attrs={'class': 'form-control'}),
-            'pago'        : forms.Select(choices=OP_CHOICES,attrs={'class': 'form-control','required': 'true'}),
             'pacote'      : forms.Select(choices=OP_CHOICES,attrs={'class': 'form-control','required': 'true'}), 
         }
     
@@ -49,10 +49,3 @@ class AgendaForm(forms.ModelForm):
         print( data.get('hora_inicio', None), data.get('hora_fim', None))
         if data.get('hora_inicio', None) >= data.get('hora_fim', None):
             raise forms.ValidationError('Corrija o horário')
-      
-    """
-    def clean_profissional(self):
-        data = self.cleaned_data
-        if data.get('profissional', None) == None:
-            raise forms.ValidationError('Campo é obrigatório')
-    """

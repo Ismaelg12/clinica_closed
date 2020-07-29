@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block datepicker %}
+  <script src ="{% static "tables/jquery.min.js" %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock datepicker %}
+{% block menu_li %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'home' %}">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+  <li class="nav-item active  ">
+    <a class="nav-link" href="#">
+     <i class="material-icons">accessible</i>
+      <p>Agenda</p>
+    </a>
+  </li>
+{% endblock menu_li %}
+{% block container %}
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary"data-background-color="green">
+            <h4 class="card-title">Efetuar Pagamento</h4>
+          </div><br/>
+            <div class="card-content">
+              <form method="POST">
+              	{% csrf_token %}
+                <div class="row">
+                <div class="col-md-3">
+                      <label class="bmd-label-floating">Paciente</label>
+                      <input type="text" value="{{conta.paciente}}"class="form-control"disabled>
+                  </div>
+                  <div class="col-md-2">
+                      <label class="bmd-label-floating">Valor Total </label>
+                      <input type="text" value="{{conta.valor_total}}"class="form-control"name="valor_total"disabled>
+                  </div>
+                  <div class="col-md-2">
+                      <label class="bmd-label-floating">Forma de Pagamento</label>
+                     <input type="text" value="{{conta.get_forma_pagamento_display}}"class="form-control"name="valor_total"disabled>
+                    
+                  </div>
+                  <div class="col-md-2">
+                      <label class="bmd-label-floating">Recebido</label>
+                       <input type="text" value="{{conta.recebido_por}}"class="form-control"name="valor_total"disabled>
+                 
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group" id="valor_pago_dinheiro">
+                      <label>Pagamento em Dinheiro</label>
+                      
+                       <input type="text" value="{{conta.valor_pago_dinheiro}}"class="form-control"name="valor_total"disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div id="desconto">
+                      <label>Desconto</label>
+                      
+                      <input type="text" value="R$ {{conta.desconto}}"class="form-control"name="valor_total"disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3"id="valor_pago_cartao">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Pagamento em Cartão</label><br>R$ 
+                     {{conta.valor_pago_cartao}}
+                    </div>
+                  </div> 
+                   <div class="col-md-3"id="valor_total_pago">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Valor Total Pago</label>
+                     <br><span class="text-info"><b>R$ {{conta.valor_total_pago}}</b></span>
+                    </div>
+                  </div>                      
+                </div>          
+                <a href="{% url 'conta_receber' %}" class="btn btn-primary btn-group">Voltar</a>
+                <div class="clearfix"></div>
+              </form>
+              </div><!-- end content-->
+            </div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+      </div> <!-- end row -->
+  </div>
+</div>
+{% endblock container %}

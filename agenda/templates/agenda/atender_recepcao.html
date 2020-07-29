@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% load static %}
+{% block add_modal %}
+<script src="{% static "js/core/jquery.min.js" %}"></script>
+<script src="{% static "js/plugins/jquery.mask.min.js" %}"></script>
+<!--boostrap datepicker-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet"type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock add_modal %}
+</head>
+{% block menu_li %}
+<li class="nav-item active ">
+	<li class="nav-item">
+		<a class="nav-link" href="{% url 'home' %}">
+			<i class="material-icons">dashboard</i>
+			<p>Dashboard</p>
+		</a>
+	</li>
+	<li class="nav-item active">
+		<a class="nav-link" href="{% url 'agendamentos' %}">
+			<i class="material-icons">event</i>
+			<p>Agenda</p>
+		</a>
+	</li>
+</li>
+{% endblock menu_li %}
+{% block navbar %}
+<a class="navbar-brand" href="#">Novo Agendamemento</a>
+{% endblock navbar %}
+{% block container %}
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-primary"data-background-color="purple">
+						<h4 class="card-title ">Agenda de Atendimento</h4>
+					</div>
+					<div class="card-content">
+						<form method="post">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Inicio</label></br>
+										{{form.hora_inicio}}
+										<span class="text-danger">{{form.non_field_errors}}</span>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Fim</label></br>
+										{{form.hora_fim}}
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Contato</label></br>	
+										{{form.telefone}}
+										<span class="text-danger">{{form.telefone.errors}}</span>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Data</label></br>	
+										{{form.data}}
+									</div>
+								</div>
+								<div class="col-md-2">
+									<label>Sala</label></br>					
+									{{form.sala}}
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>* Convenio</label></br>	
+										{{form.convenio}}
+										<span class="text-danger">{{form.convenio.errors}}</span>
+									</div>
+								</div>		
+							</div>
+							<div class="row">
+								<div class="col-md-5">
+									<div class="form-group">
+										<label>* Paciente</label></br>	
+										{{form.paciente}}
+										<span class="text-danger">{{form.paciente.errors}}</span>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">	
+										<label>Status</label></br>							
+										{{form.status}}										 
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>* Profissional</label></br>	
+										{{form.profissional}}
+										<span class="text-danger">{{form.profissional.errors}}</span>		
+									</div>
+								</div>
+													
+							</div>
+							<div class="row"id="ocultar_fields">
+								<div class="col-md-4"id="valor">
+									<div class="form-group">
+										<label>* Valor</label></br>	
+										{{form.valor}}
+									</div>
+								</div>
+								<div class="col-md-4"id="pacote">
+									<label>* Pacote?</label></br>	
+									{{form.pacote}}
+								</div>
+								<div class="col-md-4"id="pago">
+									<label>Pago?</label></br>							
+									{{form.pago}}	
+								</div>
+							</div>
+							<div class="row" id="hide_guia">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label color="red">Escolha a guia aser decrementada nesta aba</label><br>
+										<label class="bmd-label-floating">*Nº Guia  |  Procedimento  |Qtd Seções | Validade</label>
+										<div class="form-group">
+											<select class="selectpicker" data-style="select-with-transition"title="" data-size="5"name="lista_guias_field" >
+												{% for i in guias_views %}
+													<option value="{{i}}">{{i}}</option>
+												{%empty%}
+													<option value="">Sem Guia</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 text-center">
+									<span class="text-danger" id="span_alerta" style="display:none;" ><b>O CANCELAMENTO DESTE AGENDAMENTO IRÁ CANCELAR TODOS OS AGENDAMENTOS DESTE PACIENTE!</b></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Observações:</label>
+										<div class="form-group">
+											<label class="bmd-label-floating"></label>
+											{{form.observacao}}
+										</div>
+									</div>
+								</div>
+							</div>
+				         <button type="submit" class="btn btn-primary btn-sm pull-right"> Salvar Atendimento</button>
+				        <a href="{% url 'agendamentos' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar Atendimento</a>
+				        <div class="clearfix"></div>
+				    </form>
+				</div><!-- end content-->
+			</div><!--  end card  -->
+		</div> <!-- end col-md-12 -->
+	</div> <!-- end row -->
+</div>
+</div>
+<style type="text/css">
+	#id_paciente,#id_profissional,#id_convenio,#id_sala{
+    background: #eee; /*Simular campo inativo - Sugestão @GabrielRodrigues*/
+    pointer-events: none;
+    touch-action: none; 
+    border: none;
+    background-color: #fff;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+</style>
+<script>
+//através do convenio ele mostra ou omite alguns inputs do formulario quando carregado
+//https://stackoverflow.com/questions/11918397/jquery-hide-and-show-an-input-element
+ 
+ $(document).ready(function(){
+ 	$('#id_status').change(function(){
+ 		if($(this).val() == 'CC'){
+ 			$("#span_alerta").show();  
+ 			}
+ 		else{
+	  		$("#span_alerta").hide();
+
+	  	} 
+ 	});
+
+ });	      
+ $(document).ready(function(){	      
+	$('#id_status').change(function(){
+		//falta ou atendido pela recepção
+    	if($(this).val() == 'FN' || $(this).val() == 'FH' || $(this).val() == 'AR'){
+    		$("#hide_guia").show();   		
+	  	}
+	  	else{
+	  		$("#hide_guia").hide();
+	  		$("#hide_guia").prop('disabled',true);
+
+	  	} 
+	});
+	if($("#id_status option:selected").val() != 'FN' && $("#id_status option:selected").val() != 'FH'){
+	      $("#hide_guia").hide();
+	    }else{
+	      $("#hide_guia").show();
+	      $("#hide_guia").prop('disabled',true);
+	    }
+});
+
+  $(document).ready(function()
+	{
+	 $("#id_convenio").change(function()
+	 {
+	  if($(this).val() == "1")
+	  {
+	   $("#ocultar_fields").show();
+	  }
+	  else
+	  {
+	   $("#ocultar_fields").hide();
+	  }
+	 });
+	 	if($("#id_convenio option:selected").val() == 1){
+	      $("#ocultar_fields").show();
+	    }else{
+	      $("#ocultar_fields").hide();
+	    }
+	});
+	$.noConflict();
+
+   	jQuery(function($){
+   		$("select" ).removeClass("selectpicker")
+   		$("#id_hora_inicio").prop("readonly", true);
+   		$("#id_hora_fim").prop("readonly", true);
+   		$("#id_data").prop("readonly", true);
+   		$("#id_sala").prop("readonly", true);
+   		$("#id_convenio").prop("readonly", true);
+   		$("#id_profissional").prop("readonly", true);
+   		$("#id_sala").prop("readonly", true);
+   		$("#id_paciente").prop("readonly", true);
+		// Remove o  status atender e atendido 
+   	    $("#id_status option[value='AT']").remove();
+   	    $("#id_status option[value='AG']").remove();
+   	    $("#id_status option[value='CC']").remove();
+   	    $("#id_status option[value='BQ']").remove();
+   	    $("#id_status option[value='PT']").remove();
+   	    $("#id_status option[value='DM']").remove();
+   	});
+	</script>
+	{% endblock container %}

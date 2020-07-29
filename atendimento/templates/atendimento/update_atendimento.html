@@ -28,7 +28,7 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header card-header-primary"data-background-color="purple">
-						<h4 class="card-title">{{nome_da_ficha}} </h4>
+						<h4 class="card-title">{{nome_da_ficha}}</h4>
 					</div>
 					<div class="col-md-12">
 						<div class="tab-content">
@@ -38,23 +38,29 @@
 										<form method="POST"id="atendForm" data-select-url="{% url 'ajax_load_proced' %}" novalidate>
 											{% csrf_token %}
 											<div class="row">
+												<div class="col-md-2">
+													<div class="form-group">
+														<label class="bmd-label-floating">* Tipo</label>
+														{{form.tipo}}
+													</div>
+												</div>
 												<div class="col-md-4">
 													<div class="form-group">
 														<label class="bmd-label-floating">* Paciente</label>
 														{{form.paciente}}
 													</div>
 												</div>
-												<div class="col-md-3">
+												<div class="col-md-2">
 													<div class="form-group">
 														<div id="cp_3">	
-															<label>* Inicio Atendimento</label>
+															<label>*Das</label>
 															{{form.hora_inicio}}
 														</div>
 													</div>
 												</div>
-												<div class="col-md-3">
+												<div class="col-md-2">
 													<div class="form-group">
-														<label>* Fim Atendimento</label>
+														<label>*Até ás</label>
 														{{form.hora_fim}}
 													</div>
 												</div>
@@ -100,38 +106,12 @@
 											{% endif %}
 											
 											<!--Formulario de Avaliação Terapia Ocupacional-->
-											{% if form_fichas.peso %}
-												{% include 'atendimento/fichas/terapiaOcupacional.html' %}
-											{% endif %}
-											<!--Formulario de Avaliação Psiquiatria-->
-											{% if form_fichas.eixo1 %}
-												{% include 'atendimento/fichas/psiquiatriaGeral1.html' %}
-											{% endif %}
-											<!--Formulario de Avaliação Fisioterapia-->
-											{% if form_fichas.cardiaca %}
-												{% include 'atendimento/fichas/fisio_convencional.html' %}
-											{% endif %}
-											<!--Formulario de Anaminese Adulto-->
-											{% if form_fichas.fato_marcante %}
-												{% include 'atendimento/fichas/anaminese_ad.html' %}
-								            {% endif %}
-								            <!--Formulario de Anaminese Criança-->
-											{% if form_fichas.n_irmaos %}
-												{% include 'atendimento/fichas/anaminese_cr.html' %}
-								            {% endif %}
-								            <!--Formulario de Uroginecologia-->
-											{% if form_fichas.gpca %}
-												{% include 'atendimento/fichas/uroginecologia.html' %}
-								            {% endif %}
-								            {% if form_fichas.diag_fisio %}
-												{% include 'atendimento/fichas/neurologia.html' %}
-								            {% endif %}
-								            {% if form_fichas.qpdhda %}
-												{% include 'atendimento/fichas/nutricao.html' %}
+											{% if form_fichas.queixa %}
+												{% include 'atendimento/fichas/avaliacao.html' %}
 								            {% endif %}
 								            <div>
 								            	{% if not ocultar_botao_salvar == "display_button"%}
-													<button type="submit" class="btn btn-primary pull-right">Salvar</button>
+													<button type="submit" class="btn btn-primary pull-right" id="salvar">Salvar</button>
 													<a href="{% url 'atendimentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
 													{% else %}
 													<a href="javascript:void(0)" onClick="history.go(-1); return false;" class="btn btn-info btn-group pull-right">Voltar</a>
@@ -150,12 +130,23 @@
 		$(document).ready(function(){
 			//bloquea campos do form par não atualizar
 			$("#id_guia").prop( "disabled", true );  
+			$("#id_tipo").prop( "disabled", true );  
 			$("#id_paciente").prop( "disabled", true );  
 			$("#id_hora_inicio").prop( "disabled", true );  
-			$("#id_hora_fim").prop( "disabled", true );  
-			$("#id_convenio").prop( "disabled", true );  
+			$("#id_hora_fim").prop( "disabled", true );   
+			$("#id_convenio").prop("disabled", true);  
 			$("#id_profissional").prop( "disabled", true );  
-			$("#id_data").prop( "disabled", true );  
+			$("#id_data").prop( "disabled", true ); 
+		});
+		$("#salvar").click(function(){
+  			$("#id_guia").prop( "disabled", false );  
+  			$("#id_tipo").prop( "disabled", false );  
+			$("#id_paciente").prop( "disabled", false );  
+			$("#id_hora_inicio").prop( "disabled", false );  
+			$("#id_hora_fim").prop( "disabled", false );   
+			$("#id_convenio").prop("disabled", false);  
+			$("#id_profissional").prop( "disabled", false );  
+			$("#id_data").prop( "disabled", false ); 
 		});
 		</script>
 {% endblock container %}

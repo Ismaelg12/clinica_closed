@@ -20,7 +20,6 @@
   </a>
 </li>
 {% endblock menu_li %}
-
 {% block container %}
 <div class="content">
   <div class="container-fluid">
@@ -29,390 +28,345 @@
         <div class="card">
           <div>
             <ul class="nav nav-tabs" data-tabs="tabs"data-background-color="green">
-                    <!--
-                    <li class="active">
-                        <a href="#timeline" role="tab"data-toggle="tab"aria-expanded="false">
-                            <i class="material-icons">person_pin</i>Avaliações/Evoluções 
-                        </a>
-                    </li>
-                  -->
-                  {% if request.user.is_superuser or profissional %}
-                  <li class="active">
-                    <a href="#evolucoes" role="tab" data-toggle="tab" aria-expanded="true">
-                      <i class="material-icons">show_chart</i>Linha do Tempo
-                    </a>
-                  </li>
-                  <li class="">
-                    <a href="#prontuario" role="tab" data-toggle="tab" aria-expanded="true">
-                      <i class="material-icons">dns</i> Prontuario
-                    </a>
-                  </li>
-                  {% endif %}
-                  <li class="">
-                    <a href="#dados" role="tab" data-toggle="tab" aria-expanded="true">
-                      <i class="material-icons">dns</i> Dados Estatisticos e Financeiros
-                    </a>
-                  </li>
-                  <li class="">
-                    <h4><b>{{paciente.nome|upper}}</b></h4>
-                  </li>
-                </ul>              
-              </div>
-              <div class="card-content">
-                <div class="tab-content">
-                  <div class="tab-pane active" id="evolucoes">
-                    <div class="tab-pane">
-                     <div class="row">
-                      <style>
-                      ul.timelinep {
-                        list-style-type: none;
-                        position: relative;
-                      }
-                      ul.timelinep:before {
-                        content: ' ';
-                        background: #d4d9df;
-                        display: inline-block;
-                        position: absolute;
-                        left: 29px;
-                        width: 2px;
-                        height: 100%;
-                        z-index: 400;
-                      }
-                      ul.timelinep > li {
-                        margin: 20px 0;
-                        padding-left: 20px;
-                      }
-                      ul.timelinep > li:before {
-                        content: ' ';
-                        background: white;
-                        display: inline-block;
-                        position: absolute;
-                        border-radius: 50%;
-                        border: 4px solid green;
-                        left: 20px;
-                        width: 20px;
-                        height: 20px;
-                        z-index: 400;
-                      }
-                      </style>
-                      <div class="col-md-12 ">
-                        <h4 class="text-center"><b>Linha do Tempo de Evoluções/Avaliações</b><a href="{% url 'pdf_historico' paciente.id %}"><i class="material-icons pull-right">print</i></a></h4>
-                        <ul class="timelinep">
-                          {% for ev in linha_do_tempo %} 
-                          <li>
-                            <b>
-                              <a href="{% url 'update_atendimento' ev.id %}?ocultarBotao=ocultarBotao"class="pull-left text-info">
-                               {% if ev.tipo == "AV" %}
-                               Avaliação dia {{ev.data|date:'d/m/Y'}}
-                               {% else %}
-                               Evolução dia {{ev.data|date:'d/m/Y'}}
-                               {% endif %}
-                             </a> &nbsp;&nbsp;&nbsp;
-                           </b>
-                           <a href="#"class="float-right text-info">{{ev.hora_inicio}}H até {{ev.hora_fim}}H</a><br>
-                           <b class="pull-left">Profissional:</b> <b class="pull-right">{{ev.profissional}}</b><br>
-                           <b class="pull-left">Convênio:</b> <b class="pull-right">{{ev.convenio}}</b>
-                           <br>
-                         </li>
-                         <br>
-                         {% endfor %}
-                       </ul>
-                     </div>
-                   </div>
-                 </div>
-               </div>               
-
-                   <!--
-                   <div class="tab-pane active" id="timeline">
-                    <table  class="table table-striped table-no-bordered table-hover datatables" cellspacing="0" width="100%" style="width:100%">
-                      <thead class=" text-primary">
-                          <th class="text-center">#</th>
-                          <th>Tipo</th>
-                          <th>Data</th>
-                          <th>Profissional</th>
-                          <th class="text-right">Horário</th>
-                          <th >Ações</th>
-                        </thead>
-                         <tbody>
-                         {% for atend in atendimentos %}
-                           <tr>
-                              <td class="text-center">{{forloop.counter}}</td>
-                              {% if atend.tipo == 'AV' %}
-                                  <td width="18%">
-                                    <div style="background-color:#1874CD;text-align:center;color:white;border-radius: 5px 5px;"><font size="2">{{atend.get_tipo_display}}</font>
-                                    </div>
-                                  </td>
-                                  {% else %}
-                                    <td width="18%">
-                                      <div style="background-color:green;text-align:center;color:white;border-radius: 5px 5px;"><font size="2">{{atend.get_tipo_display}}</font>
-                                      </div>
-                                    </td>
-                                  {% endif %}
-                              <td>{{atend.data|date:"d/m/Y"}}</td>
-                              <td>{{atend.profissional}}</td>
-                              <td class="text-right">{{atend.hora_inicio}}h - {{atend.hora_fim}}h</td>
-                              <td>
-                                <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="#">
-                                <i class="material-icons">info</i></a>
-                              </td>
-                            </tr>
-                          {% endfor %}
-                            </tbody>
-                          </table>
-                        </div>
-                      -->
-                      <div class="tab-pane" id="prontuario">
-                        <div class="box box-info">
-                          <div class="box-body box-profile">
-                            <div class="col-md-6 ">
-                              <ul class="list-group list-group-unbordered">
-                                <li class="list-group-item">
-                                  <strong><i class="fa fa-mars margin-r-5"></i> Idade</strong> <span class="pull-right">{{paciente.idade}}</span>
-                                </li>
-                                <li class="list-group-item">
-                                  <strong><i class="fa fa-mars margin-r-5"></i> Sexo</strong> <span class="pull-right">{{paciente.get_sexo_display}}</span>
-                                </li>
-                                <li class="list-group-item">
-                                 <strong><i class="fa fa-map-marker margin-r-5"></i> Endereço</strong><span class="pull-right">{{paciente.rua}}</span>
-                               </li>
-                               <li class="list-group-item">
-                                <strong><i class="fa fa-map-marker margin-r-5"></i> CEP</strong> <span class="pull-right">{{paciente.cep}}</span>
-                              </li>
-
-                              <li class="list-group-item"> <strong><i class="fa fa-phone margin-r-5"></i> Celular</strong><span class="pull-right">{{paciente.telefone}}</span></li>
-                              <li class="list-group-item"> <strong><i class="fa fa-phone margin-r-5"></i> Telefone Fixo</strong><span class="pull-right">{{paciente.telefone_fixo}}</span></li>
-                              <li class="list-group-item"> <strong><i class="fa fa-envelope margin-r-5"></i> E-mail</strong><span class="pull-right">{{paciente.email}}</span></li>
-                            </ul>
-                          </div>
-                          <div class="col-md-6 ">
-                            <ul class="list-group list-group-unbordered">
-                              <li class="list-group-item">
-                                <b>Total de Agendamentos</b> 
-                                <span class="pull-right">{{agendamentos}}</span>
-                                <a href="{% url 'imprimir_agendamento_pdf' paciente.id %}"target="_blank"><i class="material-icons pull-right"> print </i> </a>
-                              </li>
-                              <li class="list-group-item">
-                                <b>Avaliações</b> <span class="pull-right">{{avaliacao}}</span>
-                              </li>
-                              <li class="list-group-item">
-                                <b>Evoluções</b> <span class="pull-right">{{evolucao}}</span>
-                              </li>
-                              <li class="list-group-item">
-                                <b>Justificada</b> <span class="pull-right">{{agendamentos_FJ_count}}</span>
-                              </li>
-                              <li class="list-group-item">
-                                <b>Justificada na Hora</b> <span class="pull-right">{{agendamentos_FJ_count}}</span>
-                              </li>
-
-                              <li class="list-group-item">
-                                <b>Não Justificada</b> <span class="pull-right">{{agendamentos_FN_count}}</span>
-                              </li>
-                              <li class="list-group-item">
-                                <b>Cancelado</b> <span class="pull-right">{{agendamentos_CC_count}}</span>
-                              </li>
-                              <li class="list-group-item">
-                                <b>Total de Atendimentos</b> <span class="pull-right">{{atendimentos_count}}</span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                      <!-- INICIO DA EVOLUÇÃO E AVALIAÇÃO DO PACIENTE NO PRONTUÁRIO-->
-                      <!--historico de Evolução-->
-                      {% if ficha_evolucao%}
-                        {% include 'historico/fichas/evolucao_historico.html' %}
-                       
-                      {% endif %}
-                      <!--historico de Uroginecologia-->
-                      {% if ficha_uroginecologia %}
-                        {% include 'historico/fichas/uroginecologia_historico.html' %}
-                      {% endif %}
+              {% if request.user.is_superuser or profissional %}
+              <li class="active">
+                <a href="#evolucoes" role="tab" data-toggle="tab" aria-expanded="true">
+                  <i class="material-icons">show_chart</i>Linha do Tempo
+                </a>
+              </li>
+              <li class="">
+                <a href="#prontuario" role="tab" data-toggle="tab" aria-expanded="true">
+                  <i class="material-icons">dns</i> Prontuario
+                </a>
+              </li>
+              {% endif %}
+              <li class="">
+                <a href="#dados" role="tab" data-toggle="tab" aria-expanded="true">
+                  <i class="material-icons">dns</i> Dados Estatisticos e Financeiros
+                </a>
+              </li>
+              <li class="">
+                <h4><b>{{paciente.nome|upper}}</b></h4>
+              </li>
+            </ul>              
+          </div>
+          <div class="card-content">
+            <div class="tab-content">
+              <div class="tab-pane active" id="evolucoes">
+                <div class="tab-pane">
+                  <div class="row">
+                    <style>
+                    ul.timelinep {
+                      list-style-type: none;
+                      position: relative;
+                    }
+                    ul.timelinep:before {
+                      content: ' ';
+                      background: #d4d9df;
+                      display: inline-block;
+                      position: absolute;
+                      left: 29px;
+                      width: 2px;
+                      height: 100%;
+                      z-index: 400;
+                    }
+                    ul.timelinep > li {
+                      margin: 20px 0;
+                      padding-left: 20px;
+                    }
+                    ul.timelinep > li:before {
+                      content: ' ';
+                      background: white;
+                      display: inline-block;
+                      position: absolute;
+                      border-radius: 50%;
+                      border: 4px solid green;
+                      left: 20px;
+                      width: 20px;
+                      height: 20px;
+                      z-index: 400;
+                    }
+                    </style>
+                    <div class="col-md-12 ">
+                      <h4 class="text-center"><b>Linha do Tempo de Evoluções/Avaliações</b><a href="{% url 'pdf_historico' paciente.id %}"><i class="material-icons pull-right">print</i></a></h4>
+                      <ul class="timelinep">
+                        {% for ev in linha_do_tempo %} 
+                        <li>
+                          <b>
+                            <a href="{% url 'update_atendimento' ev.id %}?ocultarBotao=ocultarBotao"class="pull-left text-info">
+                              {% if ev.tipo == "AV" %}
+                              Avaliação - dia {{ev.data|date:'d/m/Y'}}
+                              {% elif ev.tipo == "AR" %}
+                              Atendido/Recepção -  dia {{ev.data|date:'d/m/Y'}}
+                              {% elif ev.tipo == "FN" %}
+                              Falta Não Justificada -  dia {{ev.data|date:'d/m/Y'}}
+                              {% elif ev.tipo == "FH" %}
+                              Justificada na Hora -  dia {{ev.data|date:'d/m/Y'}}
+                              {% else %}
+                              Evolução - dia {{ev.data|date:'d/m/Y'}}
+                              {% endif %}
+                            </a> &nbsp;&nbsp;&nbsp;
+                          </b>
+                          <a href="#"class="float-right text-info">{{ev.hora_inicio}}H até {{ev.hora_fim}}H</a><br>
+                          <b class="pull-left">Profissional:</b> <b class="pull-right">{{ev.profissional}}</b><br>
+                          <b class="pull-left">Convênio:</b> <b class="pull-right">{{ev.convenio}}</b>
+                          <br>
+                        </li>
                         <br>
-                      </div>
-                    </div>
-
-
-                    <div class="tab-pane" id="dados">
-
-                     <div class="box box-primary">
-                      <div class="box-header with-border">
-                        <h3 class="box-title"><i class="material-icons">poll</i> Dados do Financeiro(Contas a pagar)</h3>
-                      </div>
-                      <div class="box-body">
-                        <div class="box-body box-profile">
-                         <table class="table table-striped table-no-bordered table-hover datatables" cellspacing="0" width="100%" style="width:100%">
-                          <thead class=" text-primary">
-                            <th>Nº</th>
-                            <th>Data</th>
-                            <th>Convenio</th>
-                            <th>Procedimento</th>
-                            <th>Valor</th>
-                            <th>Forma_Pagamento</th>
-                            <th>$ Cartão</th>
-                            <th>$ Especie</th>
-                            <th>Status</th>
-                            <th>Visualizar</th>
-                          </thead>
-                          <tbody>
-                            {% for c in contas %}
-                            <tr>
-                              <td>{{forloop.counter}}</td>
-                              <td>{{c.data|date:'d/m/Y'}}</td>
-                              <td>{{c.convenio|upper}}</td>
-                              <td>{{c.procedimento.nome}}</td>
-                              <td>
-                                <b class="text-success">
-                                  {% if request.user.is_superuser %}
-                                  {{c.valor_total}}
-                                  {% else %}
-                                  {% if c.convenio.nome == 'particular' %}
-                                  {{c.valor_total}}
-                                  {% else %}
-                                  -----
-                                  {% endif %}
-                                  {% endif %}
-                                </b>
-                              </td>
-                              <td>
-                                {% if c.get_forma_pagamento_display == '' %}
-                                <b class="text-danger">--------</b>
-                                {% else %}
-                                <b class="text-info">{{c.get_forma_pagamento_display}}</b>
-                                {% endif %}
-                              </td>
-                              <td>
-                                {% if c.valor_pago_cartao%}
-                                {{c.valor_pago_cartao}}
-                                {% else %}
-                                0,00
-                                {% endif %}
-                              </td>
-                              <td>
-                                {% if c.valor_pago_dinheiro%}
-                                {{c.valor_pago_dinheiro}}
-                                {% else %}
-                                0,00
-                                {% endif %}
-                              </td>
-                              <td>
-                                {% if c.status == 'PD' %}
-                                <b class="text-danger">{{c.get_status_display}}</b>
-                                {% elif c.status == 'PG' %}
-                                <b class="text-info">{{c.get_status_display}}</b>
-                                {% endif %}
-                              </td>
-                              <td  width="10%">
-                                <a href="" title="visualizar"><i class="material-icons">visibility</i></a>
-                                {% if not profissional %}
-                                  <!--profissional não pode ver o botão pagar-->
-                                  {% if c.status == 'PD' %}
-                                    <a href="{% url 'fazer_pagamento' c.id %}" title="Efetuar Pagamento"><i class="material-icons text-danger">monetization_on</i></a>
-                                  {% endif %}
-                                {% endif %}
-                              </td>
-                            </tr>
-                            {% endfor %}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="material-datatables">
-                    <h3 class="text-center"><b>Guias<i class="material-icons">assignment_ind</i></b></h3>
-                    <table class="table table-striped table-bordered table-hover datatables" cellspacing="0" width="100%" style="width:100%">
-                      <thead class="text-primary">
-                        <th>Nº</th>
-                        <th>Numero</th>
-                        <th>Convenio</th>
-                        <th>Profissional</th>
-                        <th>Validade</th>
-                        <th>Sessões Autorizadas</th>
-                        <th>Sessoes Restantes</th>
-                        <th>Ação</th>
-                      </thead>
-                      <tbody>
-                        {% for guia in guias %}
-                        <tr>
-                          <td>{{forloop.counter}}</td>
-                          <td>{{guia.numero}}</td>
-                          <td>{{guia.convenio}}</td>
-                          <td>
-                            {% for p in guia.profissional.all %}
-                            {{p.nome}},
-                            {% endfor %}
-                          </td>
-                          <td>{{guia.validade|date:'d/m/Y'}}</td>
-                          <td>{{guia.qtdautorizada}}</td>
-                          <td>{{guia.quantidade}}</td>                          
-                          <td  width="10%">
-                            <a href="{% url 'update_guia' guia.id %}" title="Editar"><i class="material-icons">sync</i></a>
-                            <a href="" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
-                          </td>
-                        </tr>
                         {% endfor %}
-                      </tbody>
-                    </table>
+                      </ul>
+                    </div>
                   </div>
                 </div>
+              </div>               
+              <div class="tab-pane" id="prontuario">
+                <div class="box box-info">
+                  <div class="box-body box-profile">
+                    <div class="col-md-6 ">
+                      <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                          <strong><i class="fa fa-mars margin-r-5"></i> Idade</strong> <span class="pull-right">{{paciente.idade}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong><i class="fa fa-mars margin-r-5"></i> Sexo</strong> <span class="pull-right">{{paciente.get_sexo_display}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong><i class="fa fa-map-marker margin-r-5"></i> Endereço</strong><span class="pull-right">{{paciente.rua}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong><i class="fa fa-map-marker margin-r-5"></i> CEP</strong> <span class="pull-right">{{paciente.cep}}</span>
+                        </li>
+
+                        <li class="list-group-item"> <strong><i class="fa fa-phone margin-r-5"></i> Celular</strong><span class="pull-right">{{paciente.telefone}}</span></li>
+                        <li class="list-group-item"> <strong><i class="fa fa-phone margin-r-5"></i> Telefone Fixo</strong><span class="pull-right">{{paciente.telefone_fixo}}</span></li>
+                        <li class="list-group-item"> <strong><i class="fa fa-envelope margin-r-5"></i> E-mail</strong><span class="pull-right">{{paciente.email}}</span></li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6 ">
+                      <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                          <b>Total de Agendamentos</b> 
+                          <span class="pull-right">{{agendamentos}}</span>
+                          <a href="{% url 'imprimir_agendamento_pdf' paciente.id %}"target="_blank"><i class="material-icons pull-right"> print </i> </a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Avaliações</b> <span class="pull-right">{{avaliacao}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Evoluções</b> <span class="pull-right">{{evolucao}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Justificada</b> <span class="pull-right">{{agendamentos_FJ_count}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Justificada na Hora</b> <span class="pull-right">{{agendamentos_FJ_count}}</span>
+                        </li>
+
+                        <li class="list-group-item">
+                          <b>Não Justificada</b> <span class="pull-right">{{agendamentos_FN_count}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Cancelado</b> <span class="pull-right">{{agendamentos_CC_count}}</span>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Total de Atendimentos</b> <span class="pull-right">{{atendimentos_count}}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <!-- INICIO DA EVOLUÇÃO E AVALIAÇÃO DO PACIENTE NO PRONTUÁRIO-->
+                  <!--historico de Evolução-->
+                  {% if ficha_evolucao %}
+                    {% include 'historico/fichas/evolucao_historico.html' %}
+                  {% endif %}
+                  
+                  {% if ficha_avaliacao %}
+                    {% include 'historico/fichas/avaliacao_historico.html' %}
+                  {% endif %}
+                  <br>
+                </div>
               </div>
-            </div><!-- end content-->
-          </div><!--  end card  -->
-        </div> <!-- end col-md-12 -->
-      </div> <!-- end row -->
-    </div>
+              <div class="tab-pane" id="dados">
+                <div class="box box-primary">
+                  <div class="box-header with-border">
+                    <h3 class="box-title"><i class="material-icons">poll</i> Dados do Financeiro(Contas a pagar)</h3>
+                  </div>
+                  <div class="box-body">
+                    <div class="box-body box-profile">
+                      <table class="table table-striped table-no-bordered table-hover datatables" cellspacing="0" width="100%" style="width:100%">
+                        <thead class=" text-primary">
+                          <th>Nº</th>
+                          <th>Data</th>
+                          <th>Convenio</th>
+                          <th>Procedimento</th>
+                          <th>Valor</th>
+                          <th>Forma_Pagamento</th>
+                          <th>$ Cartão</th>
+                          <th>$ Especie</th>
+                          <th>Status</th>
+                          <th>Visualizar</th>
+                        </thead>
+                        <tbody>
+                          {% for c in contas %}
+                          <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{c.data|date:'d/m/Y'}}</td>
+                            <td>{{c.convenio|upper}}</td>
+                            <td>{{c.procedimento.nome}}</td>
+                            <td>
+                              <b class="text-success">
+                                {% if request.user.is_superuser %}
+                                {{c.valor_total}}
+                                {% else %}
+                                {% if c.convenio.nome == 'particular' %}
+                                {{c.valor_total}}
+                                {% else %}
+                                -----
+                                {% endif %}
+                                {% endif %}
+                              </b>
+                            </td>
+                            <td>
+                              {% if c.get_forma_pagamento_display == '' %}
+                              <b class="text-danger">--------</b>
+                              {% else %}
+                              <b class="text-info">{{c.get_forma_pagamento_display}}</b>
+                              {% endif %}
+                            </td>
+                            <td>
+                              {% if c.valor_pago_cartao%}
+                              {{c.valor_pago_cartao}}
+                              {% else %}
+                              0,00
+                              {% endif %}
+                            </td>
+                            <td>
+                              {% if c.valor_pago_dinheiro%}
+                              {{c.valor_pago_dinheiro}}
+                              {% else %}
+                              0,00
+                              {% endif %}
+                            </td>
+                            <td>
+                              {% if c.status == 'PD' %}
+                              <b class="text-danger">{{c.get_status_display}}</b>
+                              {% elif c.status == 'PG' %}
+                              <b class="text-info">{{c.get_status_display}}</b>
+                              {% endif %}
+                            </td>
+                            <td  width="10%">
+                              <a href="" title="visualizar"><i class="material-icons">visibility</i></a>
+                              {% if not profissional %}
+                              <!--profissional não pode ver o botão pagar-->
+                              {% if c.status == 'PD' %}
+                              <a href="{% url 'fazer_pagamento' c.id %}" title="Efetuar Pagamento"><i class="material-icons text-danger">monetization_on</i></a>
+                              {% endif %}
+                              {% endif %}
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="material-datatables">
+                  <h3 class="text-center"><b>Guias<i class="material-icons">assignment_ind</i></b></h3>
+                  <table class="table table-striped table-bordered table-hover datatables" cellspacing="0" width="100%" style="width:100%">
+                    <thead class="text-primary">
+                      <th>Nº</th>
+                      <th>Numero</th>
+                      <th>Convenio</th>
+                      <th>Profissional</th>
+                      <th>Validade</th>
+                      <th>Sessões Autorizadas</th>
+                      <th>Sessoes Restantes</th>
+                      <th>Ação</th>
+                    </thead>
+                    <tbody>
+                      {% for guia in guias %}
+                      <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{guia.numero}}</td>
+                        <td>{{guia.convenio}}</td>
+                        <td>
+                          {% for p in guia.profissional.all %}
+                          {{p.nome}},
+                          {% endfor %}
+                        </td>
+                        <td>{{guia.validade|date:'d/m/Y'}}</td>
+                        <td>{{guia.qtdautorizada}}</td>
+                        <td>{{guia.quantidade}}</td>                          
+                        <td  width="10%">
+                          <a href="{% url 'update_guia' guia.id %}" title="Editar"><i class="material-icons">sync</i></a>
+                          <a href="" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div><!-- end content-->
+        </div><!--  end card  -->
+      </div> <!-- end col-md-12 -->
+    </div> <!-- end row -->
   </div>
-  <script type="text/javascript">
-  $(document).ready(function() {
-    $('.datatables').DataTable({
-      "pagingType": "full_numbers",
-      "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-      responsive: true,
-      searching: true, 
-      "language": {
-        "sProcessing":   "Processando...",
-        "sLengthMenu":   " _MENU_ ",
-        "sZeroRecords":  "<b><center>Não foram encontrados resultados</center><b>",
-        "info": "Pág _PAGE_ de _PAGES_",
-        "sInfoEmpty":    "",
-        "sInfoFiltered": "",
-        "sInfoPostFix":  "",
-        "sSearch":       "Busca",
-        "sUrl":          "",
-        "oPaginate": {
-          "sFirst":    "Primeiro",
-          "sPrevious": "",
-          "sNext":     "",
-          "sLast":     "Último"
-        }
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.datatables').DataTable({
+    "pagingType": "full_numbers",
+    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    responsive: true,
+    searching: true, 
+    "language": {
+      "sProcessing":   "Processando...",
+      "sLengthMenu":   " _MENU_ ",
+      "sZeroRecords":  "<b><center>Não foram encontrados resultados</center><b>",
+      "info": "Pág _PAGE_ de _PAGES_",
+      "sInfoEmpty":    "",
+      "sInfoFiltered": "",
+      "sInfoPostFix":  "",
+      "sSearch":       "Busca",
+      "sUrl":          "",
+      "oPaginate": {
+        "sFirst":    "Primeiro",
+        "sPrevious": "",
+        "sNext":     "",
+        "sLast":     "Último"
       }
-    });
-
-
-    var table = $('.datatables').DataTable();
-
-    // Edit record
-    table.on( 'click', '.edit', function () {
-      $tr = $(this).closest('tr');
-
-      var data = table.row($tr).data();
-      alert( 'You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.' );
-    } );
-
-    // Delete a record
-    table.on( 'click', '.remove', function (e) {
-      $tr = $(this).closest('tr');
-      table.row($tr).remove().draw();
-      e.preventDefault();
-    } );
-
-    //Like record
-    table.on( 'click', '.like', function () {
-      alert('You clicked on Like button');
-    });
-
-    $('.card .material-datatables label').addClass('form-group');
+    }
   });
 
-  </script>
-  {% endblock container %}
+
+  var table = $('.datatables').DataTable();
+
+// Edit record
+table.on( 'click', '.edit', function () {
+  $tr = $(this).closest('tr');
+
+  var data = table.row($tr).data();
+  alert( 'You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.' );
+} );
+
+// Delete a record
+table.on( 'click', '.remove', function (e) {
+  $tr = $(this).closest('tr');
+  table.row($tr).remove().draw();
+  e.preventDefault();
+} );
+
+//Like record
+table.on( 'click', '.like', function () {
+  alert('You clicked on Like button');
+});
+
+$('.card .material-datatables label').addClass('form-group');
+});
+
+</script>
+{% endblock container %}

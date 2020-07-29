@@ -56,12 +56,16 @@ CONVENIOS = (
 )
 
 FORMA_PAGAMENTO = (
-    ('CV','Convênio'),
-    ('DI','Dinheiro'),
-    ('CC','Cartão de crédito'),
-    ('EC','Dinheiro e Cartão'),
-    ('BB','Boleto bancário'),
-    ('TB','Transferência bancária'),
+    ('ES','Especie'),
+    ('TF','Tranferência'),
+    ('CD','Cartão de Débito'),
+    ('EC','Especie e Cartão'),
+    ('VS','Cartão Visa'),
+    ('MC','Cartão Mastercard'),
+    ('AE','Cartão American Express'),
+    ('CS','Cartão Credishop'),
+    ('HP','Cartão HyperCard'),
+    ('EO','Cartão Elo'),
 )
 
 STATUS_CONTA = (
@@ -77,6 +81,7 @@ TIPO_ATENDIMENTO = (
     ('DM','Desmarcado na Hora'),
     ('FH','Justificada na Hora'),#orange
     ('FN','Falta Não Justificada'),#grey
+    ('AR','ATendido/Recepção'),#recepçao
 )
 
 RACA = (
@@ -141,7 +146,7 @@ STATUS =(
     ('CC','Cancelado'),#red
     ('BQ','Bloqueio'),#black
     ('PT','Particular'),#08d0aa eletricblue
-    ('AD','Atender'),#pink
+    ('AR','Atendido/Recepção'),#FC0FC#183693
 )
 
 AREA =(
@@ -206,4 +211,18 @@ MATRIMONIO =(
     ('', 'Escolha Um Opçao'),
     ('CA','Casados'),
     ('SE', 'Separados'),
+)
+
+DESCONTO =( 
+    ('', 'Escolha um desconto'),
+    ('CA','5'),
+    ('SE', '10'),
+    ('SE', '15'),
+    ('SE', '20'),
+    ('SE', '25'),
+    ('SE', '30'),
+    ('SE', '35'),
+    ('SE', '40'),
+    ('SE', '45'),
+    ('SE', '50'),
 )

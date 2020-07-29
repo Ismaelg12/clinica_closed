@@ -20,4 +20,6 @@ urlpatterns = [
 	path('finalizar/guia/<int:pk>/',views.finalizar_guia,name='finalizar_guia'),
 	path('validar/guia/<int:pk>/',views.validar_guia,name='validar_guia'),
 	path('excluir/guia/<int:pk>/',views.excluir_guia,name='excluir_guia'),
+
+	
 ]

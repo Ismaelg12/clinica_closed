@@ -6,7 +6,7 @@ from .models import Profissional
 
 class PacienteForm(forms.ModelForm):
 	profissional = forms.ModelMultipleChoiceField(
-		queryset = Profissional.objects.all(),
+		queryset = Profissional.objects.filter(tipo=2),
 		widget   =   forms.SelectMultiple(attrs={'class':'selectpicker',
 		'data-style':'select-with-transition','data-size':7,
 		'data-live-search':'true','multiple':'multiple','title':'escolha os profissionais'})
@@ -18,8 +18,6 @@ class PacienteForm(forms.ModelForm):
 		widgets = {
 			'nome'           : forms.TextInput(attrs={'class': 'form-control','required': 'true'}),
 			'email'          : forms.EmailInput(attrs={'class': 'form-control input-rounded'}),
-			#'profissional'   : forms.Select(attrs={'class':'selectpicker',
-			#	'multiple':'multiple'}),
 			'data_nascimento': forms.DateInput(attrs={'class': 'form-control','required': 'true'}),
 			'sexo'           : forms.Select(attrs={'class': 'form-control'}),
 			'raca'           : forms.Select(attrs={'class':'selectpicker',
@@ -54,11 +52,18 @@ class PacienteForm(forms.ModelForm):
 		possui_cpf = self.cleaned_data['possui_cpf']
 		if not possui_cpf:
 			if Paciente.objects.filter(cpf__iexact=cpf,id=self.instance.id).exists() and cpf != None:
+				#print('atualizando registro')
 				pass
 			else:
-				raise ValidationError('CPF JÁ EXISTE')
+				if Paciente.objects.filter(cpf__iexact=cpf).exists():
+					raise ValidationError('CPF JÁ EXISTE')
+					#print('validação')
+				else:
+					pass
+					#print('passou')
 
 		else:
+			#print('entrou')
 			pass
 		"""
 		if self.cleaned_data['cpf'] == "":

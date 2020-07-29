@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import datetime
 from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import ListView,CreateView,TemplateView,UpdateView,DeleteView,DetailView
 from django.urls import reverse_lazy
@@ -12,13 +11,12 @@ from pacientes.models import Paciente
 from atendimento.models import Guia
 from core.models import Clinica
 from django.db.models import ProtectedError,Count,Q
-from controle_usuarios.models import Profissional
+from controle_usuarios.models import Profissional,Perfil
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from core.decorators import staff_member_required
-
-
+from datetime import date, datetime, timedelta
 '''
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                           Dashboard
@@ -28,8 +26,11 @@ from core.decorators import staff_member_required
 
 class DashboardView(TemplateView,DashboardMixin):
     template_name = 'dashboard.html'
-    
+
     def get_context_data(self, *args, **kwargs):
+        create_perfil_when_init_system()
+        create_convenio_when_init_system()
+        create_clinic_when_init_system()
         context = super(DashboardView, self).get_context_data(*args, **kwargs)
         #contexto enviado para permmissoes de atendentee profissional
         """
@@ -164,6 +165,10 @@ class ProcedListView(LoginRequiredMixin,ListView):
     context_object_name = 'procedimentos'
     template_name = 'procedimento/procedimentos.html'
 
+    def get_queryset(self, **kwargs):
+        queryset = Procedimento.objects.select_related('convenio').all()
+        return queryset
+
 @method_decorator(staff_member_required, name='dispatch')
 class ProcedUpdateView(LoginRequiredMixin,UpdateView):
     model         = Procedimento
@@ -260,7 +265,29 @@ def load_profissional(request):
 def aniversarios(request):
     today     = timezone.now().date()
     paciente  = Paciente.objects.filter(data_nascimento__day=today.day,data_nascimento__month=today.month)
+    if  request.GET.get('date_ranger'):
+        date_range        = request.GET.get('date_ranger')
+        paciente          = Paciente.objects.filter(
+            data_nascimento__day=date_range.split('/')[0],data_nascimento__month=date_range.split('/')[1])
     context   = {
         'pacientes':paciente,
     }
     return render(request,'aniversariantes.html',context)
+
+
+def create_perfil_when_init_system():
+    #cria se não existir
+    if(not Perfil.objects.filter(id=1).exists()):
+        for i in range(1,12):
+            Perfil.objects.create(id=i)
+
+
+def create_convenio_when_init_system():
+    #cria se não existir
+    if(not Convenio.objects.filter(id=1).exists()):
+        Convenio.objects.create(id=1,nome='particular')
+
+def create_clinic_when_init_system():
+    #cria se não existir
+    if(not Clinica.objects.filter(id=1).exists()):
+        Clinica.objects.create(id=1,clinica='AltaClin')

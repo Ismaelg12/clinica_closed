@@ -28,9 +28,14 @@
   </li>
 {% endblock menu_li %}
 {% block button_bar %}
-  <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'add_guia' %}">
-    <i class="material-icons">add_circle</i>
-  <div class="ripple-container"></div></a>
+  <!--variavel vindo do processors-->
+  {% if not profissional_logado %}
+    <!--não mostra esse botão pro profissional-->
+      <a class="btn btn-success btn-round btn-fab btn-fab-mini"href="{% url 'add_guia' %}">
+      <i class="material-icons">add_circle</i>
+      <div class="ripple-container"></div></a>
+  {% endif %}
+ 
 {% endblock button_bar %}
 {% block container %}
   <div class="content">

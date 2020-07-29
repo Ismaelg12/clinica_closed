@@ -25,11 +25,4 @@ class EvolucaoAdmin(admin.ModelAdmin):
 
 admin.site.register(Atendimento,AtendimentoAdmin)
 admin.site.register(Evolucao,EvolucaoAdmin)
-admin.site.register(TerapiaOcupacional)
-admin.site.register(Guia,GuiaAdmin)
-admin.site.register(Psiquiatria)
-admin.site.register(Fisioterapeuta)
-admin.site.register(Anaminese_adulto)
-admin.site.register(Anaminese_crianca)
-admin.site.register(Uroginecologia)
-admin.site.register(Neurologia)
+admin.site.register(Avaliacao)

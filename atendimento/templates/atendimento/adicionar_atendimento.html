@@ -72,7 +72,7 @@
 												</div>
 												<div class="col-md-7">
 													<div class="form-group">			
-														<label class="bmd-label-floating">*Guia  |  Procedimento  |  Seções</label>
+														<label class="bmd-label-floating">*Guia  |  Procedimento  |  Seções | Validade</label>
 														{{form.guia}}
 													</div>
 												</div>												
@@ -98,42 +98,16 @@
 													</div>
 												</div>
 											{% endif %}
-											
-											<!--Formulario de Avaliação Terapia Ocupacional-->
-											{% if form_fichas.peso %}
-												{% include 'atendimento/fichas/terapiaOcupacional.html' %}
+
+											<!--Formulario de Avaliação avaliação-->
+											{% if form_fichas.queixa %}
+												{% include 'atendimento/fichas/avaliacao.html' %}
 											{% endif %}
-											<!--Formulario de Avaliação Psiquiatria-->
-											{% if form_fichas.eixo1 %}
-												{% include 'atendimento/fichas/psiquiatriaGeral1.html' %}
-											{% endif %}
-											<!--Formulario de Avaliação Fisioterapia-->
-											{% if form_fichas.cardiaca %}
-												{% include 'atendimento/fichas/fisio_convencional.html' %}
-											{% endif %}
-											<!--Formulario de Anaminese Adulto-->
-											{% if form_fichas.fato_marcante %}
-												{% include 'atendimento/fichas/anaminese_ad.html' %}
-								            {% endif %}
-								            <!--Formulario de Anaminese Criança-->
-											{% if form_fichas.n_irmaos %}
-												{% include 'atendimento/fichas/anaminese_cr.html' %}
-								            {% endif %}
-								            <!--Formulario de Uroginecologia-->
-											{% if form_fichas.gpca %}
-												{% include 'atendimento/fichas/uroginecologia.html' %}
-								            {% endif %}
-								            {% if form_fichas.diag_fisio %}
-												{% include 'atendimento/fichas/neurologia.html' %}
-								            {% endif %}
-								            {% if form_fichas.qpdhda %}
-												{% include 'atendimento/fichas/nutricao.html' %}
-								            {% endif %}
-								            <div>
+										 <div>
 								            	{% if not ocultar_botao_salvar == "display_button"%}
-								            		<button type="submit" onclick="this.disabled = true; this.value = 'Enviando…'; this.form.submit();" class="btn btn-primary pull-right"> Enviar</button>
+								            		<button type="submit" onclick="this.disabled = true; this.value = 'Enviando…'; this.form.submit();" class="btn btn-primary pull-right"> Finalizar Atendimento</button>
 													
-													<a href="{% url 'atendimentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+													<a href="{% url 'agendamentos' %}" class="btn btn-danger btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar Atendimento</a>
 													{% else %}
 													<a href="javascript:void(0)" onClick="history.go(-1); return false;" class="btn btn-info btn-group pull-right">Voltar</a>
 												{% endif %}
@@ -199,35 +173,5 @@ $('#id_data').daterangepicker({
 		],
 		"firstDay": 0
 	}});
-/*
-$("#id_convenio").change(function () {
-      var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view
-      var convenioId = $(this).val();  // get the selected convenio ID from the HTML input
-
-     $.ajax({                       // initialize an AJAX request
-        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
-        data: {
-          'convenio': convenioId       // add the convenio id to the GET parameters
-      },
-        success: function (data) {   // `data` is the return of the `load_convenios` view function
-          $("#id_procedimento").html(data);  // replace the contents of the id_procedimento input with the data that came from the server
-      }
-  });
- });
-		$("#id_paciente").change(function () {
-      var url = $("#atendForm").attr("data-select-url");  // get the url of the `load_cities` view
-      var pacienteId = $(this).val();  // get the selected convenio ID from the HTML input
-
-     $.ajax({                       // initialize an AJAX request
-        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
-        data: {
-          'paciente': pacienteId       // add the convenio id to the GET parameters
-      },
-        success: function (data) {   // `data` is the return of the `load_convenios` view function
-          $("#id_guia").html(data);  // replace the contents of the id_procedimento input with the data that came from the server
-      }
-  });
- });
-		*/
 </script>
 {% endblock container %}

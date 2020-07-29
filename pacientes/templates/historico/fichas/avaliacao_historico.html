@@ -1,0 +1,39 @@
+   
+{% for avaliacao in ficha_avaliacao %}
+    {% if avaliacao.atendimento.tipo == "AV" %}
+        <h4><b><i class="fa fa-check-square-o"></i> Avaliação dia {{avaliacao.atendimento.data}} das {{avaliacao.atendimento.hora_inicio}} até {{avaliacao.atendimento.hora_fim}}</b></h4><br>
+        <font size="3px">
+            <b>Profissional:</b> {{avaliacao.atendimento.profissional}} <br>
+            <b>Convênio:</b> {{avaliacao.atendimento.convenio}} <br>
+        </font>                              
+    {% else %}
+    <h4><b><i class="fa fa-line-chart"></i> Evolução dia {{avaliacao.atendimento.data}} das {{avaliacao.atendimento.hora_inicio}} até {{avaliacao.hora_fim}}</b></h4><br>
+    <font size="3px">
+        <b>Profissional:</b> {{avaliacao.atendimento.profissional}} <br>
+        <b>Convênio:</b> {{avaliacao.atendimento.convenio}} <br>
+        <!-- INICIO DA EVOLUÇÃO DO PACIENTE NO PRONTUÁRIO-->
+        <!-- Tem que renderizar o campo evolução aqui-->
+        <!-- FIM DA EVOLUÇÃO DO PACIENTE NO PRONTUÁRIO-->
+    </font>
+{% endif %}
+<hr>
+    <font size="3px">
+        <b>Encaminhado Por: </b>{{avaliacao.encaminhado_por}} <br><br>              
+        <b>Queixa Principal: </b>{{avaliacao.queixa}} <br><br>              
+        <b>HDA: </b>{{avaliacao.hda}}<br><br>                 
+        <b>HAS: </b>{{avaliacao.has}}<br><br>                   
+        <b>Insuficiência Cardíaca: </b>{{avaliacao.antece_cirurgico}}<br><br>     
+        <b>DM: </b>{{avaliacao.dm}}<br><br>      
+        <b>Comorbidades: </b>{{avaliacao.comorbidade}}<br><br>       
+        <b>Medicamento: </b>{{avaliacao.medicamento}} <br><br>     
+        <b>Rotina Familiar : </b>{{avaliacao.rotina_familiar}} <br><br>         
+        <b>Rotina Diária : </b>{{avaliacao.rotina_diaria}} <br><br>       
+        <b>Dificuldade: </b>{{avaliacao.dificuldade}}<br><br>           
+        <b>Atividades: </b>{{avaliacao.atividade}} <br><br>   
+        <b>Cirurgias: </b>{{avaliacao.cirurgia}}  <br><br>         
+        <b>Exames: </b>{{avaliacao.exame}}  <br><br>  
+        <b>Infecções: </b>{{avaliacao.infeccao}} <br><br>  
+        <b>Avaliações: </b>{{avaliacao.avaliacao}}<br><br>              
+        <b>Condulta Profissional: </b>{{avaliacao.condulta_prof}} <br><br>             
+    </font>
+{% endfor %}

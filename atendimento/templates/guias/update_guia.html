@@ -65,8 +65,8 @@
                     {{form.data_autorizacao}}
                   </div>
                 </div>
-                <div class="col-md-2">
-                  <!--se a guia ja foi revalidada era não pode mais editar o campo data-->
+                <!--se a guia ja foi revalidada era não pode mais editar o campo data-->
+                <!--<div class="col-md-2">
                   {% if guia.validada == True %}
                       <div class="form-group">
                         <label class="bmd-label-floating">*Validade</label>
@@ -78,17 +78,23 @@
                       {{form.validade}}
                   </div>
                   {% endif %}
-                </div>
+                </div> -->
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label class="bmd-label-floating">** Sessões Restantes</label>
-                    {{form.quantidade}}
+                    <label class="bmd-label-floating">*Validade</label>
+                    <input type="text"value="{{guia.validade|date:'d/m/Y'}}"class="form-control"name="validade"readonly="true">
                   </div>
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label class="bmd-label-floating">* * Sessões Autorizadas</label>
-                    {{form.qtdautorizada}}
+                    <label class="bmd-label-floating">** Sessões Restantes</label>
+                      <input type="text"value="{{guia.quantidade}}"class="form-control"name="quantidade"readonly="true">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">** Sessões Autorizadas</label>
+                      <input type="text"value="{{guia.qtdautorizada}}"class="form-control"name="qtdautorizada"readonly="true">
                   </div>
                 </div>
                </div>

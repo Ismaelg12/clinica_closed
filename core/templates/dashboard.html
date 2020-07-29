@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block navbar %}
-  <a class="navbar-brand" href="#pablo">PÁGINA INICIAL</a>
+  <a class="navbar-brand" href="#pablo">BEM VINDO AO SISTEMA DE GERENCIAMENTO DE CLÍNICAS</a>
 {% endblock navbar %}
 {% block container %}
   <div class="content">
@@ -17,8 +17,7 @@
             <h3 class="card-title">{{view.birthday}}</h3>
           </div>
           <div class="card-footer">
-             <a href="{% url 'aniversario' %}"><span class="pull-left">Aniversariantes do Dia</span></a>
-              <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+             <a href="{% url 'aniversario' %}"><span>VER LISTA COMPLETA</span> </a>
           </div>
         </div>
       </div>
@@ -32,8 +31,7 @@
             <h3 class="card-title">{{view.clientes}}</h3>
           </div>
           <div class="card-footer">
-             <a href="{% url 'lista_pacientes' %}"><span class="pull-left">Detalhes</span></a>
-             <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+             <a href="{% url 'lista_pacientes' %}"><span>VER LISTA COMPLETA</span> </a>
           </div>
         </div>
       </div>
@@ -47,8 +45,7 @@
           <h3 class="card-title"> {{view.guias_count}}</h3>
         </div>
         <div class="card-footer">
-           <a href="{% url 'guias' %}"><span class="pull-left">Detalhes</span></a>
-           <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+           <a href="{% url 'guias' %}"><span>VER LISTA COMPLETA</span> </a>
         </div>
       </div>
     </div>
@@ -62,8 +59,7 @@
           <h3 class="card-title">{{view.agendamentos}}</h3>
         </div>
         <div class="card-footer">
-           <a href="{% url 'agendamentos' %}"><span class="pull-left">Detalhes</span></a>
-          <span class="pull-right"> <i class="fa fa-arrow-circle-right"></i></span><br>
+           <a href="{% url 'agendamentos' %}"><span>VER LISTA COMPLETA</span> </a>
         </div>
       </div>
     </div>

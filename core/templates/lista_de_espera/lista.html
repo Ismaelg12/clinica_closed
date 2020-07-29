@@ -58,8 +58,8 @@
                           </td>
                           <td  width="10%">
                             <a href="{% url 'lista_espera_detalhe' l.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
-                            <a href="{% url 'update_lista_espera' l.id %}" title="Visualizar"><i class="material-icons">sync</i></a>
-                            <a href="{% url 'deletar_lista_espera' l.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                            <a href="{% url 'update_lista_espera' l.id %}" title="Visualizar"><i class="material-icons text-info">update</i></a>
+                            <a href="{% url 'deletar_lista_espera' l.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons text-danger">delete</i></a>
                           </td>
                         </tr>
                         {% endfor %}

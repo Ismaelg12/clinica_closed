@@ -49,8 +49,8 @@
                           <td>{{s.nome}}</td>
                           <td>{{s.atualizado_em}}</td>
                           <td  width="10%">
-                            <a href="{% url 'update_sala' s.id %}" title="Editar"><i class="material-icons">sync</i></a>
-                             <a href="{% url 'deletar_sala' s.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                            <a href="{% url 'update_sala' s.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
+                             <a href="{% url 'deletar_sala' s.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons text-danger">delete</i></a>
                           </td>
                         </tr>
                         {% empty %}

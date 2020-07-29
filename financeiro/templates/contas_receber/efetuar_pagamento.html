@@ -28,41 +28,28 @@
           <div class="card">
             <div class="card-header card-header-primary"data-background-color="green">
             <h4 class="card-title">Efetuar Pagamento</h4>
-          </div>
+          </div><br/>
             <div class="card-content">
               <form method="POST">
               	{% csrf_token %}
                 <div class="row">
                 <div class="col-md-3">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">Paciente</label>
-                      <input type="text" value="{{conta.paciente}}"class="form-control"disabled>
-                    </div>
+                    <label class="bmd-label-floating">Paciente</label>
+                    <input type="text" value="{{conta.paciente}}"class="form-control"disabled>
                   </div>
                   <div class="col-md-2">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">Valor Total </label>
-                      <input type="text" value="{{conta.valor_total}}"class="form-control"name="valor_total"disabled>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">Procedimento </label>
-                      <input type="text" value="{% if form.procediemnto == None %}---Nenhum---{% else %}
-                      {{conta.procedimento}}{% endif %}"class="form-control" disabled>
-                    </div>
+                    
+                    <label class="bmd-label-floating">Valor Total </label>
+                    <input type="text" value="{{conta.valor_total}}"class="form-control"name="valor_total"disabled>
                   </div>
                   <div class="col-md-2">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">Forma de Pagamento</label>
-                     {{form.forma_pagamento}}
-                    </div>
+                    <label class="bmd-label-floating">Forma de Pagamento</label>
+                   {{form.forma_pagamento}}
+                    
                   </div>
                   <div class="col-md-2">
-                    <div class="form-group">
-                      <label class="bmd-label-floating">Recebido</label>
-                     {{form.receptor}}
-                    </div>
+                    <label class="bmd-label-floating">Recebido</label>
+                    {{form.receptor}}               
                   </div>
                 </div>
                 <div class="row">
@@ -72,20 +59,26 @@
                       {{form.valor_pago_dinheiro}}
                     </div>
                   </div>
+                  <div class="col-md-3">
+                    <div id="desconto">
+                      <label>Desconto</label>
+                      {{form.desconto}}
+                    </div>
+                  </div>
                   <div class="col-md-3"id="valor_pago_cartao">
                     <div class="form-group">
                       <label class="bmd-label-floating">Pagamento em Cartão</label>
                      {{form.valor_pago_cartao}}
                     </div>
                   </div> 
-                  <div class="col-md-3"id="tipo_cartão">
+                   <div class="col-md-3"id="valor_total_pago">
                     <div class="form-group">
-                      <label class="bmd-label-floating">Cartão</label>
-                     {{form.cartao_credito}}
+                      <label class="bmd-label-floating">Valor Total Pago</label>
+                     <br><span>{{conta.valor_total_pago}}</span>
                     </div>
                   </div>                      
                 </div>          
-                <a href="" class="btn btn-primary btn-group">Voltar</a>
+                <a href="{% url 'conta_receber' %}" class="btn btn-primary btn-group">Voltar</a>
                  <button type="submit"class="btn btn-info pull-right" id="ocultar">Pagar</button>
                 <div class="clearfix"></div>
               </form>
@@ -98,23 +91,34 @@
 <script>
 $(function() {
     $('#valor_pago_dinheiro').hide(); 
+    $('#desconto').hide(); 
     $('#valor_pago_cartao').hide(); 
-    $('#tipo_cartão').hide(); 
+    $('#valor_total_pago').hide(); 
     $('#id_forma_pagamento').change(function(){
-    if($('#id_forma_pagamento').val() == 'DI' || $('#id_forma_pagamento').val() == 'CV'|| $('#id_forma_pagamento').val() == 'BB' || $('#id_forma_pagamento').val() == 'DC'|| $('#id_forma_pagamento').val() == 'TB') {
+    if($('#id_forma_pagamento').val() == 'ES') {
       $('#valor_pago_dinheiro').show(); 
+      $('#desconto').show(); 
+      $('#valor_total_pago').show(); 
       $('#valor_pago_cartao').hide(); 
-      $('#tipo_cartão').hide(); 
-    }else if($('#id_forma_pagamento').val() == 'CC') {
+    }else if($('#id_forma_pagamento').val() == 'CD' 
+      ||$('#id_forma_pagamento').val() ==  'VS' 
+      || $('#id_forma_pagamento').val() == 'MC' 
+      || $('#id_forma_pagamento').val() =='AE' 
+      || $('#id_forma_pagamento').val() =='CS' 
+      || $('#id_forma_pagamento').val() =='HP' 
+      || $('#id_forma_pagamento').val() =='EO') {
+      
       $('#valor_pago_dinheiro').hide(); 
-      $('#valor_pago_cartao').hide(); 
-      $('#tipo_cartão').hide(); 
-      $('#ocultar').hide(); 
+      $('#desconto').hide(); 
+      $('#valor_pago_cartao').show(); 
+      $('#valor_total_pago').show(); 
+    
     }
     else if($('#id_forma_pagamento').val() == 'EC') {
-      $('#valor_pago_dinheiro').show(); 
+      $('#valor_pago_dinheiro').show();
+      $('#desconto').hide();  
+      $('#valor_total_pago').show(); 
       $('#valor_pago_cartao').show(); 
-      $('#tipo_cartão').hide(); 
     } 
     });
 });

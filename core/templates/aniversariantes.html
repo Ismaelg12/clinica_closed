@@ -3,6 +3,10 @@
 {% block datepicker %}
 <!--datatables-->
   <script src ="{% static "tables/jquery.min.js" %}"></script>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 {% endblock datepicker %}
 {% block menu_li %}
   <li class="nav-item">
@@ -25,14 +29,28 @@
             <div class="col-md-12">
               <div class="card">
                  <div class="card-header card-header-primary"data-background-color="purple">
-                   <h4 class="card-title ">Aniversariantes do Dia </h4>
+                 <h4 class="card-title ">Aniversariantes do Dia </h4>
               </div>
                 <div class="card-content">
+                  <div class="col-md-12">
+                  <form method="GET" name="search">
+                    <div class="row">
+                      <div class="col-md-1 col-sm-1 pull-right">
+                        <button type="submit" class="btn btn-primary pull-right btn-round"><i
+                          class="material-icons">search</i></button>
+                      </div>
+                      <div class="col-md-3 pull-right">
+                        <input type="text" class="form-control" name="date_ranger">
+                      </div>
+                    </div>
+                  </form>
+                </div>
                   <table class="table" id="Table">
                       <thead class=" text-primary">
                         <th>Nº</th>
                         <th>Nome</th>
                         <th>Email</th>
+                        <th>Nascimento</th>
                         <th>Telefone</th>
                         <th>Ação</th>
                       </thead>
@@ -42,14 +60,17 @@
                           <td>{{forloop.counter}}</td>
                           <td>{{p.nome}}</td>
                             <td>{{p.email}}</td>
+                            <td>{{p.data_nascimento}}</td>
                             <td>{{p.telefone}}</td>
                             <td>
                               <a href="{% url 'paciente_detalhe' p.id %}" title="Visualizar"><i class="material-icons">visibility</i></a>
-                              <a href="{% url 'update_paciente' p.id %}" title="Editar"><i class="material-icons">sync</i></a>
-                              <a href="{% url 'delete_paciente' p.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i>
+                              <a href="{% url 'update_paciente' p.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
+                              <a href="{% url 'delete_paciente' p.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons text-danger">delete</i>
                               </a>
                             </td>
                           </tr>
+                        {% empty %}
+                          <tr><td colspan="3">Sem Aniversariantes</td></tr>
                         {% endfor %}
                        </tbody>
                     </table>
@@ -59,4 +80,49 @@
         </div> <!-- end row -->
   </div>
 </div>
+<script type="text/javascript">
+  $('input[name="date_ranger"]').daterangepicker({
+  "timePicker": false,
+  "startDate": moment(),
+  "endDate": moment(),
+    singleDatePicker: true,
+  showDropdowns: true,
+  "locale": {
+    "format": "DD/MM/YYYY",
+    "separator": " / ",
+    "applyLabel": "Aplicar",
+    "cancelLabel": "Cancelar",
+    "fromLabel": "De",
+    "toLabel": "Até",
+    "customRangeLabel": "Customizado",
+    "daysOfWeek": [
+    "Dom",
+    "Seg",
+    "Ter",
+    "Qua",
+    "Qui",
+    "Sex",
+    "Sáb"
+    ],
+    "monthNames": [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+    ],
+    "firstDay": 0
+  }
+}, function(start, end, label) {
+  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+
+});
+</script>
 {% endblock container %}

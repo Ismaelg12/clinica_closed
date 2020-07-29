@@ -61,8 +61,8 @@
                           {% endif %}
                           </td>
                           <td  width="10%">
-                            <a href="{% url 'update_procedimento' proced.id %}" title="Editar"><i class="material-icons">sync</i></a>
-                             <a href="{% url 'deletar_procedimento' proced.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i></a>
+                            <a href="{% url 'update_procedimento' proced.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
+                             <a href="{% url 'deletar_procedimento' proced.id %}" title="Remover" onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons text-danger">delete</i></a>
                           </td>
                         </tr>
                         {% endfor %}

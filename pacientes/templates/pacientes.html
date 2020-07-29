@@ -85,7 +85,7 @@
                     <td>
                       <a href="{% url 'paciente_detalhe' p.id %}" title="Visualizar"><i
                           class="material-icons">visibility</i></a>
-                      <a href="{% url 'update_paciente' p.id %}" title="Editar"><i class="material-icons">sync</i></a>
+                      <a href="{% url 'update_paciente' p.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
                     </td>
                   </tr>
                   {% endfor %}
@@ -117,10 +117,10 @@
                     <td>
                       <a href="{% url 'paciente_detalhe' p.id %}" title="Visualizar"><i
                           class="material-icons">visibility</i></a>
-                      <a href="{% url 'update_paciente' p.id %}" title="Editar"><i class="material-icons">sync</i></a>
+                      <a href="{% url 'update_paciente' p.id %}" title="Editar"><i class="material-icons text-info">update</i></a>
                       {% if request.user.is_superuser %}
                       <a href="{% url 'delete_paciente' p.id %}" title="Remover"
-                        onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons">delete</i>
+                        onclick="return confirm('Deseja realmente excluir?');"><i class="material-icons text-danger">delete</i>
                       </a>
                       {% endif %}
                     </td>

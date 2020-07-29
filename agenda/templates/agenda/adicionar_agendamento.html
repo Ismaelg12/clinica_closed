@@ -54,12 +54,9 @@
 										{{form.hora_fim}}
 									</div>
 								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label>* Contato</label></br>	
-										{{form.telefone}}
-										<span class="text-danger">{{form.telefone.errors}}</span>
-									</div>
+								<div class="col-md-2">	
+									<label>Status</label></br>							
+									{{form.status}}	
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
@@ -93,31 +90,26 @@
 							</div>
 							<div class="row">
 								<div class="col-md-5">
-									<div class="form-group">
-										<label>* Paciente</label></br>	
-										{{form.paciente}}
-										<span class="text-danger">{{form.paciente.errors}}</span>
-									</div>
+									<label>* Paciente</label></br>	
+									{{form.paciente}}
+									<span class="text-danger">{{form.paciente.errors}}</span>
 								</div>
 								<div class="col-md-2">
-									<div class="form-group">	
-										<label>Status</label></br>							
-										{{form.status}}										 
+									<div class="form-group">
+										<label>* Contato</label></br>	
+										{{form.telefone}}
+										<span class="text-danger">{{form.telefone.errors}}</span>
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="form-group">
-										<label>* Profissional</label></br>	
-										{{form.profissional}}
-										<span class="text-danger">{{form.profissional.errors}}</span>		
-									</div>
+									<label>* Profissional</label></br>	
+									{{form.profissional}}
+									<span class="text-danger">{{form.profissional.errors}}</span>
 								</div>
 								<div class="col-md-2">
-									<div class="form-group">
-										<label>* Convenio</label></br>	
-										{{form.convenio}}
-										<span class="text-danger">{{form.convenio.errors}}</span>
-									</div>
+									<label>* Convenio</label></br>	
+									{{form.convenio}}
+									<span class="text-danger">{{form.convenio.errors}}</span>
 								</div>							
 							</div>
 							<div class="row"id="ocultar_fields">
@@ -131,186 +123,188 @@
 									<label>* Pacote?</label></br>	
 									{{form.pacote}}
 								</div>
-								<div class="col-md-4"id="pago">
-									<label>Pago?</label></br>							
-									{{form.pago}}	
-								</div>
-							</div>
-							<div class="row" id="hide_guia">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label color="red">Escolha a guia aser decrementada nesta aba</label>
-										<div class="form-group">
-											<select class="selectpicker" data-style="select-with-transition"title="" data-size="5"name="lista_guias_field" >
-												{% for i in guias_views %}
-													<option value="{{i}}">{{i}}</option>
-												{%empty%}
-													<option value="">Sem Guia</option>
-												{% endfor %}
-											</select>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12 text-center">
-									<span class="text-danger" id="span_alerta" style="display:none;" ><b>O CANCELAMENTO DESTE AGENDAMENTO IRÁ CANCELAR TODOS OS AGENDAMENTOS DESTE PACIENTE!</b></span>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label>Observações:</label>
-										<div class="form-group">
-											<label class="bmd-label-floating"></label>
-											{{form.observacao}}
-										</div>
-									</div>
-								</div>
-							</div>
-				         <button type="submit" class="btn btn-primary btn-sm pull-right"> Enviar</button>
-				        <a href="{% url 'agendamentos' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
-				        <div class="clearfix"></div>
-				    </form>
-				</div><!-- end content-->
-			</div><!--  end card  -->
-		</div> <!-- end col-md-12 -->
-	</div> <!-- end row -->
+<!--<div class="col-md-4"id="pago">
+<label>Pago?</label></br>							
+{{form.pago}}	
+</div>-->
+</div>
+<div class="row" id="hide_guia">
+	<div class="col-md-12">
+		<div class="form-group">
+			<label color="red">Escolha a guia aser decrementada nesta aba</label><br>
+			<label class="bmd-label-floating">*Nº Guia  |  Procedimento  |Qtd Seções | Validade</label>
+			<div class="form-group">
+				<select class="selectpicker" data-style="select-with-transition"title="" data-size="5"name="lista_guias_field" >
+					{% for i in guias_views %}
+					<option value="{{i}}">{{i}}</option>
+					{%empty%}
+					<option value="">Sem Guia</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12 text-center">
+		<span class="text-danger" id="span_alerta" style="display:none;" ><b>O CANCELAMENTO DESTE AGENDAMENTO IRÁ CANCELAR TODOS OS AGENDAMENTOS DESTE PACIENTE!</b></span>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="form-group">
+			<label>Observações:</label>
+			<div class="form-group">
+				<label class="bmd-label-floating"></label>
+				{{form.observacao}}
+			</div>
+		</div>
+	</div>
+</div>
+<button type="submit" class="btn btn-primary btn-sm pull-right"> Enviar</button>
+<a href="{% url 'agendamentos' %}" class="btn btn-danger btn-sm btn-group" onclick="return confirm('Deseja realmente cancelar?');">Cancelar</a>
+<div class="clearfix"></div>
+</form>
+</div><!-- end content-->
+</div><!--  end card  -->
+</div> <!-- end col-md-12 -->
+</div> <!-- end row -->
 </div>
 </div>
 
 <script>
 //através do convenio ele mostra ou omite alguns inputs do formulario quando carregado
 //https://stackoverflow.com/questions/11918397/jquery-hide-and-show-an-input-element
- 
- $(document).ready(function(){
- 	$('#id_status').change(function(){
- 		if($(this).val() == 'CC'){
- 			$("#span_alerta").show();  
- 			}
- 		else{
-	  		$("#span_alerta").hide();
 
-	  	} 
- 	});
-
- });	      
- $(document).ready(function(){	      
+$(document).ready(function(){
 	$('#id_status').change(function(){
-    	if($(this).val() == 'FN' || $(this).val() == 'FH'){
-    		$("#hide_guia").show();   		
-	  	}
-	  	else{
-	  		$("#hide_guia").hide();
-	  		$("#hide_guia").prop('disabled',true);
+		if($(this).val() == 'CC'){
+			$("#span_alerta").show();  
+		}
+		else{
+			$("#span_alerta").hide();
 
-	  	} 
+		} 
 	});
+
+});	      
+$(document).ready(function(){	      
+	$('#id_status').change(function(){
+//falta ou atendido pela recepção
+if($(this).val() == 'FN' || $(this).val() == 'FH' || $(this).val() == 'AR'){
+	$("#hide_guia").show();   		
+}
+else{
+	$("#hide_guia").hide();
+	$("#hide_guia").prop('disabled',true);
+
+} 
+});
 	if($("#id_status option:selected").val() != 'FN' && $("#id_status option:selected").val() != 'FH'){
-	      $("#hide_guia").hide();
-	    }else{
-	      $("#hide_guia").show();
-	      $("#hide_guia").prop('disabled',true);
-	    }
+		$("#hide_guia").hide();
+	}else{
+		$("#hide_guia").show();
+		$("#hide_guia").prop('disabled',true);
+	}
 });
 
-  $(document).ready(function()
+$(document).ready(function()
+{
+	$("#id_convenio").change(function()
 	{
-	 $("#id_convenio").change(function()
-	 {
-	  if($(this).val() == "1")
-	  {
-	   $("#ocultar_fields").show();
-	  }
-	  else
-	  {
-	   $("#ocultar_fields").hide();
-	  }
-	 });
-	 	if($("#id_convenio option:selected").val() == 1){
-	      $("#ocultar_fields").show();
-	    }else{
-	      $("#ocultar_fields").hide();
-	    }
+		if($(this).val() == "1")
+		{
+			$("#ocultar_fields").show();
+		}
+		else
+		{
+			$("#ocultar_fields").hide();
+		}
 	});
-	$.noConflict();
-	jQuery( document ).ready(function( $ ) {
-		$('#id_hora_inicio').daterangepicker({
-			singleDatePicker: true,
-			timePicker: true,
-			timePicker24Hour: true,
-			timePickerIncrement: 05,
-			timePickerSeconds: false,
-			minDate: ' 08:00:00',
-			maxDate: ' 20:00:00',
-			locale: {
-				format: 'HH:mm'
-			}
-		}).on('show.daterangepicker', function (ev, picker) {
-			picker.container.find(".calendar-table").hide();
-		});
-		$('#id_hora_fim').daterangepicker({
-			singleDatePicker: true,
-			timePicker: true,
-			timePicker24Hour: true,
-			timePickerIncrement: 05,
-			timePickerSeconds: false,
-			minDate: ' 08:00:00',
-			maxDate: ' 20:00:00',
-			locale: {
-				format: 'HH:mm'
-			}
-		}).on('show.daterangepicker', function (ev, picker) {
-			picker.container.find(".calendar-table").hide();
-		});
-		$('#id_data').daterangepicker({
-			singleDatePicker: true,
-			showDropdowns: true,
-			"locale": {
-				"format": "DD/MM/YYYY",
-				"separator": " - ",
-				"applyLabel": "Aplicar",
-				"cancelLabel": "Cancelar",
-				"fromLabel": "De",
-				"toLabel": "Até",
-				"customRangeLabel": "Custom",
-				"daysOfWeek": [
-				"Dom",
-				"Seg",
-				"Ter",
-				"Qua",
-				"Qui",
-				"Sex",
-				"Sáb"
-				],
-				"monthNames": [
-				"Janeiro",
-				"Fevereiro",
-				"Março",
-				"Abril",
-				"Maio",
-				"Junho",
-				"Julho",
-				"Agosto",
-				"Setembro",
-				"Outubro",
-				"Novembro",
-				"Dezembro"
-				],
-				"firstDay": 0
-			}})});
-	jQuery(function($){
-		// Remove statusm atender e atendido 
-   	    $("#id_status option[value='AT']").remove();
-   	    $("#id_status option[value='AD']").remove();
+	if($("#id_convenio option:selected").val() == 1){
+		$("#ocultar_fields").show();
+	}else{
+		$("#ocultar_fields").hide();
+	}
+});
+$.noConflict();
+jQuery( document ).ready(function( $ ) {
+	$('#id_hora_inicio').daterangepicker({
+		singleDatePicker: true,
+		timePicker: true,
+		timePicker24Hour: true,
+		timePickerIncrement: 05,
+		timePickerSeconds: false,
+		minDate: ' 08:00:00',
+		maxDate: ' 20:00:00',
+		locale: {
+			format: 'HH:mm'
+		}
+	}).on('show.daterangepicker', function (ev, picker) {
+		picker.container.find(".calendar-table").hide();
+	});
+	$('#id_hora_fim').daterangepicker({
+		singleDatePicker: true,
+		timePicker: true,
+		timePicker24Hour: true,
+		timePickerIncrement: 05,
+		timePickerSeconds: false,
+		minDate: ' 08:00:00',
+		maxDate: ' 20:00:00',
+		locale: {
+			format: 'HH:mm'
+		}
+	}).on('show.daterangepicker', function (ev, picker) {
+		picker.container.find(".calendar-table").hide();
+	});
+	$('#id_data').daterangepicker({
+		singleDatePicker: true,
+		showDropdowns: true,
+		"locale": {
+			"format": "DD/MM/YYYY",
+			"separator": " - ",
+			"applyLabel": "Aplicar",
+			"cancelLabel": "Cancelar",
+			"fromLabel": "De",
+			"toLabel": "Até",
+			"customRangeLabel": "Custom",
+			"daysOfWeek": [
+			"Dom",
+			"Seg",
+			"Ter",
+			"Qua",
+			"Qui",
+			"Sex",
+			"Sáb"
+			],
+			"monthNames": [
+			"Janeiro",
+			"Fevereiro",
+			"Março",
+			"Abril",
+			"Maio",
+			"Junho",
+			"Julho",
+			"Agosto",
+			"Setembro",
+			"Outubro",
+			"Novembro",
+			"Dezembro"
+			],
+			"firstDay": 0
+		}})});
+jQuery(function($){
+// Remove o  status atender e atendido 
+$("#id_status option[value='AT']").remove();
+$("#id_status option[value='AR']").remove();
 
-		$('#id_valor').mask("#.##0.00", {reverse: true});
-		$('#id_telefone').mask('(00) 00000-0000');
-   		$("#id_paciente").change(function() {
-   			//seta o contato automaticamente conforme paciente
-		  var pacienteContato = $(this).find('option:selected').text();
-		  $('#id_telefone').val(pacienteContato.split('...')[1]);
-		});    		
-   	});
-	</script>
-	{% endblock container %}
+$('#id_valor').mask("#.##", {reverse: true});
+$('#id_telefone').mask('(00) 00000-0000');
+$("#id_paciente").change(function() {
+//seta o contato automaticamente conforme paciente
+var pacienteContato = $(this).find('option:selected').text();
+$('#id_telefone').val(pacienteContato.split('...')[1]);
+});    		
+});
+</script>
+{% endblock container %}

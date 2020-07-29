@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block navbar %}
+  
+{% endblock navbar %}
+{% block container %}
+  <div class="content text_center">
+   
+    
+    {% for prof in agenda_profissionais %}
+      <div class="col-lg-3">
+        <div class="card text-center">
+          	<div class="card-header circle">
+          		<img src="{% static "images/profissionais/37.jpg"%}" alt="">
+		        <p class="text-uppercase">{{prof.nome}}</p>		        
+		    </div>
+          	<div class="col-lg-12">          		
+          		<div class="card-footer">
+		          	<div class="col-lg-6">
+			          
+			             <a  href="{% url 'agendamentos' prof.id %}"  target="_blank" class="btn btn-raised btn-success btn-xs pull-right"><i class="material-icons">calendar_today</i><span> DIÁRIA</span> </a>
+			        </div>
+		          	<div class="col-lg-6">
+			          
+			            <a  href="{% url 'agenda' %}"  target="_blank" class="btn btn-raised btn-rose btn-xs pull-right"><i class="material-icons">calendar_today</i><span> SEMANAL</span> </a>
+			         </div> 
+	          	</div>
+      	  	</div>
+        </div>
+      </div>
+      {% endfor%}
+   
+   
+  <footer class="footer">
+  <div class="container-fluid">
+      <p class="copyright pull-right">
+        &copy; <script>//document.write(new Date().getFullYear())</script>
+        <a href="#" target="_blank">Psicocenter </a> - Todos os Direitos reservados.
+      </p>
+  </div>
+</footer>
+</div>
+</div>
+{% endblock container %}

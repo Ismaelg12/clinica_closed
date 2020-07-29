@@ -47,16 +47,22 @@ INSTALLED_APPS = [
     'atendimento.apps.AtendimentoConfig',
     'financeiro.apps.FinanceiroConfig',
     'website.apps.WebsiteConfig',
+    #'debug_toolbar',
+    #logs de todos o sistema
+    'user_logs.apps.EasyAuditConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',#para arquivos estaticos no servidor
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'easyaudit.middleware.easyaudit.EasyAuditMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'sistema_fisioterapia.urls'
@@ -64,7 +70,9 @@ ROOT_URLCONF = 'sistema_fisioterapia.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['controle_usuarios/templates/'],#usado somente para reset de senha
+        ##### usado somente para reset de senha e customização de admin
+        'DIRS': ['controle_usuarios/templates/'],
+        #####
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -167,7 +175,40 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR  : 'alert-danger',
 }
-
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
 # insta_project/settings.py
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DJANGO_EASY_AUDIT_REGISTERED_CLASSES = [
+    'pacientes.Paciente',
+    'agenda.Agendamento'
+]
+DJANGO_EASY_AUDIT_WATCH_REQUEST_EVENTS = False
+"""
+LOGGING = {
+    'version': 1,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        }
+     },
+     'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+         }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        }
+    }
+}
+"""
