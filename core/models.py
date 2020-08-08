@@ -76,10 +76,9 @@ class ListaEspera(models.Model):
 
 
 class Clinica(models.Model):
-	logo_menu  = models.ImageField(upload_to='media')
-	clinica    = models.CharField(max_length=50,blank=True)
-	cnpj       = models.CharField(max_length=18,blank=True)
-	endereco   = models.CharField(max_length=100,blank=True)
+	logo_menu  	= models.ImageField(upload_to='media')
+	clinica    	= models.CharField(max_length=50,blank=True)
+	sobre_nos	= models.TextField(max_length=600,blank=True)
 
 	class Meta:
 		verbose_name = 'Clinica '

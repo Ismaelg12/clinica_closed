@@ -4,13 +4,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FisioLife - Fisioterapia & Saúde</title>
+  <title>{{clinica.clinica}} - Fisioterapia & Saúde</title>
   <meta name="keywords" content="fisioterapia,parnaiba,clinicas,psicologia,phb,saúde">
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <!--  Social tags      -->
-  <meta name="keywords" content="fisiolife,FISIOTERAPIA,clinica,FONOAUDIOLOGIA,NUTRIÇÃO,Parnaiba">
-  <meta name="description" content="Fisiolife, Somos um serviço multidisciplinar integrado e Humanizado de saúde, que trabalha com abordagem multidirecional com o objetivo de máximo alcance de controle, progresso e cura das mais diversas co-morbidades.">
+  <meta name="keywords" content="{{clinica.clinica}},FISIOTERAPIA,clinica,FONOAUDIOLOGIA,NUTRIÇÃO,Parnaiba">
+  <meta name="description" content="{{clinica.clinica}}, Somos um serviço multidisciplinar integrado e Humanizado de saúde, que trabalha com abordagem multidirecional com o objetivo de máximo alcance de controle, progresso e cura das mais diversas comorbidades.">
   <!--==================================================================================================-->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
   <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
@@ -163,10 +163,10 @@
             <div class="row">
               <div class="banner-info">
                 <div class="banner-logo text-center">
-                  <img src="{% static "img/logo.png" %}"  width="250px" class="img-responsive">
+                  <img src="{% static "img/logo.png" %}"  width="400px" class="img-responsive">
                 </div>
-                <div class="banner-text text-center">
-                  <h1 class="white">Clínica FisioLife Fisioterapia e saúde!!</h1>
+                <div class="text-center">
+                  <h1 class="white">Bem Vindo a {{clinica.clinica}}</h1>
                 </div>
                 <div class="overlay-detail text-center">
                   <a href="#service"><i class="fa fa-angle-down"></i></a>
@@ -304,9 +304,9 @@
         <div class="row">
           <div class="col-md-4 col-sm-4 col-xs-12">
             <div class="section-title">
-              <h2 class="head-title lg-line">Conheça<br>a FisioLife</h2>
+              <h2 class="head-title lg-line">Conheça<br>a {{clinica.clinica}}</h2>
               <hr class="botm-line">
-              <p align="justify">&emsp;&emsp;Somos um serviço multidisciplinar integrado e Humanizado de saúde, que trabalha com abordagem multidirecional com o objetivo de máximo alcance de controle, progresso e cura das mais diversas co-morbidades.</p><p align="justify">&emsp;&emsp; Nossa maior missão é apresentar aos nossos pacientes, clientes e amigos, uma forma diferente no cuidar, proporcionando um ambiente leve e agradável, para que nossos usuários, assim como cada um de nossos colaboradores, se sintam os mais acolhidos e confortáveis possível.,</p><p class="text-right text-primary"><i>— FisioLife</i></p>
+              <p align="justify">&emsp;&emsp;{{clinica.sobre_nos}}</p><p class="text-right text-primary"><i>— {{clinica.clinica}}</i></p>
             </div>
           </div>
           <div class="col-md-8 col-sm-8 col-xs-12">
@@ -464,7 +464,7 @@
                     &copy;
                     <script>
                       document.write(new Date().getFullYear())
-                    </script> - <a href="#" target="_blank">FisioLife </a> - Todos os Direitos reservados.
+                    </script> - <a href="#" target="_blank">{{clinica.clinica}} </a> - Todos os Direitos reservados.
                   </div>
                 </div>
               </footer>
