@@ -24,5 +24,6 @@ class EvolucaoAdmin(admin.ModelAdmin):
 		return instance.atendimento.convenio
 
 admin.site.register(Atendimento,AtendimentoAdmin)
+admin.site.register(Guia,GuiaAdmin)
 admin.site.register(Evolucao,EvolucaoAdmin)
 admin.site.register(Avaliacao)

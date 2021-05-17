@@ -36,7 +36,7 @@
               </li>
               <li class="">
                 <a href="#prontuario" role="tab" data-toggle="tab" aria-expanded="true">
-                  <i class="material-icons">dns</i> Prontuario
+                  <i class="material-icons">dns</i> Prontuario do Cidadão
                 </a>
               </li>
               {% endif %}
@@ -47,6 +47,9 @@
               </li>
               <li class="">
                 <h4><b>{{paciente.nome|upper}}</b></h4>
+              </li>
+              <li class="pull-right">
+                <a href="{% url 'imprimir_agendamento_pdf' paciente.id %}"target="_blank"><i class="material-icons pull-right"> print </i> </a>
               </li>
             </ul>              
           </div>
@@ -93,9 +96,9 @@
                         {% for ev in linha_do_tempo %} 
                         <li>
                           <b>
-                            <a href="{% url 'update_atendimento' ev.id %}?ocultarBotao=ocultarBotao"class="pull-left text-info">
+                            <a href="{% url 'update_atendimento' ev.id %}?ocultarBotao=ocultarBotao">
                               {% if ev.tipo == "AV" %}
-                              Avaliação - dia {{ev.data|date:'d/m/Y'}}
+                              <span class="pull-left text-info">Avaliação - dia {{ev.data|date:'d/m/Y'}}</span>
                               {% elif ev.tipo == "AR" %}
                               Atendido/Recepção -  dia {{ev.data|date:'d/m/Y'}}
                               {% elif ev.tipo == "FN" %}
@@ -103,11 +106,11 @@
                               {% elif ev.tipo == "FH" %}
                               Justificada na Hora -  dia {{ev.data|date:'d/m/Y'}}
                               {% else %}
-                              Evolução - dia {{ev.data|date:'d/m/Y'}}
+                              <span class="pull-left text-success">Evolução - dia {{ev.data|date:'d/m/Y'}} </span>
                               {% endif %}
                             </a> &nbsp;&nbsp;&nbsp;
                           </b>
-                          <a href="#"class="float-right text-info">{{ev.hora_inicio}}H até {{ev.hora_fim}}H</a><br>
+                          <a href="#"class="float-right"><font color="black">{{ev.hora_inicio}}H até {{ev.hora_fim}}H</font></a><br>
                           <b class="pull-left">Profissional:</b> <b class="pull-right">{{ev.profissional}}</b><br>
                           <b class="pull-left">Convênio:</b> <b class="pull-right">{{ev.convenio}}</b>
                           <br>
@@ -147,7 +150,6 @@
                         <li class="list-group-item">
                           <b>Total de Agendamentos</b> 
                           <span class="pull-right">{{agendamentos}}</span>
-                          <a href="{% url 'imprimir_agendamento_pdf' paciente.id %}"target="_blank"><i class="material-icons pull-right"> print </i> </a>
                         </li>
                         <li class="list-group-item">
                           <b>Avaliações</b> <span class="pull-right">{{avaliacao}}</span>

@@ -155,9 +155,9 @@ def atendimento_add(request,pk):
                 if agendamento.convenio.nome != 'particular':
                     #pre não da erro de procedimento em branco
                     atendimento.procedimento = form_atendimento.instance.guia.procedimento
-                    atendimento.save()
+                    form_atendimento.save()
                 else:
-                    atendimento.save()
+                    form_atendimento.save()
                 ficha              = form_fichas.save(commit=False)
                 ficha.atendimento  = atendimento
 
@@ -166,13 +166,13 @@ def atendimento_add(request,pk):
                     atendimento.tipo = "EV"
                 else:
                     atendimento.tipo = "AV"
-                atendimento.save()
+                form_atendimento.save()
                 ficha.save()
                 #decrementa a guia e depois salva
                 if agendamento.convenio.nome != 'particular':
                     atendimento.guia.quantidade -=1
                     atendimento.guia.save()
-                    atendimento.save()
+                    form_atendimento.save()
                     #finaliza a guia se tiver menor que zero a quantidade
                     if atendimento.guia.quantidade < 1:
                         atendimento.guia.ativo = False
@@ -185,7 +185,7 @@ def atendimento_add(request,pk):
             else:
                 messages.warning(request,'Esse Guia está vencida! ')
         else:
-            atendimento.save()
+            form_atendimento.save()
             ficha              = form_fichas.save(commit=False)
             ficha.atendimento  = atendimento
            #condição para setar o tipo de atendimento com base no nome da ficha
@@ -193,7 +193,7 @@ def atendimento_add(request,pk):
                 atendimento.tipo = "EV"
             else:
                 atendimento.tipo = "AV"
-            atendimento.save()
+            form_atendimento.save()
             ficha.save()
             #altera o status e depois salva
             agendamento.status = "AT"

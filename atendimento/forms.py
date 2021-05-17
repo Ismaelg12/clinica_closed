@@ -62,23 +62,12 @@ class AvaliacaoForm(forms.ModelForm):
         model = Avaliacao
         exclude = ['atendimento']
         widgets ={
-            'encaminhado_por'   : forms.TextInput(attrs={'class': 'form-control'}),
             'queixa'            : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'hda'               : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'has'               : forms.Select(choices=OP_CHOICES,attrs={'class': 'form-control','required': 'true'}),
-            'cardiaca'          : forms.Select(choices=OP_CHOICES,attrs={'class': 'form-control','required': 'true'}),
-            'dm'                : forms.Select(choices=OP_CHOICES,attrs={'class': 'form-control','required': 'true'}),
-            'comorbidade'       : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'medicamento'       : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'rotina_familiar'   : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'rotina_diaria'     : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'dificuldade'       : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'atividade'         : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'cirurgia'          : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'exame'             : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'infeccao'          : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'avaliacao'         : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
-            'condulta_prof'     : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
+            'familia'           : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
+            'patologico'        : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
+            'social'            : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
+            'condulta'          : forms.Textarea(attrs={'class': 'form-control','cols' : "10", 'rows': "6",}),
+            
         }
 
 class GuiaForm(forms.ModelForm):

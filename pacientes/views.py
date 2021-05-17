@@ -121,7 +121,7 @@ def paciente_historico(request,pk):
         ficha_avaliacao = Avaliacao.objects.filter(atendimento__paciente=paciente.id,atendimento__profissional_id=profissional.id)
     else:
         atendimentos      = Atendimento.objects.filter(paciente=paciente)
-        ficha_evolucao    =  Evolucao.objects.filter(atendimento__paciente=paciente.id)
+        ficha_evolucao    = Evolucao.objects.filter(atendimento__paciente=paciente.id)
         ficha_avaliacao   = Avaliacao.objects.filter(atendimento__paciente=paciente.id)
 
     atendimentos_count    = Atendimento.objects.filter(paciente=paciente).count()
@@ -130,8 +130,8 @@ def paciente_historico(request,pk):
     agendamentos_FH_count = Agendamento.objects.filter(paciente=paciente,status='FH').count()
     agendamentos_FN_count = Agendamento.objects.filter(paciente=paciente,status='FN').count()
     agendamentos_CC_count = Agendamento.objects.filter(paciente=paciente,status='CC').count()
-    atendimento_evolucao  = Atendimento.objects.filter(paciente=paciente,).count()
-    atendimento_avaliacao = Atendimento.objects.filter(paciente=paciente,).count()
+    atendimento_evolucao  = Atendimento.objects.filter(paciente=paciente,tipo='EV').count()
+    atendimento_avaliacao = Atendimento.objects.filter(paciente=paciente,tipo='AV').count()
     guias                 = Guia.objects.filter(paciente=paciente).order_by('-validade')
     contas                = ContaReceber.objects.filter(paciente=paciente).order_by('-data')
 

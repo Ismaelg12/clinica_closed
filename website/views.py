@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from core.models import Clinica
 from django.http import HttpResponse
 from django.contrib import messages
-from website.forms import contact_form
+# from website.forms import contact_form
 from django.core.mail import send_mail, BadHeaderError
 
 

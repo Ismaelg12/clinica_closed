@@ -314,15 +314,21 @@ def atender_recepcao(request,pk):
         if agenda.convenio.id != 1:
             #testa se é diferente de particular
             if request.POST['status'] == 'FH' or request.POST['status'] == 'FN' or request.POST['status'] == 'AR':
-                if lista_guias_paciente.exists():                
+                if lista_guias_paciente.exists():  
                     #if request.POST['lista_guias_field'] != None:
+                    number = (request.POST['lista_guias_field'].split('|')[:][0])
+                    print("number",number)
                     guia = Guia.objects.get(
-                        paciente_id=agenda.paciente.id,quantidade__gte=1,
-                        ativo=True,numero= request.POST['lista_guias_field'].split('|')[:][0])
+                        paciente_id=agenda.paciente.id,
+                        quantidade__gte=1,
+                        ativo=True,
+                        numero=number.replace(" ","")
+                    )
+                    print(guia,'Query de guias correspondentes') 
                     #verifica vencimento
                     if not datetime.strptime(str(guia.validade),'%Y-%m-%d') < datetime.strptime(
                         datetime.now().strftime("%Y-%m-%d"),'%Y-%m-%d'):
-                        print('caiu dentro')
+                        
                         guia.quantidade -= 1
                         guia.save()
                         form.save()
@@ -394,9 +400,14 @@ def update_agendamento(request,pk):
             if request.POST['status'] == 'FH' or request.POST['status'] == 'FN' or request.POST['status'] == 'AR':
                 if lista_guias_paciente.exists():                
                     #if request.POST['lista_guias_field'] != None:
+                    number = (request.POST['lista_guias_field'].split('|')[:][0])
+                    print("number",number)
                     guia = Guia.objects.get(
-                        paciente_id=agenda.paciente.id,quantidade__gte=1,
-                        ativo=True,numero= request.POST['lista_guias_field'].split('|')[:][0])
+                        paciente_id=agenda.paciente.id,
+                        quantidade__gte=1,
+                        ativo=True,
+                        numero=number.replace(" ","")
+                    )
                     #verifica vencimento
                     if not datetime.strptime(str(guia.validade),'%Y-%m-%d') < datetime.strptime(
                         datetime.now().strftime("%Y-%m-%d"),'%Y-%m-%d'):

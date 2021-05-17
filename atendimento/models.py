@@ -40,8 +40,7 @@ class Atendimento(models.Model):
         
 #atendimento evolução
 class Evolucao(models.Model):
-    atendimento   = models.OneToOneField(Atendimento,
-        on_delete=models.CASCADE,primary_key=True)
+    atendimento   = models.OneToOneField(Atendimento,on_delete=models.CASCADE,primary_key=True)
     evolucao      = models.TextField(blank=True)
 
     class Meta:
@@ -54,23 +53,11 @@ class Evolucao(models.Model):
 #atendimento avaliação
 class Avaliacao(models.Model):
     atendimento          = models.OneToOneField(Atendimento,on_delete=models.CASCADE,primary_key=True)
-    encaminhado_por      = models.CharField('Encaminhado Por',max_length=30,blank=True)
-    queixa               = models.TextField('Queixa',max_length=400,blank=True)
-    hda                  = models.TextField('HDA/HMA',max_length=400,blank=True)
-    has                  = models.BooleanField('Hipertensão')
-    cardiaca             = models.BooleanField('Insuficiência Cardíaca')
-    dm                   = models.BooleanField('Diabetes')
-    comorbidade          = models.TextField('Outras condições de saúde / Comorbidades',max_length=400,blank=True)
-    medicamento          = models.CharField('Histórico de Medicamentos',max_length=30,blank=True)
-    rotina_familiar      = models.TextField('Relacionamentos Ex:(Familiar, Infância, Afetivo, Amizades, outra)',max_length=400,blank=True)
-    rotina_diaria        = models.TextField('Rotina Ex:(Trabalho, Familiar, Pessoal, Escola, outra)',max_length=400,blank=True)
-    dificuldade          = models.TextField('Dificuldades Ex:(Pessoal, Caracteristicas, Metas, organizações, outra)',max_length=400,blank=True)
-    atividade            = models.TextField('Atividades  Ex:(Dança, esportes, outra)',max_length=400,blank=True)
-    cirurgia              = models.TextField('Histórico de Cirurgias ou fraturas',max_length=400,blank=True)
-    exame                = models.TextField('Exames para Diagnóstico)',max_length=400,blank=True)
-    infeccao             = models.TextField('Histórico de Infecções)',max_length=400,blank=True)
-    avaliacao            = models.TextField('Avaliação',max_length=100,blank=True)
-    condulta_prof        = models.TextField('Condulta Profissional',blank=True)
+    queixa               = models.TextField('Queixa Principal',max_length=400,blank=True)
+    familia              = models.TextField('Histórico Familiar',max_length=400,blank=True)
+    patologico           = models.TextField('Histórico Patológico',max_length=400,blank=True)
+    social               = models.TextField('HIstórico Social',max_length=400,blank=True)
+    condulta             = models.TextField('Condulta',max_length=400,blank=True)
 
     class Meta:
         verbose_name = 'Avaliação'
@@ -90,7 +77,7 @@ class Guia(models.Model):
     qtdautorizada    = models.IntegerField()
     validade         = models.DateField()
     data_autorizacao = models.DateField()
-    tipo_guia        = models.CharField(max_length=2,choices=TIPO_GUIA)
+    tipo_guia        = models.CharField(max_length=2,choices=TIPO_GUIA,default='PM')
     status           = models.CharField(max_length=1,choices=STATUS_GUIA,default='N')
     validada         = models.BooleanField(default=False)
     atualizado_em    = models.DateTimeField('Atualizado em', auto_now=True)
