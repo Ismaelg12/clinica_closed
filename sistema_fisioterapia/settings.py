@@ -94,15 +94,13 @@ WSGI_APPLICATION = 'sistema_fisioterapia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE':'django.db.backends.mysql',
+        'ENGINE':config('ENGINE'),
         'NAME':config('DB_NAME'),
         'USER':config('DB_USER'),
         'PASSWORD':config('DB_PASSWORD'),
         'HOST':config('DB_HOST'),
-        'PORT':'3306',
-        'OPTIONS': {
-        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-    	},
+        'PORT':config('PORT'),
+    
     }
 }
 """
