@@ -78,7 +78,13 @@ class ListaEspera(models.Model):
 class Clinica(models.Model):
 	logo_menu  	= models.ImageField(upload_to='media')
 	clinica    	= models.CharField(max_length=50,blank=True)
-	sobre_nos	= models.TextField(max_length=600,blank=True)
+	sobre_nos	= models.TextField(max_length=600,blank=True)	
+	keywords	= models.CharField(max_length=400,blank=True)
+	cidade      = models.CharField(max_length=20,blank=True)
+	rua      = models.CharField(max_length=40,blank=True)
+	bairro      = models.CharField(max_length=20,blank=True)
+	telefone      = models.CharField(max_length=20,blank=True)
+	email      = models.CharField(max_length=40,blank=True)
 
 	class Meta:
 		verbose_name = 'Clinica '
